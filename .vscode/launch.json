@@ -1,4 +1,8 @@
 {
+<<<<<<< Updated upstream
+=======
+    "version": "0.2.0",
+>>>>>>> Stashed changes
     "configurations": [
         {
             "name": "C/C++: gcc.exe build and debug active file",
@@ -7,7 +11,11 @@
             "program": "${fileDirname}\\${fileBasenameNoExtension}.exe",
             "args": [],
             "stopAtEntry": false,
+<<<<<<< Updated upstream
             "cwd": "${fileDirname}",
+=======
+            "cwd": "$C:\\mingw64\\bin",
+>>>>>>> Stashed changes
             "environment": [],
             "externalConsole": false,
             "MIMode": "gdb",
@@ -26,6 +34,10 @@
             ],
             "preLaunchTask": "C/C++: gcc.exe build active file"
         }
+<<<<<<< Updated upstream
     ],
     "version": "2.0.0"
+=======
+    ]
+>>>>>>> Stashed changes
 }
