@@ -1,19 +1,21 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <string.h>
+#include <ctype.h>
 #include "menu.h"
 
-void mostrarHorizontalAUX(){
+void mostrarHorizontalAUX(){///Muestra horizontalmente guiones
     for (int i=0;i<118;i++) {
         printf("-");
     }
 }
-void moverHorizontalAUX(int tope) {
+void moverHorizontalAUX(int tope) {///Mueve horizontalmente en pantalla posiciones
     for (int i = 0; i < tope; i++) {
         printf(" ");
     }
 }
-void mostrarInicio(){
+void mostrarInicio(){///Muestra el menu
     mostrarHorizontalAUX();
     printf("\n");
     printf("|");
@@ -22,7 +24,7 @@ void mostrarInicio(){
     moverHorizontalAUX(56);
     printf("|\n");
 }
-void mostrarfecha(){
+void mostrarfecha(){///Muestra la fecha
     time_t tiempoActual;
     struct tm* tmLocal;
     time(&tiempoActual);
@@ -34,7 +36,7 @@ void mostrarfecha(){
     printf("|\n");
     mostrarHorizontalAUX();
 }
-void mostrarOp1(){
+void mostrarOp1(){///Muestra opcion 1
     printf("\n|");
     printf("Ingrese 1(uno) para generar ingreso de paciente");
     moverHorizontalAUX(69);
@@ -76,7 +78,7 @@ void mostrarOp6(){
     printf("|\n");
     mostrarHorizontalAUX();
 }
-void mostrarOp7(){
+void mostrarOp7(){///Muestra opcion final
     printf("\n|");
     printf("Ingrese 7(siete) para mostrar practicas y resultados");
     moverHorizontalAUX(64);
@@ -84,7 +86,24 @@ void mostrarOp7(){
     mostrarHorizontalAUX();
     printf("\n");
 }
-int mostrarMenu() {
+char validarOp(){
+    char op[30];
+    do{
+        fgets(op,30,stdin);
+        if (op[strlen(op) - 1] == '\n'){///Eliminar el salto de linea al final de la cadena si esta presente(la tecla enter)
+            op[strlen(op) - 1] = '\0';
+        }
+        if(strlen(op)!= 1){///Verifica que la cadena ingresada tenga como maximo un solo caracter
+            printf("Opcion no valida. Ingrese solo un caracter entre 1 y 7: ");
+            continue;///Obligo a salir del if y volver a entrar al doWhile
+        }
+        if(!isdigit(op[0])||op[0]<'1'||op[0]>'7'){///Verifico si no es un digito o si es menor a 1 o si es mayor a 7 da error
+            printf("Opcion no valida. Ingrese solo un caracter entre 1 y 7: ");
+        }
+    }while(strlen(op)!= 1||(!isdigit(op[0])||op[0]<'1'||op[0]>'7'));///Verifico todas las condiciones juntas
+    return op[0];
+}
+char mostrarMenu(){///Invoca todas las funciones de mostrar y retorna la opcion
     mostrarInicio();
     mostrarfecha();
     mostrarOp1();
@@ -94,7 +113,7 @@ int mostrarMenu() {
     mostrarOp5();
     mostrarOp6();
     mostrarOp7();
-    char op=getchar();
-    printf("%c",op);
+    char op=validarOp();
+    return op;
 }
 
