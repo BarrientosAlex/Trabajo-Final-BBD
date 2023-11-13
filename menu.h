@@ -1,19 +1,16 @@
-<<<<<<< Updated upstream
-#ifndef MENU_H_INCLUDED
-#define MENU_H_INCLUDED
-
-void mostrarAuxiliar();
-void moverHorizontalAUX(int tope);
-void mostrarMenu();
-
-
-#endif // MENU_H_INCLUDED
-=======
 #pragma once
 
 void mostrarHorizontalAUX();
 void moverHorizontalAUX(int tope);
-struct tm* tmLocal();
-void mostrarMenu();
+void mostrarInicio();
+void mostrarfecha();
+void mostrarOp1();
+void mostrarOp2();
+void mostrarOp3();
+void mostrarOp4();
+void mostrarOp5();
+void mostrarOp6();
+void mostrarOp7();
+int mostrarMenu();
 
->>>>>>> Stashed changes
+
