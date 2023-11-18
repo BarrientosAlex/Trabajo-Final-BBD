@@ -168,7 +168,26 @@ ingresos cargarIngresos(){
 
 
 nodoIngresos * alta_de_ingreso(nodoIngresos * listaIngresos,nodoPaciente * arbolPaciente){
+    int dni;
+    printf("Ingrese DNI del paciente para dar de alta el ingreso: \n");
+    fflush(stdin);
+    scanf("%d",&dni);
 
+    nodoPaciente * paciente = buscarPacienteDNI(arbolPaciente,dni);
 
+    if(paciente != NULL){
+        if(paciente->paciente == 0){
+            ingresos nuevoIng = cargarIngresos();
+            nodoIngresos * nuevoNodo = crearNodoIng(nuevoIng);
+            nuevoNodo->practicas = Alta_de_pxi(nuevoNodo->practicas);
+            listaIngresos = agregarOrdenFecha(listaIngresos,nuevoNodo);
+            printf("Ingreso dado de alta correctamente.\n");
+        }else{
+        printf("Error. El paciente con DNI %d ha sido eliminado. \n",dni);
+        }
+    }else{
+        printf("Error.No se encontro el DNI %d del paciente" \n,dni);
+    }
 
+    return listaIngresos;
 }
