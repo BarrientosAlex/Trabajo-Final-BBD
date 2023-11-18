@@ -16,7 +16,7 @@ typedef struct nodoUser{
     struct nodoUser* sig;
 }nodoUser;
 
-void crearArchivouser(char archivo[]);
+void crearArchivouser(FILE* archivo);
 void mostrarArchivoUser(char archivo[]);
 int validarNombreUser(char archivo[], char usuario[]);
 int tipoDeEmpleado(char perfil[]);

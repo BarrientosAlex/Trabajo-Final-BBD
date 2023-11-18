@@ -5,17 +5,15 @@
 #include <ctype.h>
 #include "user.h"
 #define ff fflush(stdin);
-void crearArchivouser(char archivo[]){
-    FILE*archi=fopen(archivo,"ab");
-    if(archi){
+void crearArchivouser(FILE* archivo){
+    if(archivo){
         stUsuario a;
         strcpy(a.nombreUsuario,"admin");
         strcpy(a.contrasena,"admin123");
         a.dni=1000000;
         strcpy(a.nombreYapellido,"ADMIN");
         strcpy(a.perfil,"admin");
-        fwrite(&a,sizeof(stUsuario),1,archi);
-        fclose(archi);
+        fwrite(&a,sizeof(stUsuario),1,archivo);
     }
 }
 void mostrarArchivoUser(char archivo[]){
@@ -306,9 +304,12 @@ char validarOpcionUser(){
 
 }
 int login(char archivo[]){
-    if(archivo==NULL){
-        crearArchivouser(archivo);
+    FILE* archi=fopen(archivo,"rb");
+    if(!archi){
+        archi=fopen(archivo,"ab");
+        crearArchivouser(archi);
     }
+    fclose(archi);
     char eleccion;
     int tipoUser;
 
