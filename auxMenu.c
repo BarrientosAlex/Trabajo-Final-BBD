@@ -3,7 +3,7 @@
 #include <time.h>
 #include <string.h>
 #include <ctype.h>
-#include "menu.h"
+#include "auxMenu.h"
 
 void mostrarHorizontalAUX(){///Muestra horizontalmente guiones
     for (int i=0;i<118;i++) {
