@@ -7,17 +7,14 @@ typedef struct {
     char contrasena[20];
     char perfil[20];
 }stUsuario;
-typedef struct
-{
+typedef struct{
     char nombreUsuario[20];
     char contrasena[20];
 }stUserAux; ///creo este tipo de dato para poder guardar el usuario y la contraseña en una variable
-typedef struct nodoUser
-{
+typedef struct nodoUser{
     stUsuario dato;
     struct nodoUser* sig;
 }nodoUser;
-
 
 void crearArchivouser(char archivo[]);
 void mostrarArchivoUser(char archivo[]);

@@ -18,7 +18,6 @@ void crearArchivouser(char archivo[]){
         fclose(archi);
     }
 }
-
 void mostrarArchivoUser(char archivo[]){
     FILE*archi=fopen(archivo,"rb");
     stUsuario aux;
@@ -306,7 +305,6 @@ char validarOpcionUser(){
     return op[0];
 
 }
-
 int login(char archivo[]){
     if(archivo==NULL){
         crearArchivouser(archivo);
@@ -388,7 +386,6 @@ void liberarLista(nodoUser* lista) {
         free(nodoAEliminar);  // Libera la memoria del nodo actual
     }
 }
-
 int consultaEmpleado(char archivo[], int dni){
     int enc=0;
     stUsuario aux;
