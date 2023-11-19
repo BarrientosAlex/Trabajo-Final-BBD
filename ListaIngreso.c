@@ -176,7 +176,7 @@ nodoIngresos * alta_de_ingreso(nodoIngresos * listaIngresos,nodoPaciente * arbol
     nodoPaciente * paciente = buscarPacienteDNI(arbolPaciente,dni);
 
     if(paciente != NULL){
-        if(paciente->paciente == 0){
+        if(paciente->paciente.eliminado == 0){
             ingresos nuevoIng = cargarIngresos();
             nodoIngresos * nuevoNodo = crearNodoIng(nuevoIng);
             nuevoNodo->practicas = Alta_de_pxi(nuevoNodo->practicas);
@@ -186,7 +186,7 @@ nodoIngresos * alta_de_ingreso(nodoIngresos * listaIngresos,nodoPaciente * arbol
         printf("Error. El paciente con DNI %d ha sido eliminado. \n",dni);
         }
     }else{
-        printf("Error.No se encontro el DNI %d del paciente" \n,dni);
+        printf("Error.No se encontro el DNI %d del paciente \n" ,dni);
     }
 
     return listaIngresos;

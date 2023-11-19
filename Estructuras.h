@@ -1,5 +1,5 @@
-#ifndef ARBOLPACIENTE_H_INCLUDED
-#define ARBOLPACIENTE_H_INCLUDED
+#ifndef ESTRUCTURAS_H_INCLUDED
+#define ESTRUCTURAS_H_INCLUDED
 
 typedef struct pacientes{
     char apelyNom[40];
@@ -92,6 +92,9 @@ nodoPracticasXingreso * buscarNroIngresoYpractica(nodoPracticasXingreso * lista,
 nodoPracticasXingreso * Alta_de_pxi(nodoPracticasXingreso * lista);
 nodoPracticasXingreso *  modificacion_de_pxi(nodoPracticasXingreso * lista);
 nodoPracticasXingreso * Baja_de_pxi(nodoPracticasXingreso * lista);
-
-
+int validarNombre(char * nombre);
+int validarEdad (char * edad);
+int validarDNI(char * dni);
+int validarTelefono(char * telefono);
+int validarDireccion(char * direccion);
 #endif // ARBOLPACIENTE_H_INCLUDED

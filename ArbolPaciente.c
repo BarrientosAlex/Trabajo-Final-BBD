@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
+#include <ctype.h>
 #include "Estructuras.h"
 
 
@@ -120,23 +121,180 @@ nodoPaciente * crearNodoPaciente(pacientes pac){
 
 pacientes cargarPaciente(){
     pacientes aux;
-    printf("Ingrese nombre y apellido del paciente: \n");
-    fflush(stdin);
-    gets(aux.apelyNom);
-    printf("Ingrese la edad del paciente: \n");
-    fflush(stdin);
-    scanf("%d", &aux.edad);
-    printf("Ingrese el dni del paciente: \n");
-    fflush(stdin);
-    scanf("%d", &aux.dni);
-    printf("Ingrese la direccion del paciente: \n");
-    fflush(stdin);
-    gets(aux.direccion);
-    printf("Ingrese el telefono del paciente:\n");
+    int nombreValido = 0;
+    int edadValido = 0;
+    int telefonoValido = 0;
+    int dniValido = 0;
+    int direccionValida = 0;
+
+    char edadString[10];
+    char dniString[10];
+ ///convierte un tipo de dato int a una cadena de caracteres
+
+
+    do{
+        printf("Ingrese nombre y apellido del paciente(poner un espacio para separarlos): \n");
+        fflush(stdin);
+        gets(aux.apelyNom);
+        nombreValido = validarNombre(aux.apelyNom);
+        if(nombreValido ==1){
+            printf("Error.Nombre invalido. \n");
+        }
+    }while(nombreValido != 0);
+    do{
+        printf("Ingrese la edad del paciente: \n");
+        fflush(stdin);
+        scanf("%d", &aux.edad);
+        sprintf(edadString,"%d",aux.edad);///convierte un tipo de dato int a una cadena de caracteres
+        edadValido = validarEdad(edadString);
+        if(edadValido == 1){
+            printf("Error. Ingrese una edad valida.\n");
+        }
+    }while(edadValido != 0);
+
+    do{
+        printf("Ingrese el dni del paciente: \n");
+        fflush(stdin);
+        scanf("%d", &aux.dni);
+        sprintf(dniString,"%d",aux.dni);
+        dniValido = validarDNI(dniString);
+        if(dniValido == 1){
+            printf("Error.Ingrese DNI valido. \n");
+        }
+    }while(dniValido !=0);
+    do{
+        printf("Ingrese la direccion del paciente(calle y altura): \n");
+        fflush(stdin);
+        gets(aux.direccion);
+        direccionValida = validarDireccion(aux.direccion);
+        if(direccionValida == 1){
+            printf("Error.Ingrese direccion valida.\n");
+        }
+    }while(direccionValida != 0);
+    do{
+    printf("Ingrese el telefono del paciente(sin prefijo):\n");
     fflush(stdin);
     gets(aux.telefono);
+    telefonoValido = validarTelefono(aux.telefono);
+    if(telefonoValido == 1 ){
+        printf("Error.Telefono invalido");
+    }
+    }while(telefonoValido != 0);
     aux.eliminado = 0;
     return aux;
+}
+
+
+int validarNombre(char * nombre){
+    int cantNum = strlen(nombre);
+    int flag = 0;
+     int espacioEncontrado;
+    if(cantNum>8 &&cantNum<40){
+        for(int i = 0; i<cantNum;i++){
+            if(isdigit(nombre[i])){ ///No funciona el isspace
+                flag = 1;
+                ///Si encuentra un  digito en el nombre flag es igual 1 es decir va a dar error y tambien en caso de que no encuentre un espacio
+            }
+        }
+    }else{
+        flag = 1;
+    }
+
+    espacioEncontrado = strchr(nombre,' '); ///esta funcion busca el primer caracter de la cadena que coincide con el caracter especificado, es decir, con el espacio.
+
+    if(espacioEncontrado == NULL){  ///Si es igual a NULL eso significa que no hay un espacio entre el nombre y el apellido, por tanto va a dar error
+        flag = 1;
+    }
+
+    return flag;
+}
+
+
+int validarEdad (char * edad){
+    int cantNum = strlen(edad);
+    int flag = 0;
+
+    if(cantNum <= 3){
+        for(int i = 0; i<cantNum; i++){
+            if(!isdigit(edad[i])){ ///Si encuentra un caracter distinto a un digito en la cadena de caracteres edad, la flag es igual a 1
+                flag =1;
+            }
+        }
+    }else{
+         flag = 1;
+    }
+
+
+    if(flag == 0){  ///Si la flag sigue siendo 0
+        int edadNum = atoi(edad); /// convierto el string edad en un tipo int con la funcion atoi
+
+        if(edadNum< 0 || edadNum >100){
+            flag = 1;
+        }else{
+            flag = 0;
+        }
+    }
+
+    return flag;
+}
+
+int validarDNI(char * dni){
+    int cantNum = strlen(dni);
+    int flag = 0;
+    if(cantNum == 8){
+         for(int i = 0; i<cantNum; i++){
+            if(!isdigit(dni[i])){ ///Si encuentra un caracter distinto a un digito en la cadena de caracteres edad, la flag es igual a 1
+            flag =1;
+            return flag;
+            }
+         }
+    }else{
+        flag = 1;
+        return flag;
+    }
+
+    return flag;
+
+}
+int validarTelefono(char * telefono){
+    int cantNum = strlen(telefono);
+    int flag = 0;
+    if(cantNum == 10){
+        for(int i = 0; i<cantNum; i++){
+            if(!isdigit(telefono[i])){
+                flag = 1;
+            }
+        }
+    }else{
+        int flag = 1;
+    }
+    return flag;
+}
+int validarDireccion(char * direccion){
+    int cantNum = strlen(direccion);
+    int flag = 0;
+    int contador = 0;
+    if(cantNum < 5 || cantNum >30){  ///Si el usuario ingresa menos de 5 caracteres o mas de 30 la flag va a ser igual 1 por ende va a tirar error
+        flag = 1;
+        return flag;
+    }
+
+    for(int i= 0; i<cantNum;i++){
+        if(!isalnum(direccion[i] && !isspace(direccion[i])&& !ispunct(direccion[i]))) { ///isalnum va a retornar un valor distinto de 0 si no se ingresa un caracter alfanumerico y isspace va a retornar un valor distinto de 0 si hay un espacio( lo vamos a usar para que el usuario distinga domicilio y calle)
+        int flag = 1;                                           ///Con el ispunct no le permito al usuario ingresar caracteres especiales
+        }
+    }
+
+    for(int j = 0; j<cantNum; j++){
+        if(isdigit(direccion[j])){
+            contador++;  ///Cada vez que en el string encuentre un digito que lo cuente en la variable contador.
+        }
+    }
+    if(contador < 2 || contador > 5){ /// Si el contador es menor a 2 o mayor a 5 el numero de la calle seria falso
+        flag = 1;
+    }
+
+    return flag;
 }
 
 
@@ -146,7 +304,7 @@ nodoPaciente * insertarPaciente(nodoPaciente * a, pacientes pac){
     }
 
     if(a){
-        if(strcmpi(pac.apelyNom,a->paciente.apelyNom)< 0 ){
+        if(pac.dni < a->paciente.dni ){
             a->izq = insertarPaciente(a->izq,pac);
         }else{
             a->der = insertarPaciente(a->der,pac);
@@ -189,27 +347,56 @@ nodoPaciente * alta_de_paciente(nodoPaciente * arbolPaciente){
 
 nodoPaciente * modificacion_de_paciente(nodoPaciente * arbolPaciente){
     int dni;
+    int nombreValido = 0;
+    char edadString[10];
+    int edadValido = 0;
+    int telefonoValido = 0;
+    int dniValido = 0;
+    int direccionValida = 0;
+
     printf("Ingrese el DNI del paciente a modificar: \n");
     fflush(stdin);
     scanf("%d", &dni);
 
     nodoPaciente * paciente = buscarPacienteDNI(arbolPaciente,dni);
     if(paciente != NULL){   //Si el nodo es != NULL eso significa que encontro el dni del paciente dentro del arbol
-        printf("Ingrese el nuevo nombre y apellido del paciente: ");
-        fflush(stdin);
-        gets(paciente->paciente.apelyNom);
-
-        printf("Ingrese la nueva edad del paciente: ");
-        fflush(stdin);
-        scanf("%d", &paciente->paciente.edad);
-
-        printf("Ingrese la nueva dirección del paciente: ");
-        fflush(stdin);
-        gets(paciente->paciente.direccion);
-
+         do{
+            printf("Ingrese el nuevo nombre y apellido del paciente: ");
+            fflush(stdin);
+            gets(paciente->paciente.apelyNom);
+            nombreValido = validarNombre(paciente->paciente.apelyNom);
+            if(nombreValido ==1){
+            printf("Error.Nombre invalido. \n");
+        }
+        }while(nombreValido != 0);
+        do{
+            printf("Ingrese la nueva edad del paciente: ");
+            fflush(stdin);
+            scanf("%d", &paciente->paciente.edad);
+            sprintf(edadString,"%d",paciente->paciente.edad); ///convierte un tipo de dato int a una cadena de caracteres
+        edadValido = validarEdad(edadString);
+        if(edadValido == 1){
+            printf("Error. Ingrese una edad valida.\n");
+        }
+        }while(edadValido != 0);
+        do{
+            printf("Ingrese la nueva dirección del paciente: ");
+            fflush(stdin);
+            gets(paciente->paciente.direccion);
+            direccionValida = validarDireccion(paciente->paciente.direccion);
+        if(direccionValida == 1){
+            printf("Error.Ingrese direccion valida.\n");
+            }
+        }while(direccionValida != 0);
+        do{
         printf("Ingrese el nuevo teléfono del paciente: ");
         fflush(stdin);
         gets(paciente->paciente.telefono);
+        telefonoValido = validarTelefono(paciente->paciente.telefono);
+        if(telefonoValido == 1 ){
+            printf("Error.Telefono invalido");
+            }
+        }while(telefonoValido != 0);
 
         printf("Modificación del paciente con DNI %d realizada correctamente.\n", dni);
     }else{
