@@ -35,7 +35,6 @@ typedef struct practicas{
 
 typedef struct nodoPracticasXingreso{
     pracXingreso pXi;
-    struct nodoPracticas * practicas;
     struct nodoPracticasXingreso * sig;
 }nodoPracticasXingreso;
 
@@ -54,18 +53,10 @@ typedef struct nodoPaciente{
 }nodoPaciente;
 
 
-typedef struct nodoPracticas{
-    practicas prac;
-    struct nodoPracticas * sig;
-}nodoPracticas;
 
-nodoPracticas * crearNodoPrac(practicas p);
-nodoPracticas * agregarPpio(nodoPracticas * lista, nodoPracticas * nuevo);
-nodoPracticas * agregarEnOrdenP(nodoPracticas * lista, nodoPracticas * nuevoNodo);
 practicas cargarPracticas();
-nodoPracticas * alta_de_Practica(nodoPracticas * lista);
-nodoPracticas * modificacion_de_Practica(nodoPracticas * lista);
-void  filtrarPorPrefijo (nodoPracticas * lista);
+//void  filtrarPorPrefijo (nodoPracticas * lista);
+///FUNCIONES PACIENTES
 nodoPaciente * crearNodoPaciente(pacientes pac);
 pacientes cargarPaciente();
 nodoPaciente * insertarPaciente(nodoPaciente * a, pacientes pac);
@@ -76,15 +67,19 @@ nodoPaciente * baja_de_paciente(nodoPaciente * arbolPaciente);
 nodoPaciente * arbolToarchi(nodoPaciente * arbolPaciente, char archivoPac[]);
 nodoPaciente * leerArchivoPaciente(char archivoPac[], nodoPaciente * arbolPaciente);
 void inOrder(nodoPaciente *arbolPaciente);
+///FUNCIOES INGRESOS
+void mostrarIngreso(ingresos dato);
+nodoIngresos * filtrarPorNroIngreso(nodoPaciente* arbol);
+nodoIngresos* filtrarPorFechaIngreso(nodoPaciente* arbol);
 nodoIngresos * crearNodoIng (ingresos a);
 nodoIngresos * agregarPpioIngresos(nodoIngresos * lista, nodoIngresos * nuevo);
 nodoIngresos * agregarOrdenFecha(nodoIngresos * lista, nodoIngresos * nuevo);
 void mostrarPorFechas(nodoIngresos * listaIngresos,nodoPaciente * arbolPaciente);
-int filtrarPorNroIngreso(nodoIngresos * lista);
-int filtrarPorFechaIngreso(nodoIngresos * lista);
-int filtrarPorDNI(nodoIngresos * lista);
-nodoIngresos * filtrarIngreso(nodoIngresos * lista);
+
+void filtrarPorDNI(nodoPaciente * arbol);
+nodoIngresos * filtrarIngreso(nodoPaciente* arbol);
 ingresos cargarIngresos();
+///FUNCIONES PARA PRACTICASXINGRESO
 nodoPracticasXingreso * crearNodoPxI(pracXingreso pxi);
 nodoPracticasXingreso * agregarPpioPXI(nodoPracticasXingreso * lista, nodoPracticasXingreso * nuevoNodo);
 pracXingreso cargarPXI();
@@ -92,9 +87,11 @@ nodoPracticasXingreso * buscarNroIngresoYpractica(nodoPracticasXingreso * lista,
 nodoPracticasXingreso * Alta_de_pxi(nodoPracticasXingreso * lista);
 nodoPracticasXingreso *  modificacion_de_pxi(nodoPracticasXingreso * lista);
 nodoPracticasXingreso * Baja_de_pxi(nodoPracticasXingreso * lista);
+///VALIDACIONES
 int validarNombre(char * nombre);
 int validarEdad (char * edad);
 int validarDNI(char * dni);
 int validarTelefono(char * telefono);
 int validarDireccion(char * direccion);
+void mostrarPaciente(pacientes dato);
 #endif // ARBOLPACIENTE_H_INCLUDED
