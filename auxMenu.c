@@ -99,16 +99,9 @@ void mostrarOp9(){
     printf("|\n");
     mostrarHorizontalAUX();
 }
-void mostrarOp10(){
+void mostrarOp10(){///Muestra opcion final
     printf("\n|");
-    printf("Ingrese 9(nueve) para modificar paciente");
-    moverHorizontalAUX(76);
-    printf("|\n");
-    mostrarHorizontalAUX();
-}
-void mostrarOp11(){///Muestra opcion final
-    printf("\n|");
-    printf("Ingrese 10(diez) para mostrar practicas y resultados");
+    printf("Ingrese 9(nueve) para mostrar practicas y resultados");
     moverHorizontalAUX(64);
     printf("|\n");
     mostrarHorizontalAUX();
@@ -116,15 +109,19 @@ void mostrarOp11(){///Muestra opcion final
 }
 char validarOp(){
     char op[30];
-    int num;
     do{
         fgets(op,30,stdin);
-        op[strcspn(op,"\n")]='\0';///elimina el salto de lina final
-        num=atoi(op);///paso el arreglo a un int
-        if(strlen(op)>2||!isdigit(op[0])||(strlen(op)==2&& !isdigit(op[1]))||(num<0||num>10)){///si son mas de dos char o si la pos 0 no es digito
-            printf("Opcion no valida. Ingrese un numero entre 0 y 10: ");                     ///o si son dos char que la segunda sea un digito y por ultimo que sea entre 0 y 10
+        if (op[strlen(op) - 1] == '\n'){///Eliminar el salto de linea al final de la cadena si esta presente(la tecla enter)
+            op[strlen(op) - 1] = '\0';
         }
-    }while(strlen(op)>2||!isdigit(op[0])||(strlen(op)==2&& !isdigit(op[1]))||(num<0||num>10));///Verifico todas las condiciones juntas
+        if(strlen(op)!= 1){///Verifica que la cadena ingresada tenga como maximo un solo caracter
+            printf("Opcion no valida. Ingrese solo un caracter entre 0 y 9: ");
+            continue;///Obligo a salir del if y volver a entrar al doWhile
+        }
+        if(!isdigit(op[0])||op[0]<'0'||op[0]>'9'){///Verifico si no es un digito o si es menor a 0 o si es mayor a 9 da error
+            printf("Opcion no valida. Ingrese solo un caracter entre 0 y 9: ");
+        }
+    }while(strlen(op)!= 1||(!isdigit(op[0])||op[0]<'0'||op[0]>'9'));///Verifico todas las condiciones juntas
     return op[0];
 }
 char mostrarMenu(){///Invoca todas las funciones de mostrar y retorna la opcion
@@ -140,7 +137,6 @@ char mostrarMenu(){///Invoca todas las funciones de mostrar y retorna la opcion
     mostrarOp8();
     mostrarOp9();
     mostrarOp10();
-    mostrarOp11();
     char op=validarOp();
     return op;
 }
