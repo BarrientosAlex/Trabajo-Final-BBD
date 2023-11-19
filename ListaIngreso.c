@@ -145,26 +145,84 @@ nodoIngresos * filtrarIngreso(nodoIngresos * lista){
 
 ingresos cargarIngresos(){
     ingresos aux;
+    int dniString[10];
+    char numString[10];
+    int fechaValida = 0;
+    int dniValido = 0;
     time_t t;
     struct tm * tm_info;
     time(&t);
     tm_info = localtime(&t);
-    printf("Ingrese numero de ingreso: \n");
-    fflush(stdin);
-    scanf("%d", &aux.nroIngreso);
-    strftime(aux.fechaIngreso,sizeof(aux.fechaIngreso),"%d/%m/%Y", tm_info);
-    printf("Ingrese la fecha del retiro: \n");
-    fflush(stdin);
-    gets(aux.fechaRetiro);
-    printf("Ingrese dni del paciente: \n");
-    fflush(stdin);
-    scanf("%d", &aux.dni);
+
+        printf("Ingrese numero de ingreso: \n");
+        fflush(stdin);
+        scanf("%d", &aux.nroIngreso);
+        strftime(aux.fechaIngreso,sizeof(aux.fechaIngreso),"%d/%m/%Y", tm_info);
+        printf("%s", aux.fechaIngreso);
+
+    do{
+        printf("Ingrese la fecha del retiro(formato dd/mm/yy): \n");
+        fflush(stdin);
+        gets(aux.fechaRetiro);
+        fechaValida =validarFecha(aux.fechaRetiro);
+        if(fechaValida == 1){
+            printf("Error.Ingrese una fecha de retiro valido. \n");
+        }
+    }while(fechaValida != 0);
+    do{
+        printf("Ingrese dni del paciente: \n");
+        fflush(stdin);
+        scanf("%d", &aux.dni);
+        sprintf(dniString,"%d",aux.dni);
+        dniValido = validarDNI(dniString);
+        if(dniValido == 1){
+            printf("Error.Ingrese DNI valido. \n");
+        }
+    }while(dniValido !=0);
+
+
     printf("Ingrese matricula del Profesional: \n");
     fflush(stdin);
     scanf("%d", &aux.matricula);
     aux.eliminado = 0;
     return aux;
 }
+
+int validarFecha(char *fechaRetiro){
+    int cantNum =strlen(fechaRetiro);
+    int flag = 0;
+    int dia = (fechaRetiro[0]-'0')* 10 + fechaRetiro[1]-'0'; /// Paso el los dos primeras posiciones del string a un tipo int (Le resto el caracter - '0' que en la tabla ascii en el numero a 48 para convertirlo en tipo int
+    int mes = (fechaRetiro[3]-'0') *10 +fechaRetiro[4]- '0'; /// Por lo tanto si en la posicion del string seleccionado es '1' le restas '0' y se busca su numero en la tabla ascii (49) - (48) y da 1 y se convierte en tipo int
+    int anio = (fechaRetiro[6]-'0') * 10 + fechaRetiro[7]-'0';
+
+    if(cantNum ==8){
+        for(int i = 0;i<cantNum;i++){
+            if(!isdigit(fechaRetiro[i])&& fechaRetiro[i] != '/'){   /// Para que se permita el uso de la barra entre el medio de dia, mes y año
+                flag =1;
+            }
+        }
+
+        if(flag == 0){
+            if(dia < 1 || dia>31 || mes<01 || mes>12 || anio<23 ||anio>33){
+                flag = 1;
+
+            }
+          }
+
+        if(anio ==23){
+            if(mes<11 || mes >12){
+                flag = 1;
+            }
+        }
+
+    }else{
+        flag = 1;
+    }
+
+    return flag;
+
+}
+
 
 
 nodoIngresos * alta_de_ingreso(nodoIngresos * listaIngresos,nodoPaciente * arbolPaciente){
