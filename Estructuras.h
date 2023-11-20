@@ -83,9 +83,9 @@ stIngresos cargarIngresos();
 nodoPracticasXingreso * crearNodoPxI(stPracXingreso pxi);
 nodoPracticasXingreso * agregarPpioPXI(nodoPracticasXingreso * lista, nodoPracticasXingreso * nuevoNodo);
 stPracXingreso cargarPXI();
-nodoPracticasXingreso * buscarNroIngresoYpractica(nodoPracticasXingreso * lista, stPracXingreso pxi);
+nodoPracticasXingreso * buscarNroPractica(nodoPracticasXingreso * lista, int nroPractica);
 nodoPracticasXingreso * Alta_de_pxi(nodoPracticasXingreso * lista);
-nodoPracticasXingreso *  modificacion_de_pxi(nodoPracticasXingreso * lista);
+nodoPracticasXingreso * modificacion_de_pxi(nodoPracticasXingreso * lista);
 nodoPracticasXingreso * Baja_de_pxi(nodoPracticasXingreso * lista);
 ///VALIDACIONES
 int validarNombre(char * nombre);

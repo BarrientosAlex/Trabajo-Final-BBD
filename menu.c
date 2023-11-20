@@ -3,6 +3,7 @@
 #include "menu.h"
 #include "auxMenu.h"
 #include "user.h"
+#include "Estructuras.h"
 
 int validarPermisos(int tipoUser,char op,int flag){
    switch (tipoUser){
@@ -44,4 +45,5 @@ void menu(){
             op=mostrarMenu();
         }
     }
+    stPacientes aux=cargarPaciente();
 }

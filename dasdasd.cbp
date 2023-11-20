@@ -31,6 +31,16 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
+		<Unit filename="ArbolPaciente.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Estructuras.h" />
+		<Unit filename="ListaIngreso.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="ListaPracXing.c">
+			<Option compilerVar="CC" />
+		</Unit>
 		<Unit filename="auxMenu.c">
 			<Option compilerVar="CC" />
 		</Unit>
