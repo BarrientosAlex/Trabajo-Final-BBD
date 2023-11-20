@@ -11,7 +11,7 @@ int validarPermisos(int tipoUser,char op,int flag){
             break;
         }
         case 2:{
-            if(op!='5'&&op!='6'&&op!='9'){
+            if(op!='5'&&op!='6'&&op!='10'){
                 printf("Necesitas permisos para esta opcion vuelve a intentar.\n");
                 system("pause");
             }else{
