@@ -167,18 +167,18 @@ stIngresos cargarIngresos(){
     stIngresos aux;
     int dniString[10];
     char numString[10];
+    char matriString[10];
     int fechaValida = 0;
     int dniValido = 0;
+    int matriculaValida = 0;
     time_t t;
     struct tm * tm_info;
     time(&t);
     tm_info = localtime(&t);
+    static int contadorIngresos = 0;  // Al declararlo de tipo static se mantiente su valor incluso despues de la que la funcion se haya terminado de ejecutarse.
+    aux.nroIngreso = contadorIngresos++;
 
-        printf("Ingrese numero de ingreso: \n");
-        fflush(stdin);
-        scanf("%d", &aux.nroIngreso);
-        strftime(aux.fechaIngreso,sizeof(aux.fechaIngreso),"%d/%m/%Y", tm_info);
-        printf("%s", aux.fechaIngreso);
+    strftime(aux.fechaIngreso,sizeof(aux.fechaIngreso),"%d/%m/%Y", tm_info);
 
     do{
         printf("Ingrese la fecha del retiro(formato dd/mm/yy): \n");
@@ -200,10 +200,16 @@ stIngresos cargarIngresos(){
         }
     }while(dniValido !=0);
 
-
-    printf("Ingrese matricula del Profesional: \n");
-    fflush(stdin);
-    scanf("%d", &aux.matricula);
+    do{
+        printf("Ingrese los 6 numeros de la matricula del Profesional: \n");
+        fflush(stdin);
+        scanf("%d", &aux.matricula);
+        sprintf(matriString,"%d", aux.matricula);
+        matriculaValida = validarMatricula(matriString);
+        if(matriculaValida == 1){
+            printf("Error.Ingrese una matricula valida.\n");
+        }
+    }while(matriculaValida != 0);
     aux.eliminado = 0;
     return aux;
 }
@@ -242,14 +248,37 @@ int validarFecha(char *fechaRetiro){
     return flag;
 
 }
+int validarMatricula(char * matricula){
+    int cantNum = strlen(matricula);
+    int flag = 0;
+    if(cantNum == 6){
+        for(int i = 0; i<cantNum;i++){
+            if(!isdigit(matricula[i])){
+                flag = 1;
+            }
+        }
+    }else{
+        flag = 1;
+    }
+    return flag;
+}
 
 
 
 nodoPaciente * alta_de_ingreso(nodoPaciente * arbolPaciente){
     int dni;
-    printf("Ingrese DNI del paciente para dar de alta el ingreso: \n");
-    fflush(stdin);
-    scanf("%d",&dni);
+    char dniString[10];
+    int dniValido = 0;
+    do{
+        printf("Ingrese DNI del paciente para dar de alta el ingreso: \n");
+        fflush(stdin);
+        scanf("%d",&dni);
+        sprintf(dniString,"%d",dni);
+        dniValido = validarDNI(dniString);
+        if(dniValido == 1){
+            printf("Error.Ingrese DNI valido. \n");
+        }
+    }while(dniValido != 0);
 
     nodoPaciente * paciente = buscarPacienteDNI(arbolPaciente,dni);
 
