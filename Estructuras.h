@@ -58,6 +58,7 @@ typedef struct nodoPaciente{
 practicas cargarPracticas();
 //void  filtrarPorPrefijo (nodoPracticas * lista);
 ///FUNCIONES PACIENTES
+void arbolPacienteToArchivo(char archivo[],stPacientes dato);
 nodoPaciente * crearNodoPaciente(stPacientes pac);
 stPacientes cargarPaciente();
 nodoPaciente * insertarPaciente(nodoPaciente * a, stPacientes pac);

@@ -297,6 +297,16 @@ nodoPaciente * baja_de_paciente(nodoPaciente * arbolPaciente){
     return arbolPaciente;
 }
 ///Funciones copiar al archivo
+void arbolPacienteToArchivo(char archivo[],stPacientes dato){
+    FILE* archi=fopen(archivo,"ab");
+    stPacientes aux;
+    if(archi){
+        aux=dato;
+        fwrite(&aux,sizeof(stPacientes),1,archi);
+    }else{
+        printf("\nError al abrir el archivo de pacientes\n");
+    }
+}
 void inOrder(nodoPaciente *arbolPaciente){
     if(arbolPaciente){
         inOrder(arbolPaciente->izq);
