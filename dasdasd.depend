@@ -119,7 +119,7 @@
 
 1700445685 c:\users\caste\desktop\final utn\trabajo-final-bbd\user.h
 
-1700493443 c:\users\caste\desktop\final utn\trabajo-final-bbd\estructuras.h
+1700503776 c:\users\caste\desktop\final utn\trabajo-final-bbd\estructuras.h
 
 1700445685 source:c:\users\caste\desktop\final utn\trabajo-final-bbd\user.c
 	<stdio.h>
@@ -129,7 +129,7 @@
 	<ctype.h>
 	"user.h"
 
-1700490922 source:c:\users\caste\desktop\final utn\trabajo-final-bbd\arbolpaciente.c
+1700503794 source:c:\users\caste\desktop\final utn\trabajo-final-bbd\arbolpaciente.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
@@ -144,7 +144,7 @@
 	<time.h>
 	"Estructuras.h"
 
-1700493313 source:c:\users\caste\desktop\final utn\trabajo-final-bbd\listapracxing.c
+1700503470 source:c:\users\caste\desktop\final utn\trabajo-final-bbd\listapracxing.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
