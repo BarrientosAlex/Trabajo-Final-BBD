@@ -57,6 +57,7 @@ typedef struct nodoPaciente{
 practicas cargarPracticas();
 //void  filtrarPorPrefijo (nodoPracticas * lista);
 ///FUNCIONES PACIENTES
+void arbolPacienteToArchivo(char archivo[],stPacientes dato);
 nodoPaciente * crearNodoPaciente(stPacientes pac);
 stPacientes cargarPaciente();
 nodoPaciente * insertarPaciente(nodoPaciente * a, stPacientes pac);
@@ -75,7 +76,6 @@ nodoIngresos * crearNodoIng (stIngresos a);
 nodoIngresos * agregarPpioIngresos(nodoIngresos * lista, nodoIngresos * nuevo);
 nodoIngresos * agregarOrdenFecha(nodoIngresos * lista, nodoIngresos * nuevo);
 void mostrarPorFechas(nodoIngresos * listaIngresos,nodoPaciente * arbolPaciente);
-
 void filtrarPorDNI(nodoPaciente * arbol);
 nodoIngresos * filtrarIngreso(nodoPaciente* arbol);
 stIngresos cargarIngresos();
