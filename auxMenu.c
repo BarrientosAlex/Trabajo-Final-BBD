@@ -36,6 +36,7 @@ void mostrarfecha(){///Muestra la fecha
     printf("|\n");
     mostrarHorizontalAUX();
 }
+void mostrarOpCrear(){}
 void mostrarOp1(){///Muestra opcion 1
     printf("\n|");
     printf("Ingrese 0(cero) para generar ingreso de paciente");

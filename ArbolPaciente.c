@@ -259,6 +259,7 @@ nodoPaciente * alta_de_paciente(nodoPaciente * arbolPaciente){
 
     if(buscar == NULL){
         arbolPaciente = insertarPaciente(arbolPaciente, nuevoPaciente);
+        arbolPacienteToArchivo("pacientes.bin",nuevoPaciente);
         printf("Paciente dado de alta correctamente.\n");
     } else {
         printf("Error. El paciente con DNI %d ya existe.\n", nuevoPaciente.dni);
@@ -276,10 +277,18 @@ nodoPaciente * modificacion_de_paciente(nodoPaciente * arbolPaciente){
     int telefonoValido = 0;
     int dniValido = 0;
     int direccionValida = 0;
+    char dniString[10];
 
-    printf("Ingrese el DNI del paciente a modificar: \n");
-    fflush(stdin);
-    scanf("%d", &dni);
+    do{
+        printf("Ingrese el dni del paciente: \n");
+        fflush(stdin);
+        scanf("%d", &dni);
+        sprintf(dniString,"%d",dni);
+        dniValido = validarDNI(dniString);
+        if(dniValido == 1){
+            printf("Error.Ingrese DNI valido. \n");
+        }
+    }while(dniValido !=0);
 
     nodoPaciente * paciente = buscarPacienteDNI(arbolPaciente,dni);
     if(paciente != NULL){   //Si el nodo es != NULL eso significa que encontro el dni del paciente dentro del arbol
@@ -325,14 +334,22 @@ nodoPaciente * modificacion_de_paciente(nodoPaciente * arbolPaciente){
     }else{
         printf("Error.No se encontreo el paciente con DNI %d. \n", dni);
     }
-    return arbolPaciente;
+    return paciente;
 }
 
 nodoPaciente * baja_de_paciente(nodoPaciente * arbolPaciente){
-    int dni;
-    printf("Ingrese el DNI del paciente a dar de baja: \n");
-    fflush(stdin);
-    scanf("%d",&dni);
+    int dni,dniValido=0;
+    char dniString[10];
+    do{
+        printf("Ingrese el dni del paciente: \n");
+        fflush(stdin);
+        scanf("%d", &dni);
+        sprintf(dniString,"%d",dni);
+        dniValido = validarDNI(dniString);
+        if(dniValido == 1){
+            printf("Error.Ingrese DNI valido. \n");
+        }
+    }while(dniValido !=0);
     nodoPaciente * paciente = buscarPacienteDNI(arbolPaciente, dni);
     if(paciente != NULL){
         if(paciente->ingresos == NULL){  //Si el paciente no tiene asociado ningun ingreso, marcarlo como eliminado
@@ -344,7 +361,7 @@ nodoPaciente * baja_de_paciente(nodoPaciente * arbolPaciente){
     }else{
         printf("Error. No se encontro el paciente con DNI %d\n", dni);
     }
-    return arbolPaciente;
+    return paciente;
 }
 
 
@@ -377,7 +394,9 @@ nodoPaciente* cargarIngresosDesdeArchivo(char archivo[],nodoPaciente* arbol){
     stIngresos aux;
     nodoPaciente* rama=NULL;
     FILE*archi=fopen(archivo,"rb");
-    if(archi){
+    if(archi==NULL){
+        archi=fopen(archivo,"ab");
+    }else{
         if(fread(&aux,sizeof(stIngresos),1,archi)>0){
             fseek(archi, 0, SEEK_SET);
             while (fread(&aux, sizeof(stIngresos), 1, archi) > 0) {

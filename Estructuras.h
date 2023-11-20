@@ -25,6 +25,7 @@ typedef struct stPracXingreso{
     int nroPractica;
     char nombrePractica[30];
     char resultado[40];
+    int eliminado;
 }stPracXingreso;
 
 typedef struct practicas{
@@ -87,9 +88,11 @@ void filtrarPorDNI(nodoPaciente * arbol);
 nodoIngresos * filtrarIngreso(nodoPaciente* arbol);
 stIngresos cargarIngresos();
 ///FUNCIONES PARA PRACTICASXINGRESO
+nodoPracticasXingreso* buscarPractica(nodoPracticasXingreso* lista,int numPractica);
+nodoPaciente* pasarPracticasAlArbolArchivo(char archivo[],nodoPaciente* arbol);
 nodoPracticasXingreso * crearNodoPxI(stPracXingreso pxi);
 nodoPracticasXingreso * agregarPpioPXI(nodoPracticasXingreso * lista, nodoPracticasXingreso * nuevoNodo);
-stPracXingreso cargarPXI();
+stPracXingreso cargarPXI(int numIngreso);
 nodoPracticasXingreso * buscarNroPractica(nodoPracticasXingreso * lista, int nroPractica);
 nodoPracticasXingreso * Alta_de_pxi(nodoPracticasXingreso * lista);
 nodoPracticasXingreso * modificacion_de_pxi(nodoPracticasXingreso * lista);

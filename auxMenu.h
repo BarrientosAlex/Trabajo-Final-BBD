@@ -13,6 +13,9 @@ void mostrarOp6();
 void mostrarOp7();
 void mostrarOp8();
 void mostrarOp9();
+void mostrarOp10();
+void mostrarOp11();
+void mostrarOpCrear();
 char mostrarMenu();
 char validarOp();
 

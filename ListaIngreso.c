@@ -304,12 +304,12 @@ nodoPaciente * alta_de_ingreso(nodoPaciente * arbolPaciente){
             nodoIngresos * nuevoNodo = crearNodoIng(nuevoIng);
             nuevoNodo->practicas = Alta_de_pxi(nuevoNodo->practicas);
             paciente->ingresos = agregarOrdenFecha(paciente->ingresos,nuevoNodo);
+            agregarNuevoIngresoArchivo("ingresos.bin",nuevoIng);
             printf("Ingreso dado de alta correctamente.\n");
-        }else{
-        printf("Error. El paciente con DNI %d ha sido eliminado. \n",dni);
         }
     }else{
-        printf("Error.No se encontro el DNI %d del paciente \n" ,dni);
+        printf("\nError el paciente no fue encontrado, cargue un paciente");
+        arbolPaciente=alta_de_paciente(arbolPaciente);
     }
 
     return arbolPaciente;

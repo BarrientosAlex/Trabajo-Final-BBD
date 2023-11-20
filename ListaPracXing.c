@@ -24,14 +24,14 @@ nodoPracticasXingreso * agregarPpioPXI(nodoPracticasXingreso * lista, nodoPracti
 stPracXingreso cargarPXI(int numIngreso){///Por parametro pasa lista.Ingresos.NrIngresos
     stPracXingreso aux;
     aux.nroIngreso=numIngreso;
-        aux.nroPractica = contarPxienArchivo("pxi.bin",numIngreso)+1;
-        printf("Ingrese nombre de la practica:\n");
-        fflush(stdin);
-        gets(aux.nombrePractica);
-
+    aux.nroPractica = contarPxienArchivo("pxi.bin",numIngreso)+1;
+    printf("Ingrese nombre de la practica:\n");
+    fflush(stdin);
+    gets(aux.nombrePractica);
     printf("Ingrese resultado: \n" );
     fflush(stdin);
     gets(aux.resultado);
+    aux.eliminado=0;
     return aux;
 }
 nodoPracticasXingreso * buscarNroPractica(nodoPracticasXingreso * lista, int nroPractica){///Ya tenes que estar
@@ -62,42 +62,37 @@ nodoPracticasXingreso * modificacion_de_pxi(nodoPracticasXingreso * lista){  //B
     int numValido = 0;
     char numString[10];
     do{
-    printf("\nIngrese Nro.Practica: ");
-    scanf("%i",&aux.nroPractica);
-    sprintf(numString,"%i",aux.nroPractica);
-    numValido = validarNumero(numString);                                    ///Verificar el do while
-    if(numValido ==1){
-    printf("Error. Ingrese un numero de practica valido.");
+        printf("\nIngrese Nro.Practica: ");
+        scanf("%i",&aux.nroPractica);
+        sprintf(numString,"%i",aux.nroPractica);
+        numValido = validarNumero(numString);                                    ///Verificar el do while
+        if(numValido ==1){
+            printf("Error. Ingrese un numero de practica valido.");
         }
     }while(numValido != 0);
-
     auxPractica=buscarNroPractica(lista,aux.nroPractica);///Envio la practica que quiero buscar
-
-    if(!auxPractica){ ///encontro el nodo que tiene el nro de practica
-       /* printf("\nIngrese el nuevo nro de practica: ");
-        fflush(stdin); */  ///Al hacer el numero de practica que se aumente mediante la variable estatica cada vez que se llama no haria falta modificar el numero de practica
-      //  scanf("%d",&auxPractica->pXi.nroPractica);
+    if(auxPractica){ ///encontro el nodo que tiene el nro de practica
         printf("Ingrese nuevo nombre de la practica: \n");
         fflush(stdin);
         gets(auxPractica->pXi.nombrePractica);
         printf("\nIngrese el nuevo resultado: \n");
         fflush(stdin);
         gets(auxPractica->pXi.resultado);
-        printf("\nDatos modificados modificados correctamente");
+        printf("\nDatos modificados correctamente");
     }else{
         printf("\nNo se encontro la practica de ingreso a modificar."); // En caso de que no se encuentre el nodo que tiene el nro de ingreso
     }
     return lista;
 }
 nodoPracticasXingreso * Baja_de_pxi(nodoPracticasXingreso * lista){
-   if(!lista){
+    if(!lista){
         printf("\nLa lista de practicas por ingreso esta vacia. \n");
         return NULL;
     }
     int nroPractica;
     int numeroValido = 0;
     char numString[10];
-        do{
+    do{
         printf("Ingrese el nro de la practica a eliminar: \n");
         fflush(stdin);
         scanf("%i", &nroPractica);
@@ -108,11 +103,9 @@ nodoPracticasXingreso * Baja_de_pxi(nodoPracticasXingreso * lista){
         }
     }while(numeroValido != 0);
     ///Teniendo en cuenta que las practica estan ordenadas en orden ascendete y de a uno.
-    nodoPracticasXingreso* anteriorPractica=buscarNroPractica(lista,nroPractica-1);///Busco el nodo de la practica anterior
     nodoPracticasXingreso* actualPractica=buscarNroPractica(lista,nroPractica);///Busco el nodo de la practica
     if(actualPractica){
-        anteriorPractica->sig=actualPractica->sig;
-        free(actualPractica);
+        actualPractica->pXi.eliminado=1;
         printf("La practica de ingreso con numero %d ha sido eliminada correctamente.", nroPractica);
     }else{
         printf("La practica de ingreso con el numero %d no se se encontro.", nroPractica);
@@ -133,12 +126,26 @@ int validarNumero(char * nroPractica){ ///Valida que el usuario no ingrese letra
     }
     return flag;
 }
+nodoPracticasXingreso* buscarPractica(nodoPracticasXingreso* lista,int numPractica){///Previamente mostrar todas las practicas
+    nodoPracticasXingreso* seg=lista;
+    nodoPracticasXingreso* actual=NULL;
+    int encontrado=0;
+    while(seg&&encontrado==0){
+        if(seg->pXi.nroPractica==numPractica){
+            actual=seg;
+        }
+        seg=seg->sig;
+    }
+    return actual;
+}
 ///Funciones Archivo
 nodoPaciente* pasarPracticasAlArbolArchivo(char archivo[],nodoPaciente* arbol){
     stPracXingreso aux;
     FILE* archi=fopen(archivo,"rb");
     nodoIngresos* ing=NULL;
-    if(archi){
+    if(!archi){
+        archi=fopen(archivo,"ab");
+    }else{
         if(fread(&aux,sizeof(stPracXingreso),1,archi)>0){
             fseek(archi, 0, SEEK_SET);
             while(fread(&aux,sizeof(stPracXingreso),1,archi)>0){
@@ -147,8 +154,6 @@ nodoPaciente* pasarPracticasAlArbolArchivo(char archivo[],nodoPaciente* arbol){
                 ing=agregarPpioPXI(ing,crearNodoPxI(aux));
             }
         }
-    }else{
-        printf("Se produjo un error.\n");
     }
     fclose(archi);
     return arbol;
@@ -181,13 +186,9 @@ void modificarArchivoPXI(char archivo[], stPracXingreso dato){  ///Pasar por par
     stPracXingreso aux;
     if(archi){
         while(fread(&aux,sizeof(stPracXingreso),1,archi)>0){
-            if(aux.nroIngreso == dato.nroIngreso){
-               printf("Ingrese nuevo nombre de la Practica: \n");
-               scanf("%s", &aux.nombrePractica);
-                printf("Ingrese nuevo resultado de la practica: \n");
-                scanf("%c", &aux.resultado);
+            if(aux.nroPractica == dato.nroPractica){
                 fseek(archi,(-1)*sizeof(stPracXingreso),SEEK_CUR);
-                fwrite(&aux,sizeof(stPracXingreso),1,archi);
+                fwrite(&dato,sizeof(stPracXingreso),1,archi);
             }
         }
         fclose(archi);
