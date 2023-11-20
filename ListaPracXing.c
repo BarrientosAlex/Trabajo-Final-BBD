@@ -24,11 +24,11 @@ nodoPracticasXingreso * agregarPpioPXI(nodoPracticasXingreso * lista, nodoPracti
 stPracXingreso cargarPXI(int numIngreso){///Por parametro pasa lista.Ingresos.NrIngresos
     stPracXingreso aux;
     aux.nroIngreso=numIngreso;
-    static int contadorNroPractica = 0;
-    aux.nroPractica = contadorNroPractica++;
-    printf("Ingrese nombre de la practica:\n");
-    fflush(stdin);
-    gets(aux.nombrePractica);
+        aux.nroPractica = contarPxienArchivo("pxi.bin",numIngreso)+1;
+        printf("Ingrese nombre de la practica:\n");
+        fflush(stdin);
+        gets(aux.nombrePractica);
+
     printf("Ingrese resultado: \n" );
     fflush(stdin);
     gets(aux.resultado);
@@ -75,9 +75,12 @@ nodoPracticasXingreso * modificacion_de_pxi(nodoPracticasXingreso * lista){  //B
 
     if(!auxPractica){ ///encontro el nodo que tiene el nro de practica
        /* printf("\nIngrese el nuevo nro de practica: ");
-        fflush(stdin);*/   ///Al hacer el numero de practica que se aumente mediante la variable estatica cada vez que se llama no haria falta modificar el numero de practica
-        scanf("%d",&auxPractica->pXi.nroPractica);
-        printf("\nIngrese el nuevo resultado: ");
+        fflush(stdin); */  ///Al hacer el numero de practica que se aumente mediante la variable estatica cada vez que se llama no haria falta modificar el numero de practica
+      //  scanf("%d",&auxPractica->pXi.nroPractica);
+        printf("Ingrese nuevo nombre de la practica: \n");
+        fflush(stdin);
+        gets(auxPractica->pXi.nombrePractica);
+        printf("\nIngrese el nuevo resultado: \n");
         fflush(stdin);
         gets(auxPractica->pXi.resultado);
         printf("\nDatos modificados modificados correctamente");
@@ -86,8 +89,6 @@ nodoPracticasXingreso * modificacion_de_pxi(nodoPracticasXingreso * lista){  //B
     }
     return lista;
 }
-
-
 nodoPracticasXingreso * Baja_de_pxi(nodoPracticasXingreso * lista){
    if(!lista){
         printf("\nLa lista de practicas por ingreso esta vacia. \n");
@@ -118,7 +119,6 @@ nodoPracticasXingreso * Baja_de_pxi(nodoPracticasXingreso * lista){
     }
     return lista;
 }
-
 int validarNumero(char * nroPractica){ ///Valida que el usuario no ingrese letras y que en caso de ingresar mas de 7 numeros tire error
     int cantNum = strlen(nroPractica);
     int flag = 0;
@@ -133,6 +133,7 @@ int validarNumero(char * nroPractica){ ///Valida que el usuario no ingrese letra
     }
     return flag;
 }
+///Funciones Archivo
 nodoPaciente* pasarPracticasAlArbolArchivo(char archivo[],nodoPaciente* arbol){
     stPracXingreso aux;
     FILE* archi=fopen(archivo,"rb");
@@ -152,5 +153,57 @@ nodoPaciente* pasarPracticasAlArbolArchivo(char archivo[],nodoPaciente* arbol){
     fclose(archi);
     return arbol;
 }
-
+void agregarPxialArchivo(char archivo[], stPracXingreso dato){ ///Por parametro pasar lista PXI->dato
+    FILE * archi = fopen(archivo,"ab");
+    stPracXingreso aux;
+    if(archi){
+         aux = dato;
+        fwrite(&aux,sizeof(stPracXingreso),1,archi);
+        fclose(archi);
+    }else{
+        printf("Error al cargar archivoPXI.");
+    }
+}
+void mostrarArchivoPXI(char archivo[]){
+    FILE * archi = fopen(archivo,"rb");
+    stPracXingreso aux;
+    if(archi != NULL){
+        while(fread(&aux,sizeof(stPracXingreso),1,archi)>0){
+            printf("Numero de ingreso: %d \n" ,aux.nroIngreso);
+            printf("Numero de practica: %d \n", aux.nroPractica);
+            printf("Resultado: %s \n", aux.resultado);
+        }
+        fclose(archi);
+    }
+}
+void modificarArchivoPXI(char archivo[], stPracXingreso dato){  ///Pasar por parametro listaPXI->dato
+    FILE * archi =(archivo, "r+b");
+    stPracXingreso aux;
+    if(archi){
+        while(fread(&aux,sizeof(stPracXingreso),1,archi)>0){
+            if(aux.nroIngreso == dato.nroIngreso){
+               printf("Ingrese nuevo nombre de la Practica: \n");
+               scanf("%s", &aux.nombrePractica);
+                printf("Ingrese nuevo resultado de la practica: \n");
+                scanf("%c", &aux.resultado);
+                fseek(archi,(-1)*sizeof(stPracXingreso),SEEK_CUR);
+                fwrite(&aux,sizeof(stPracXingreso),1,archi);
+            }
+        }
+        fclose(archi);
+    }
+}
+int contarPxienArchivo( char archivo[],int nroIngreso){
+    FILE * archi = fopen(archivo,"rb");
+    stPracXingreso aux;
+    int cant = 0;
+    if(archi){
+        while(fread(&aux,sizeof(stPracXingreso),1,archi)>0){        ///Recorro el archivo
+            if(aux.nroIngreso == nroIngreso){       ///Si encuentra el mismo nro de ingreso pasado por parametro  que aumente el contador de el nro de practicas
+                cant++;
+            }
+        }
+    }
+    return cant;
+}
 
