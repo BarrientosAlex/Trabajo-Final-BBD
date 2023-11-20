@@ -26,7 +26,9 @@ stPracXingreso cargarPXI(int numIngreso){///Por parametro pasa lista.Ingresos.Nr
     aux.nroIngreso=numIngreso;
     static int contadorNroPractica = 0;
     aux.nroPractica = contadorNroPractica++;
-
+    printf("Ingrese nombre de la practica:\n");
+    fflush(stdin);
+    gets(aux.nombrePractica);
     printf("Ingrese resultado: \n" );
     fflush(stdin);
     gets(aux.resultado);
@@ -130,5 +132,25 @@ int validarNumero(char * nroPractica){ ///Valida que el usuario no ingrese letra
         flag = 1;
     }
     return flag;
-
 }
+nodoPaciente* pasarPracticasAlArbolArchivo(char archivo[],nodoPaciente* arbol){
+    stPracXingreso aux;
+    FILE* archi=fopen(archivo,"rb");
+    nodoIngresos* ing=NULL;
+    if(archi){
+        if(fread(&aux,sizeof(stPracXingreso),1,archi)>0){
+            fseek(archi, 0, SEEK_SET);
+            while(fread(&aux,sizeof(stPracXingreso),1,archi)>0){
+
+                ing=buscarPorNroIngreso(arbol,aux.nroIngreso);
+                ing=agregarPpioPXI(ing,crearNodoPxI(aux));
+            }
+        }
+    }else{
+        printf("Se produjo un error.\n");
+    }
+    fclose(archi);
+    return arbol;
+}
+
+

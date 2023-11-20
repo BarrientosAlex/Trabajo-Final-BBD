@@ -23,6 +23,7 @@ typedef struct stIngresos{
 typedef struct stPracXingreso{
     int nroIngreso;
     int nroPractica;
+    char nombrePractica[30];
     char resultado[40];
 }stPracXingreso;
 
@@ -64,10 +65,12 @@ nodoPaciente * buscarPacienteDNI (nodoPaciente * a,int dni);
 nodoPaciente * alta_de_paciente(nodoPaciente * arbolPaciente);
 nodoPaciente * modificacion_de_paciente(nodoPaciente * arbolPaciente);
 nodoPaciente * baja_de_paciente(nodoPaciente * arbolPaciente);
-nodoPaciente * arbolToarchi(nodoPaciente * arbolPaciente, char archivoPac[]);
-nodoPaciente * leerArchivoPaciente(char archivoPac[], nodoPaciente * arbolPaciente);
 void inOrder(nodoPaciente *arbolPaciente);
+nodoPaciente* cargarArbolDesdeArchivo(char archivo[],nodoPaciente* arbol);
 ///FUNCIOES INGRESOS
+nodoIngresos* buscarPorNroIngreso(nodoPaciente* arbol, int nroIngreso); /// busca nro de ingreso de determinado paciente No filtrado
+nodoIngresos* buscarListaPractica(nodoPaciente * arbol,int nroIngreso);
+nodoPaciente* cargarIngresosDesdeArchivo(char archivo[],nodoPaciente* arbol);
 void mostrarIngreso(stIngresos dato);
 nodoIngresos * filtrarPorNroIngreso(nodoPaciente* arbol);
 nodoIngresos* filtrarPorFechaIngreso(nodoPaciente* arbol);
@@ -75,7 +78,7 @@ nodoIngresos * crearNodoIng (stIngresos a);
 nodoIngresos * agregarPpioIngresos(nodoIngresos * lista, nodoIngresos * nuevo);
 nodoIngresos * agregarOrdenFecha(nodoIngresos * lista, nodoIngresos * nuevo);
 void mostrarPorFechas(nodoIngresos * listaIngresos,nodoPaciente * arbolPaciente);
-
+nodoPaciente* cargarArbolDesdeArchivo(char archivo[],nodoPaciente* arbol);
 void filtrarPorDNI(nodoPaciente * arbol);
 nodoIngresos * filtrarIngreso(nodoPaciente* arbol);
 stIngresos cargarIngresos();

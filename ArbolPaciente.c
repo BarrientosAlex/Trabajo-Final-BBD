@@ -352,44 +352,6 @@ nodoPaciente * baja_de_paciente(nodoPaciente * arbolPaciente){
 
 
 
-
-
-nodoPaciente * arbolToarchi(nodoPaciente * arbolPaciente, char archivoPac[]){
-
-    arbolPaciente = alta_de_paciente(arbolPaciente);
-
-    FILE *  archi = fopen(archivoPac, "ab");
-        if(archi){
-                if(arbolPaciente){
-                    fwrite(&(arbolPaciente->paciente),sizeof(stPacientes),1,archivoPac);
-                    arbolPaciente = arbolToarchi(arbolPaciente->izq,archivoPac);
-                    arbolPaciente = arbolToarchi(arbolPaciente->der,archivoPac);
-                }
-                fclose(archi);
-        }else{
-            printf("Error el archivo no se pudo abrir.");
-        }
-    return arbolPaciente;
-}
-
-
-nodoPaciente * leerArchivoPaciente(char archivoPac[], nodoPaciente * arbolPaciente){
-    FILE * archi = fopen(archivoPac,"rb");
-    stPacientes aux;
-    if(archi){
-        stPacientes paciente;
-        while(fread(&paciente,sizeof(stPacientes),1, archi) > 0){
-            arbolPaciente = insertarPaciente(arbolPaciente,aux);
-        }
-        fclose(archi);
-    }else{
-        printf("Error al abrir el archivo");
-    }
-    return arbolPaciente;
-}
-
-
-
 void inOrder(nodoPaciente *arbolPaciente){
     if(arbolPaciente){
         inOrder(arbolPaciente->izq);
@@ -401,5 +363,23 @@ void inOrder(nodoPaciente *arbolPaciente){
         printf("Eliminado: %d", arbolPaciente->paciente.eliminado);
         inOrder(arbolPaciente->der);
     }
+}
+nodoPaciente* cargarIngresosDesdeArchivo(char archivo[],nodoPaciente* arbol){
+    stIngresos aux;
+    nodoPaciente* rama=NULL;
+    FILE*archi=fopen(archivo,"rb");
+    if(archi){
+        if(fread(&aux,sizeof(stIngresos),1,archi)>0){
+            fseek(archi, 0, SEEK_SET);
+            while (fread(&aux, sizeof(stIngresos), 1, archi) > 0) {
+                rama=buscarPacienteDNI(arbol,aux.dni);
+                if(rama){
+                   rama->ingresos=agregarOrdenFecha(rama,crearNodoIng(aux));
+                }
+            }
+        }
+    }
+    fclose(archi);
+    return arbol;
 }
 

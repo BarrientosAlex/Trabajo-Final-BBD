@@ -45,5 +45,5 @@ void menu(){
             op=mostrarMenu();
         }
     }
-    stPacientes aux=cargarPaciente();
+
 }

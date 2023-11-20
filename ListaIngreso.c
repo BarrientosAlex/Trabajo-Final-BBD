@@ -84,6 +84,32 @@ void mostrarIngreso(stIngresos dato){
         printf("Matricula : %i",dato.matricula);
     }
 }
+nodoIngresos* buscarPorNroIngreso(nodoPaciente* arbol, int nroIngreso){
+    nodoIngresos* aux=NULL;
+    if(arbol){
+        nodoIngresos* seg=arbol->ingresos;
+        while(seg!=NULL && aux==NULL){
+            if(seg->ingreso.nroIngreso==nroIngreso){
+                aux=seg;
+            }
+            seg=seg->sig;
+        }
+    }
+     return aux;
+}
+nodoIngresos* buscarListaPractica(nodoPaciente * arbol,int nroIngreso){
+    nodoIngresos* aux=NULL;
+    if(arbol==NULL){
+        return aux;
+    }else{
+        nodoIngresos* aux = buscarPorNroIngreso(arbol,nroIngreso);
+        if(aux==NULL){
+            aux=buscarListaPractica(arbol->der,nroIngreso);
+            aux=buscarListaPractica(arbol->izq,nroIngreso);
+        }
+    }
+    return aux;
+}
 nodoIngresos * filtrarPorNroIngreso(nodoPaciente* arbol){ ///anteriormente pedir el paciente por el cual queremos buscar el ingreso
     nodoIngresos* aux=NULL;
     if(arbol){
@@ -130,9 +156,6 @@ void filtrarPorDNI(nodoPaciente * arbol) { ///Mostrara todos los ingresos de la 
         }
    }
 }
-
-
-
 nodoIngresos * filtrarIngreso(nodoPaciente* arbol){ /// anteriormente tenemos que llamar a buscar por dni para saber si existe o no
     nodoIngresos* aux=NULL;
     if(arbol){
@@ -162,7 +185,6 @@ nodoIngresos * filtrarIngreso(nodoPaciente* arbol){ /// anteriormente tenemos qu
     return aux;
 
 }
-
 stIngresos cargarIngresos(){
     stIngresos aux;
     int dniString[10];
@@ -213,7 +235,6 @@ stIngresos cargarIngresos(){
     aux.eliminado = 0;
     return aux;
 }
-
 int validarFecha(char *fechaRetiro){
     int cantNum =strlen(fechaRetiro);
     int flag = 0;
@@ -262,9 +283,6 @@ int validarMatricula(char * matricula){
     }
     return flag;
 }
-
-
-
 nodoPaciente * alta_de_ingreso(nodoPaciente * arbolPaciente){
     int dni;
     char dniString[10];
@@ -297,4 +315,40 @@ nodoPaciente * alta_de_ingreso(nodoPaciente * arbolPaciente){
     }
 
     return arbolPaciente;
+}
+nodoPaciente* cargarArbolDesdeArchivo(char archivo[],nodoPaciente* arbol){
+    FILE*archi=fopen(archivo,"rb");
+    if(!archi){
+        archi=fopen(archivo,"ab");
+    }
+    stPacientes aux;
+    if(archi){
+        if (fread(&aux, sizeof(stPacientes), 1, archi) > 0) {
+            // Si se lee al menos un registro, el archivo no está vacío
+            fseek(archi, 0, SEEK_SET);  // Volver al inicio del archivo
+
+            while (fread(&aux, sizeof(stPacientes), 1, archi) > 0) {
+                arbol = insertarPaciente(arbol, aux);
+            }
+        } else {
+            // Si no se lee ningún registro, el archivo está vacío
+            arbol = NULL;
+        }
+    } else{
+        printf("Se produjo un error a la hora de cargar el archivo.\n");
+    }
+    fclose(archi);
+    return arbol;
+}
+
+void agregarNuevoIngresoArchivo(char archivo[],stIngresos nuevo){
+    FILE* archi=fopen(archivo,"ab");
+    stIngresos aux;
+    if(archi){
+        aux=nuevo;
+        fwrite(&aux,sizeof(stIngresos),1,archi);
+    }else{
+        printf("Se produjo un error Nuevo Ingresos.\n");
+    }
+    fclose(archi);
 }

@@ -92,3 +92,62 @@
 	<time.h>
 	"Estructuras.h"
 
+1700445685 source:c:\users\caste\desktop\final utn\trabajo-final-bbd\auxmenu.c
+	<stdio.h>
+	<stdlib.h>
+	<time.h>
+	<string.h>
+	<ctype.h>
+	"auxMenu.h"
+
+1700437678 c:\users\caste\desktop\final utn\trabajo-final-bbd\auxmenu.h
+
+1700437810 source:c:\users\caste\desktop\final utn\trabajo-final-bbd\main.c
+	<stdio.h>
+	<stdlib.h>
+	"menu.h"
+
+1700437678 c:\users\caste\desktop\final utn\trabajo-final-bbd\menu.h
+
+1700493259 source:c:\users\caste\desktop\final utn\trabajo-final-bbd\menu.c
+	<stdio.h>
+	<stdlib.h>
+	"menu.h"
+	"auxMenu.h"
+	"user.h"
+	"Estructuras.h"
+
+1700445685 c:\users\caste\desktop\final utn\trabajo-final-bbd\user.h
+
+1700493443 c:\users\caste\desktop\final utn\trabajo-final-bbd\estructuras.h
+
+1700445685 source:c:\users\caste\desktop\final utn\trabajo-final-bbd\user.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<conio.h>
+	<ctype.h>
+	"user.h"
+
+1700490922 source:c:\users\caste\desktop\final utn\trabajo-final-bbd\arbolpaciente.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<time.h>
+	<ctype.h>
+	"Estructuras.h"
+
+1700493343 source:c:\users\caste\desktop\final utn\trabajo-final-bbd\listaingreso.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<time.h>
+	"Estructuras.h"
+
+1700493313 source:c:\users\caste\desktop\final utn\trabajo-final-bbd\listapracxing.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<time.h>
+	"Estructuras.h"
+
