@@ -4,6 +4,8 @@
 #include <time.h>
 #include "Estructuras.h"
 
+
+
 nodoIngresos * crearNodoIng (stIngresos a){
     nodoIngresos * aux =(nodoIngresos*)malloc(sizeof(nodoIngresos));
     aux->ingreso = a;
@@ -11,6 +13,7 @@ nodoIngresos * crearNodoIng (stIngresos a){
     aux->sig = NULL;
     aux->ant = NULL;
     return aux;
+
 }
 nodoIngresos * agregarPpioIngresos(nodoIngresos * lista, nodoIngresos * nuevo){ ///funcion auxiliar para agregar en orden la fecha
     if(lista == NULL){
@@ -54,19 +57,23 @@ void mostrarPorFechas(nodoIngresos * listaIngresos,nodoPaciente * arbolPaciente)
     printf("Ingrese la fecha hasta (formato DD/MM/YYY)");
     fflush(stdin);
     gets(fechaHasta);
+
     printf("\n Listado general de ingresos:\n");
     nodoIngresos * seg = listaIngresos;
+
     while(seg != NULL){
         if(strcmp(seg->ingreso.fechaIngreso,fechaDesde)>= 0 && strcmp(seg->ingreso.fechaIngreso,fechaHasta) <=0){//Si la fecha del ingreso por el usuario es igual o mayor a una fecha que se encuentre en la lista de ingreso y la fecha hasta la que fue ingresada es menor o igual a una que se encuentre en la lista,
             //Ingresar funcion de mostrar la lista de ingreso.
         }
-        nodoPaciente * paciente = buscarPacienteDNI(arbolPaciente,seg->ingreso.dni);   // Hacemos esto para mostrar tambien los pacientes;
-        if(paciente != NULL){
+
+    nodoPaciente * paciente = buscarPacienteDNI(arbolPaciente,seg->ingreso.dni);   // Hacemos esto para mostrar tambien los pacientes;
+    if(paciente != NULL){
         //Ingresar funcion mostrar Paciente;
-        }
-        seg = seg->sig;
+    }
+    seg = seg->sig;
     }
 }
+
 ///Funcion para para que el usuario pueda seleccionar por que forma filtrar la busqueda y si se encuentra lo que busco dentro de la lista, que retorne ese nodo.
 void mostrarIngreso(stIngresos dato){
     if(dato.eliminado==0){
@@ -118,7 +125,7 @@ nodoIngresos * filtrarPorNroIngreso(nodoPaciente* arbol){ ///anteriormente pedir
             seg=seg->sig;
         }
     }
-    return aux;  ///retorna NULL si no lo encontro, o el puntero a todos los datos del ingreso
+     return aux;  ///retorna NULL si no lo encontro, o el puntero a todos los datos del ingreso
 }
 nodoIngresos* filtrarPorFechaIngreso(nodoPaciente* arbol){ ///anteriormente tenemos que haber buscado el paciente del que quermos el ingreso
     nodoIngresos* aux=NULL;
@@ -174,7 +181,9 @@ nodoIngresos * filtrarIngreso(nodoPaciente* arbol){ /// anteriormente tenemos qu
     } else{
         printf("Paciente no existente.\n");
     }
+
     return aux;
+
 }
 stIngresos cargarIngresos(){
     stIngresos aux;
@@ -188,9 +197,9 @@ stIngresos cargarIngresos(){
     struct tm * tm_info;
     time(&t);
     tm_info = localtime(&t);
-    static int contadorIngresos = 0;  // Al declararlo de tipo static se mantiente su valor incluso despues de la que la funcion se haya terminado de ejecutarse.
-    aux.nroIngreso = contadorIngresos++;
+    aux.nroIngreso = contarIngresosenArchivo("ingresos.bin")+1;
     strftime(aux.fechaIngreso,sizeof(aux.fechaIngreso),"%d/%m/%Y", tm_info);
+
     do{
         printf("Ingrese la fecha del retiro(formato dd/mm/yy): \n");
         fflush(stdin);
@@ -210,6 +219,7 @@ stIngresos cargarIngresos(){
             printf("Error.Ingrese DNI valido. \n");
         }
     }while(dniValido !=0);
+
     do{
         printf("Ingrese los 6 numeros de la matricula del Profesional: \n");
         fflush(stdin);
@@ -229,26 +239,33 @@ int validarFecha(char *fechaRetiro){
     int dia = (fechaRetiro[0]-'0')* 10 + fechaRetiro[1]-'0'; /// Paso el los dos primeras posiciones del string a un tipo int (Le resto el caracter - '0' que en la tabla ascii en el numero a 48 para convertirlo en tipo int
     int mes = (fechaRetiro[3]-'0') *10 +fechaRetiro[4]- '0'; /// Por lo tanto si en la posicion del string seleccionado es '1' le restas '0' y se busca su numero en la tabla ascii (49) - (48) y da 1 y se convierte en tipo int
     int anio = (fechaRetiro[6]-'0') * 10 + fechaRetiro[7]-'0';
+
     if(cantNum ==8){
         for(int i = 0;i<cantNum;i++){
             if(!isdigit(fechaRetiro[i])&& fechaRetiro[i] != '/'){   /// Para que se permita el uso de la barra entre el medio de dia, mes y año
                 flag =1;
             }
         }
+
         if(flag == 0){
             if(dia < 1 || dia>31 || mes<01 || mes>12 || anio<23 ||anio>33){
                 flag = 1;
+
             }
           }
+
         if(anio ==23){
             if(mes<11 || mes >12){
                 flag = 1;
             }
         }
+
     }else{
         flag = 1;
     }
+
     return flag;
+
 }
 int validarMatricula(char * matricula){
     int cantNum = strlen(matricula);
@@ -278,7 +295,9 @@ nodoPaciente * alta_de_ingreso(nodoPaciente * arbolPaciente){
             printf("Error.Ingrese DNI valido. \n");
         }
     }while(dniValido != 0);
+
     nodoPaciente * paciente = buscarPacienteDNI(arbolPaciente,dni);
+
     if(paciente != NULL){
         if(paciente->paciente.eliminado == 0){
             stIngresos nuevoIng = cargarIngresos();
@@ -292,6 +311,7 @@ nodoPaciente * alta_de_ingreso(nodoPaciente * arbolPaciente){
     }else{
         printf("Error.No se encontro el DNI %d del paciente \n" ,dni);
     }
+
     return arbolPaciente;
 }
 nodoPaciente* cargarArbolDesdeArchivo(char archivo[],nodoPaciente* arbol){
@@ -330,3 +350,34 @@ void agregarNuevoIngresoArchivo(char archivo[],stIngresos nuevo){
     }
     fclose(archi);
 }
+void modificarArchivoIngresos(char archivo[],stIngresos datonuevo){ ///por parametro ya debemos pasar el ingreso modificado
+    FILE*archi=fopen(archivo,"r+b");
+    int enc=0;
+    stIngresos aux;
+    if(archi){
+        while((fread(&aux,sizeof(stIngresos),1,archi)>0 && enc ==0)){
+                if(datonuevo.nroIngreso==aux.nroIngreso){
+                fseek(archi,(-1)*sizeof(stIngresos),SEEK_CUR);
+                aux=datonuevo;
+                fwrite(&aux,sizeof(stIngresos),1,archi);
+              }
+        }
+    }else{
+        printf("Se produjo un error con el arrchivo modificar ingresos.\n");
+    }
+    fclose(archi);
+}
+int contarIngresosenArchivo( char archivo[]){
+    FILE * archi = fopen(archivo,"rb");
+    stIngresos aux;
+    int cant = 0;
+    if(archi){
+        fseek(archi,0,SEEK_END);
+        int tam=ftell(archi);
+        cant=tam/sizeof(stIngresos);
+    }
+    return cant;
+}
+
+
+

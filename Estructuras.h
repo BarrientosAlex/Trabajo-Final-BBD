@@ -58,6 +58,7 @@ typedef struct nodoPaciente{
 practicas cargarPracticas();
 //void  filtrarPorPrefijo (nodoPracticas * lista);
 ///FUNCIONES PACIENTES
+void modificarArchivoPaciente(char archivo[],stPacientes datonuevo);
 void arbolPacienteToArchivo(char archivo[],stPacientes dato);
 nodoPaciente * crearNodoPaciente(stPacientes pac);
 stPacientes cargarPaciente();
@@ -69,6 +70,8 @@ nodoPaciente * baja_de_paciente(nodoPaciente * arbolPaciente);
 void inOrder(nodoPaciente *arbolPaciente);
 nodoPaciente* cargarArbolDesdeArchivo(char archivo[],nodoPaciente* arbol);
 ///FUNCIOES INGRESOS
+int contarIngresosenArchivo( char archivo[]);
+void modificarArchivoIngresos(char archivo[],stIngresos datonuevo); ///por parametro ya debemos pasar el ingreso modificado
 nodoIngresos* buscarPorNroIngreso(nodoPaciente* arbol, int nroIngreso); /// busca nro de ingreso de determinado paciente No filtrado
 nodoIngresos* buscarListaPractica(nodoPaciente * arbol,int nroIngreso);
 nodoPaciente* cargarIngresosDesdeArchivo(char archivo[],nodoPaciente* arbol);
