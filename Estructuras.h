@@ -93,5 +93,6 @@ int validarEdad (char * edad);
 int validarDNI(char * dni);
 int validarTelefono(char * telefono);
 int validarDireccion(char * direccion);
+int validarNumero(char * nroPractica);
 void mostrarPaciente(stPacientes dato);
 #endif // ARBOLPACIENTE_H_INCLUDED
