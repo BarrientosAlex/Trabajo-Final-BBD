@@ -21,7 +21,7 @@ void mostrarArchivoUser(char archivo[]);
 int validarNombreUser(char archivo[], char usuario[]);
 int tipoDeEmpleado(char perfil[]);
 int validarUsuarioCompleto(char archivo[],char contrasena[], char usuario[]);
-int validarDNI(char archivo[], int dni);
+int validarDNIUser(char archivo[], int dni);
 int cargarNuevoUsuario(char archivo[]);
 void cargarUsuarioArchivo(char archivo[],stUsuario aux);
 stUserAux cargarUser();

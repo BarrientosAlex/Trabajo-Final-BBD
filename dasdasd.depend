@@ -1,0 +1,35 @@
+# depslib dependency file v1.0
+1700345346 source:d:\datos pc\escritorio\dasdasd\main.c
+	<stdio.h>
+	<stdlib.h>
+	"menu.h"
+
+1700345346 source:d:\datos pc\escritorio\dasdasd\menu.c
+	<stdio.h>
+	<stdlib.h>
+	"menu.h"
+	"auxMenu.h"
+	"user.h"
+
+1700345346 d:\datos pc\escritorio\dasdasd\menu.h
+
+1700345346 d:\datos pc\escritorio\dasdasd\auxmenu.h
+
+1700440047 d:\datos pc\escritorio\dasdasd\user.h
+
+1700345346 source:d:\datos pc\escritorio\dasdasd\auxmenu.c
+	<stdio.h>
+	<stdlib.h>
+	<time.h>
+	<string.h>
+	<ctype.h>
+	"auxMenu.h"
+
+1700440047 source:d:\datos pc\escritorio\dasdasd\user.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<conio.h>
+	<ctype.h>
+	"user.h"
+

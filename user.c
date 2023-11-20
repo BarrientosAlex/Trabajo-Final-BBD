@@ -67,7 +67,7 @@ int validarUsuarioCompleto(char archivo[],char contrasena[], char usuario[]){ //
     fclose(archi);
     return tipoUser;
 }
-int validarDNI(char archivo[], int dni){
+int validarDNIUser(char archivo[], int dni){
     int flag=0;
     FILE*archi=fopen(archivo,"rb");
     stUsuario aux;
@@ -125,7 +125,7 @@ int cargarNuevoUsuario(char archivo[]){
                 ff printf("Ingrese un dni valido, maximo 8 numeros.\n");
                 }
             }while(aux.dni<1000000 || aux.dni>99999999);
-            vald=validarDNI(archivo,aux.dni);
+            vald=validarDNIUser(archivo,aux.dni);
             if(vald==1){
             printf("Numero de DNI ya registrado.\n");
         }
