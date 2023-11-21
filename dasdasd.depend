@@ -33,7 +33,7 @@
 	<ctype.h>
 	"user.h"
 
-1700513447 source:d:\datos pc\documentos\github\trabajo-final-bbd\auxmenu.c
+1700525561 source:d:\datos pc\documentos\github\trabajo-final-bbd\auxmenu.c
 	<stdio.h>
 	<stdlib.h>
 	<time.h>
@@ -41,22 +41,23 @@
 	<ctype.h>
 	"auxMenu.h"
 
-1700513447 d:\datos pc\documentos\github\trabajo-final-bbd\auxmenu.h
+1700525473 d:\datos pc\documentos\github\trabajo-final-bbd\auxmenu.h
 
 1700345346 source:d:\datos pc\documentos\github\trabajo-final-bbd\main.c
 	<stdio.h>
 	<stdlib.h>
 	"menu.h"
 
-1700345346 d:\datos pc\documentos\github\trabajo-final-bbd\menu.h
+1700522071 d:\datos pc\documentos\github\trabajo-final-bbd\menu.h
 
-1700513559 source:d:\datos pc\documentos\github\trabajo-final-bbd\menu.c
+1700525473 source:d:\datos pc\documentos\github\trabajo-final-bbd\menu.c
 	<stdio.h>
 	<stdlib.h>
 	"menu.h"
 	"auxMenu.h"
 	"user.h"
 	"Estructuras.h"
+	"windows.h"
 
 1700493866 d:\datos pc\documentos\github\trabajo-final-bbd\user.h
 
@@ -68,7 +69,7 @@
 	<ctype.h>
 	"user.h"
 
-1700513447 source:d:\datos pc\documentos\github\trabajo-final-bbd\arbolpaciente.c
+1700518307 source:d:\datos pc\documentos\github\trabajo-final-bbd\arbolpaciente.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
@@ -76,16 +77,16 @@
 	<ctype.h>
 	"Estructuras.h"
 
-1700510065 d:\datos pc\documentos\github\trabajo-final-bbd\estructuras.h
+1700522045 d:\datos pc\documentos\github\trabajo-final-bbd\estructuras.h
 
-1700513447 source:d:\datos pc\documentos\github\trabajo-final-bbd\listaingreso.c
+1700522045 source:d:\datos pc\documentos\github\trabajo-final-bbd\listaingreso.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
 	<time.h>
 	"Estructuras.h"
 
-1700510049 source:d:\datos pc\documentos\github\trabajo-final-bbd\listapracxing.c
+1700521638 source:d:\datos pc\documentos\github\trabajo-final-bbd\listapracxing.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>

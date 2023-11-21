@@ -16,6 +16,6 @@ void mostrarOp9();
 void mostrarOp10();
 void mostrarOp11();
 void mostrarOpCrear();
-char mostrarMenu();
-char validarOp();
+int mostrarMenu();
+int validarOp();
 

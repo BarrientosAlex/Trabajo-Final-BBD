@@ -25,10 +25,10 @@ stPracXingreso cargarPXI(int numIngreso){///Por parametro pasa lista.Ingresos.Nr
     stPracXingreso aux;
     aux.nroIngreso=numIngreso;
     aux.nroPractica = contarPxienArchivo("pxi.bin",numIngreso)+1;
-    printf("Ingrese nombre de la practica:\n");
+    printf("\nIngrese nombre de la practica: ");
     fflush(stdin);
     gets(aux.nombrePractica);
-    printf("Ingrese resultado: \n" );
+    printf("\nIngrese resultado: " );
     fflush(stdin);
     gets(aux.resultado);
     aux.eliminado=0;
@@ -44,8 +44,8 @@ nodoPracticasXingreso * buscarNroPractica(nodoPracticasXingreso * lista, int nro
     }
     return NULL;
 }
-nodoPracticasXingreso * Alta_de_pxi(nodoPracticasXingreso * lista){///Ya tenes el nro.Ingreso
-    stPracXingreso pxi = cargarPXI(lista->pXi.nroIngreso);
+nodoPracticasXingreso * Alta_de_pxi(nodoPracticasXingreso * lista,int num){///Ya tenes el nro.Ingreso
+    stPracXingreso pxi = cargarPXI(num);
     nodoPracticasXingreso * buscar = buscarNroPractica(lista,pxi.nroIngreso);
     if(buscar == NULL){
         nodoPracticasXingreso * nuevoPxi = crearNodoPxI(pxi);

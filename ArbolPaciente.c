@@ -5,11 +5,7 @@
 #include <ctype.h>
 #include "Estructuras.h"
 
-
-
-// Funciones nodoPracticas
-
-
+/// Funciones nodoPracticas
 practicas cargarPracticas(){
     practicas aux;
     printf("Ingrese el Nro de practicas: \n");
@@ -21,18 +17,7 @@ practicas cargarPracticas(){
    aux.eliminado = 0;
     return aux;
 }
-
-
-
-
-
-
-
-
-
-
 ///Funciones Paciente
-
 nodoPaciente * crearNodoPaciente(stPacientes pac){
     nodoPaciente * aux = (nodoPaciente*)malloc(sizeof(nodoPaciente));
     aux->paciente= pac;
@@ -41,7 +26,6 @@ nodoPaciente * crearNodoPaciente(stPacientes pac){
     aux->ingresos = NULL;
     return aux;
 }
-
 stPacientes cargarPaciente(){
     stPacientes aux;
     int nombreValido = 0;
@@ -53,8 +37,6 @@ stPacientes cargarPaciente(){
     char edadString[10];
     char dniString[10];
  ///convierte un tipo de dato int a una cadena de caracteres
-
-
     do{
         printf("Ingrese nombre y apellido del paciente(poner un espacio para separarlos): \n");
         fflush(stdin);
@@ -95,23 +77,21 @@ stPacientes cargarPaciente(){
         }
     }while(direccionValida != 0);
     do{
-    printf("Ingrese el telefono del paciente(sin prefijo):\n");
-    fflush(stdin);
-    gets(aux.telefono);
-    telefonoValido = validarTelefono(aux.telefono);
-    if(telefonoValido == 1 ){
-        printf("Error.Telefono invalido");
-    }
+        printf("Ingrese el telefono del paciente(sin prefijo):\n");
+        fflush(stdin);
+        gets(aux.telefono);
+        telefonoValido = validarTelefono(aux.telefono);
+        if(telefonoValido == 1 ){
+            printf("Error.Telefono invalido");
+        }
     }while(telefonoValido != 0);
     aux.eliminado = 0;
     return aux;
 }
-
-
 int validarNombre(char * nombre){
     int cantNum = strlen(nombre);
     int flag = 0;
-     int espacioEncontrado;
+    int espacioEncontrado;
     if(cantNum>8 &&cantNum<40){
         for(int i = 0; i<cantNum;i++){
             if(isdigit(nombre[i])){ ///No funciona el isspace
@@ -122,17 +102,13 @@ int validarNombre(char * nombre){
     }else{
         flag = 1;
     }
-
     espacioEncontrado = strchr(nombre,' '); ///esta funcion busca el primer caracter de la cadena que coincide con el caracter especificado, es decir, con el espacio.
-
     if(espacioEncontrado == NULL){  ///Si es igual a NULL eso significa que no hay un espacio entre el nombre y el apellido, por tanto va a dar error
         flag = 1;
     }
 
     return flag;
 }
-
-
 int validarEdad (char * edad){
     int cantNum = strlen(edad);
     int flag = 0;
@@ -160,7 +136,6 @@ int validarEdad (char * edad){
 
     return flag;
 }
-
 int validarDNI(char * dni){
     int cantNum = strlen(dni);
     int flag = 0;
@@ -219,13 +194,10 @@ int validarDireccion(char * direccion){
 
     return flag;
 }
-
-
 nodoPaciente * insertarPaciente(nodoPaciente * a, stPacientes pac){
     if(a == NULL){
-        a = crearNodoPaciente(pac);
+        return crearNodoPaciente(pac);
     }
-
     if(a){
         if(pac.dni < a->paciente.dni ){
             a->izq = insertarPaciente(a->izq,pac);
@@ -235,40 +207,32 @@ nodoPaciente * insertarPaciente(nodoPaciente * a, stPacientes pac){
     }  //Si la comparacio nes igual a 0 significa que los nombres son iguales por lo tanto no hacemos nada para evitar duplicados.
     return a;
 }
-
 nodoPaciente * buscarPacienteDNI (nodoPaciente * a,int dni){  ///busca DNI en el arbol
    if(a == NULL){
-    return NULL;
+        return NULL;
    }
-
    if(a->paciente.dni == dni){
     return a;
    }
-
-  if(dni < a->paciente.dni){
-    return buscarPacienteDNI(a->izq,dni);
-  }else{
-    return buscarPacienteDNI(a->der,dni);
-  }
+    if(dni < a->paciente.dni){
+        return buscarPacienteDNI(a->izq,dni);
+    }else{
+        return buscarPacienteDNI(a->der,dni);
+    }
 }
-
-
 nodoPaciente * alta_de_paciente(nodoPaciente * arbolPaciente){
     stPacientes nuevoPaciente = cargarPaciente();
     nodoPaciente * buscar = buscarPacienteDNI(arbolPaciente,nuevoPaciente.dni);
-
     if(buscar == NULL){
+        printf("Hola");
         arbolPaciente = insertarPaciente(arbolPaciente, nuevoPaciente);
         arbolPacienteToArchivo("pacientes.bin",nuevoPaciente);
         printf("Paciente dado de alta correctamente.\n");
     } else {
         printf("Error. El paciente con DNI %d ya existe.\n", nuevoPaciente.dni);
     }
-
     return arbolPaciente;
 }
-
-
 nodoPaciente * modificacion_de_paciente(nodoPaciente * arbolPaciente){
     int dni;
     int nombreValido = 0;
@@ -278,7 +242,6 @@ nodoPaciente * modificacion_de_paciente(nodoPaciente * arbolPaciente){
     int dniValido = 0;
     int direccionValida = 0;
     char dniString[10];
-
     do{
         printf("Ingrese el dni del paciente: \n");
         fflush(stdin);
@@ -289,7 +252,6 @@ nodoPaciente * modificacion_de_paciente(nodoPaciente * arbolPaciente){
             printf("Error.Ingrese DNI valido. \n");
         }
     }while(dniValido !=0);
-
     nodoPaciente * paciente = buscarPacienteDNI(arbolPaciente,dni);
     if(paciente != NULL){   //Si el nodo es != NULL eso significa que encontro el dni del paciente dentro del arbol
          do{
@@ -334,9 +296,8 @@ nodoPaciente * modificacion_de_paciente(nodoPaciente * arbolPaciente){
     }else{
         printf("Error.No se encontreo el paciente con DNI %d. \n", dni);
     }
-    return paciente;
+    return arbolPaciente;
 }
-
 nodoPaciente * baja_de_paciente(nodoPaciente * arbolPaciente){
     int dni,dniValido=0;
     char dniString[10];
@@ -363,8 +324,6 @@ nodoPaciente * baja_de_paciente(nodoPaciente * arbolPaciente){
     }
     return paciente;
 }
-
-
 ///Funciones copiar al archivo
 void arbolPacienteToArchivo(char archivo[],stPacientes dato){
     FILE* archi=fopen(archivo,"ab");
@@ -372,21 +331,20 @@ void arbolPacienteToArchivo(char archivo[],stPacientes dato){
     if(archi){
         aux=dato;
         fwrite(&aux,sizeof(stPacientes),1,archi);
+        fclose(archi);
     }else{
         printf("\nError al abrir el archivo de pacientes\n");
     }
 }
-
-
 void inOrder(nodoPaciente *arbolPaciente){
     if(arbolPaciente){
         inOrder(arbolPaciente->izq);
-        printf("------- %s --------", arbolPaciente->paciente.apelyNom);
+        printf("\n------- %s --------\n", arbolPaciente->paciente.apelyNom);
         printf("DNI:%d \n", arbolPaciente->paciente.dni);
         printf("Direccion: %s \n", arbolPaciente->paciente.direccion);
         printf("Edad: %d \n", arbolPaciente->paciente.edad);
-        printf("Telefono: %d", arbolPaciente->paciente.telefono);
-        printf("Eliminado: %d", arbolPaciente->paciente.eliminado);
+        printf("Telefono: %d\n", arbolPaciente->paciente.telefono);
+        printf("Eliminado: %d\n", arbolPaciente->paciente.eliminado);
         inOrder(arbolPaciente->der);
     }
 }
@@ -422,10 +380,9 @@ void modificarArchivoPaciente(char archivo[],stPacientes datonuevo){
                 fwrite(&aux,sizeof(stPacientes),1,archi);
               }
         }
+        fclose(archi);
     }else{
         printf("Se produjo un error con el arrchivo modificar ingresos.\n");
     }
-    fclose(archi);
-
 }
 

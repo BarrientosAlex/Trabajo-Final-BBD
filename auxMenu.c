@@ -115,20 +115,45 @@ void mostrarOp11(){///Muestra opcion final
     mostrarHorizontalAUX();
     printf("\n");
 }
-char validarOp(){
+int validarOp(){
     char op[30];
     int num;
+    do {
+        fgets(op, 30, stdin);
+        op[strcspn(op, "\n")] = '\0'; // elimina el salto de línea final
+        num = atoi(op);
+
+        if (strlen(op) > 3 || !isdigit(op[0]) || (strlen(op) == 3 && !isdigit(op[1])) || (num < 0 || num > 10)) {
+            printf("Opcion no valida. Ingrese un numero entre 0 y 10: ");
+        }
+    } while (strlen(op) > 3 || !isdigit(op[0]) || (strlen(op) == 3 && !isdigit(op[1])) || (num < 0 || num > 10));
+
+    return num; // Devuelvo directamente el valor numérico ingresado
+
+    ///char op[30];
+    /*int num;
     do{
-        fgets(op,30,stdin);
+        printf("Ingrese un numero del 0 al 10: ");
+        if(scanf("%i",&num)!=1){
+            printf("Error: Ingresa un num valido del 0 al 10.\n");
+            fflush(stdin);
+        }else if(num<0||num>10){
+            printf("Error: El numero debe estar entre 0 y 10.\n");
+        }else{
+            break;
+        }
+        /*fflush(stdin);
+        gets(op);
         op[strcspn(op,"\n")]='\0';///elimina el salto de lina final
         num=atoi(op);///paso el arreglo a un int
-        if(strlen(op)>2||!isdigit(op[0])||(strlen(op)==2&& !isdigit(op[1]))||(num<0||num>10)){///si son mas de dos char o si la pos 0 no es digito
+        if(strlen(op)>2||!isdigit(op[0])||(strlen(op)>1 && !isdigit(op[1]))||(num<0||num>10)){///si son mas de dos char o si la pos 0 no es digito
             printf("Opcion no valida. Ingrese un numero entre 0 y 10: ");                     ///o si son dos char que la segunda sea un digito y por ultimo que sea entre 0 y 10
-        }
-    }while(strlen(op)>2||!isdigit(op[0])||(strlen(op)==2&& !isdigit(op[1]))||(num<0||num>10));///Verifico todas las condiciones juntas
-    return op[0];
+        }*/
+    /*}while();///Verifico todas las condiciones juntas
+    //strlen(op)>2||!isdigit(op[0])||(strlen(op)>1 && !isdigit(op[1]))||(num<0||num>10)
+    return strdup(op);*/
 }
-char mostrarMenu(){///Invoca todas las funciones de mostrar y retorna la opcion
+int mostrarMenu(){///Invoca todas las funciones de mostrar y retorna la opcion
     mostrarInicio();
     mostrarfecha();
     mostrarOp1();
@@ -142,7 +167,8 @@ char mostrarMenu(){///Invoca todas las funciones de mostrar y retorna la opcion
     mostrarOp9();
     mostrarOp10();
     mostrarOp11();
-    char op=validarOp();
+    int op=validarOp();
+    printf("\nOpcion: %i",op);
     return op;
 }
 

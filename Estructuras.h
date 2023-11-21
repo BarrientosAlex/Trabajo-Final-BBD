@@ -71,6 +71,8 @@ nodoPaciente * baja_de_paciente(nodoPaciente * arbolPaciente);
 void inOrder(nodoPaciente *arbolPaciente);
 nodoPaciente* cargarArbolDesdeArchivo(char archivo[],nodoPaciente* arbol);
 ///FUNCIOES INGRESOS
+int validarDNIyEncontrar(nodoPaciente* arbol,nodoPaciente** encontrado);
+nodoPaciente * alta_de_ingreso(nodoPaciente * arbolPaciente);
 int contarIngresosenArchivo( char archivo[]);
 void modificarArchivoIngresos(char archivo[],stIngresos datonuevo); ///por parametro ya debemos pasar el ingreso modificado
 nodoIngresos* buscarPorNroIngreso(nodoPaciente* arbol, int nroIngreso); /// busca nro de ingreso de determinado paciente No filtrado
@@ -94,7 +96,7 @@ nodoPracticasXingreso * crearNodoPxI(stPracXingreso pxi);
 nodoPracticasXingreso * agregarPpioPXI(nodoPracticasXingreso * lista, nodoPracticasXingreso * nuevoNodo);
 stPracXingreso cargarPXI(int numIngreso);
 nodoPracticasXingreso * buscarNroPractica(nodoPracticasXingreso * lista, int nroPractica);
-nodoPracticasXingreso * Alta_de_pxi(nodoPracticasXingreso * lista);
+nodoPracticasXingreso * Alta_de_pxi(nodoPracticasXingreso * lista,int num);
 nodoPracticasXingreso * modificacion_de_pxi(nodoPracticasXingreso * lista);
 nodoPracticasXingreso * Baja_de_pxi(nodoPracticasXingreso * lista);
 ///VALIDACIONES

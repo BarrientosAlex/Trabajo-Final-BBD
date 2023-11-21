@@ -187,11 +187,9 @@ nodoIngresos * filtrarIngreso(nodoPaciente* arbol){ /// anteriormente tenemos qu
 }
 stIngresos cargarIngresos(){
     stIngresos aux;
-    int dniString[10];
     char numString[10];
     char matriString[10];
     int fechaValida = 0;
-    int dniValido = 0;
     int matriculaValida = 0;
     time_t t;
     struct tm * tm_info;
@@ -199,7 +197,6 @@ stIngresos cargarIngresos(){
     tm_info = localtime(&t);
     aux.nroIngreso = contarIngresosenArchivo("ingresos.bin")+1;
     strftime(aux.fechaIngreso,sizeof(aux.fechaIngreso),"%d/%m/%Y", tm_info);
-
     do{
         printf("Ingrese la fecha del retiro(formato dd/mm/yy): \n");
         fflush(stdin);
@@ -209,17 +206,6 @@ stIngresos cargarIngresos(){
             printf("Error.Ingrese una fecha de retiro valido. \n");
         }
     }while(fechaValida != 0);
-    do{
-        printf("Ingrese dni del paciente: \n");
-        fflush(stdin);
-        scanf("%d", &aux.dni);
-        sprintf(dniString,"%d",aux.dni);
-        dniValido = validarDNI(dniString);
-        if(dniValido == 1){
-            printf("Error.Ingrese DNI valido. \n");
-        }
-    }while(dniValido !=0);
-
     do{
         printf("Ingrese los 6 numeros de la matricula del Profesional: \n");
         fflush(stdin);
@@ -301,8 +287,13 @@ nodoPaciente * alta_de_ingreso(nodoPaciente * arbolPaciente){
     if(paciente != NULL){
         if(paciente->paciente.eliminado == 0){
             stIngresos nuevoIng = cargarIngresos();
+            printf("\n1");
+            nuevoIng.dni=dni;
             nodoIngresos * nuevoNodo = crearNodoIng(nuevoIng);
-            nuevoNodo->practicas = Alta_de_pxi(nuevoNodo->practicas);
+            paciente->ingresos=agregarOrdenFecha(paciente->ingresos,nuevoNodo);
+            printf("\n2");
+            paciente->ingresos->practicas = Alta_de_pxi(paciente->ingresos->practicas,paciente->ingresos->ingreso.nroIngreso);
+            printf("\n3");
             paciente->ingresos = agregarOrdenFecha(paciente->ingresos,nuevoNodo);
             agregarNuevoIngresoArchivo("ingresos.bin",nuevoIng);
             printf("Ingreso dado de alta correctamente.\n");
@@ -338,7 +329,6 @@ nodoPaciente* cargarArbolDesdeArchivo(char archivo[],nodoPaciente* arbol){
     fclose(archi);
     return arbol;
 }
-
 void agregarNuevoIngresoArchivo(char archivo[],stIngresos nuevo){
     FILE* archi=fopen(archivo,"ab");
     stIngresos aux;
@@ -375,9 +365,26 @@ int contarIngresosenArchivo( char archivo[]){
         fseek(archi,0,SEEK_END);
         int tam=ftell(archi);
         cant=tam/sizeof(stIngresos);
+        fclose(archi);
     }
     return cant;
 }
-
+int validarDNIyEncontrar(nodoPaciente* arbol,nodoPaciente** encontrado){
+    printf("H");
+    int dni,dniValido=0;
+    char dniString[10];
+    do{
+        printf("Ingrese el dni del paciente: \n");
+        fflush(stdin);
+        scanf("%d", &dni);
+        sprintf(dniString,"%d",dni);
+        dniValido = validarDNI(dniString);
+        if(dniValido == 1){
+            printf("Error.Ingrese DNI valido. \n");
+        }
+    }while(dniValido !=0);
+    *encontrado=buscarPacienteDNI(arbol,dni);
+    return dni;
+}
 
 
