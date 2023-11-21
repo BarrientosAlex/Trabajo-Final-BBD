@@ -90,7 +90,13 @@ nodoPaciente* cargarArbolDesdeArchivo(char archivo[],nodoPaciente* arbol);
 void filtrarPorDNI(nodoPaciente * arbol);
 nodoIngresos * filtrarIngreso(nodoPaciente* arbol);
 stIngresos cargarIngresos();
+void agregarNuevoIngresoArchivo(char archivo[],stIngresos nuevo);
+void modificarArchivoIngresos(char archivo[],stIngresos datonuevo);
+int contarIngresosenArchivo( char archivo[]);
+int validarDNIyEncontrar(nodoPaciente* arbol,nodoPaciente** encontrado);
 ///FUNCIONES PARA PRACTICASXINGRESO
+void mostrarPxiAUX(stPracXingreso dato);
+void mostrarPxi(nodoPracticasXingreso* lista);
 nodoPracticasXingreso* buscarPractica(nodoPracticasXingreso* lista,int numPractica);
 nodoPaciente* pasarPracticasAlArbolArchivo(char archivo[],nodoPaciente* arbol);
 nodoPracticasXingreso * crearNodoPxI(stPracXingreso pxi);
@@ -100,6 +106,11 @@ nodoPracticasXingreso * buscarNroPractica(nodoPracticasXingreso * lista, int nro
 nodoPracticasXingreso * Alta_de_pxi(nodoPracticasXingreso * lista,int num);
 nodoPracticasXingreso * modificacion_de_pxi(nodoPracticasXingreso * lista);
 nodoPracticasXingreso * Baja_de_pxi(nodoPracticasXingreso * lista);
+void agregarPxialArchivo(char archivo[], stPracXingreso dato);
+void mostrarArchivoPXI(char archivo[]);
+int contarPxienArchivo( char archivo[]);
+void modificarArchivoPXI(char archivo[], stPracXingreso dato);
+
 ///VALIDACIONES
 int validarNombre(char * nombre);
 int validarEdad (char * edad);
