@@ -354,13 +354,16 @@ nodoPaciente* cargarIngresosDesdeArchivo(char archivo[],nodoPaciente* arbol){
     if(archi==NULL){
         archi=fopen(archivo,"ab");
     }else{
-        fseek(archi, 0, SEEK_SET);
+        if(fread(&aux,sizeof(stIngresos),1,archi)>0){
+           fseek(archi, 0, SEEK_SET);
         while (fread(&aux, sizeof(stIngresos), 1, archi) > 0) {
             rama=buscarPacienteDNI(arbol,aux.dni);
             if(rama!=NULL){
                 rama->ingresos=agregarOrdenFecha(rama->ingresos,crearNodoIng(aux));
             }
         }
+        }
+
     }
     fclose(archi);
     return arbol;

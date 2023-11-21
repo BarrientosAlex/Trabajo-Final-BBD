@@ -84,10 +84,11 @@ void menu(){
             nodoPaciente* encontrado=NULL;
             int dni=validarDNIyEncontrar(arbolMother,&encontrado);
             nodoIngresos* aux=NULL;
+            filtrarPorDNI(encontrado);
             aux=filtrarIngreso(arbolMother);
             if(aux){
-                aux->practicas=Alta_de_pxi(aux,aux->ingreso.nroIngreso);
-                agregarPxialArchivo("pxi.bin",aux->practicas->pXi);
+                aux->practicas=Alta_de_pxi(aux->practicas,aux->practicas->pXi.nroIngreso);
+               /// agregarPxialArchivo("pxi.bin",aux->practicas->pXi);
             }
             break;
         }

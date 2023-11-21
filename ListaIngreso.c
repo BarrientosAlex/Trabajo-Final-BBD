@@ -164,16 +164,16 @@ nodoIngresos * filtrarIngreso(nodoPaciente* arbol){ /// anteriormente tenemos qu
     nodoIngresos* aux=NULL;
     if(arbol){
         int opcion; ///validar para que no pongan cualquier cosa ATTENTAMENTE LUCHOIDE
-        printf("\nPresione 1 para filtrar por nro de Ingreso. \nPresione 2 para filtrar por fecha de Ingreso. \n");
+        printf("\nPresione 1 para filtrar por nro de Ingreso. \n\n");
         fflush(stdin);
         scanf("%d", &opcion);
             switch(opcion){
                 case 1:
                     aux = filtrarPorNroIngreso(arbol);
                     break;
-                case 2:
+                /*case 2:
                     aux= filtrarPorFechaIngreso(arbol);
-                    break;
+                    break;*/
                 default:
                     printf("Error. Ingrese una opcion valida.");
                     break;
@@ -289,11 +289,14 @@ nodoPaciente * alta_de_ingreso(nodoPaciente * arbolPaciente){
     if(paciente != NULL){
         if(paciente->paciente.eliminado == 0){
             stIngresos nuevoIng = cargarIngresos();
-            nuevoIng.dni=dni;
-            nodoIngresos * nuevoNodo = crearNodoIng(nuevoIng);
-            paciente->ingresos=agregarOrdenFecha(paciente->ingresos,nuevoNodo);
-            paciente->ingresos->practicas = Alta_de_pxi(paciente->ingresos->practicas,paciente->ingresos->ingreso.nroIngreso);
-            paciente->ingresos = agregarOrdenFecha(paciente->ingresos,nuevoNodo);
+            ///Hasta aca cargamos un ingreso con sus datos correspondientes
+            nuevoIng.dni=dni; ///le ponemos el mismo dni que la persona para poder enlazarlo despues
+            nodoIngresos * nuevoNodo = crearNodoIng(nuevoIng); ///Creamos el nodo de tipo ingreso
+            printf("11111111\n");
+            paciente->ingresos=agregarOrdenFecha(paciente->ingresos,nuevoNodo); ///lo agregamos en orden en la lista de ingresos
+             printf("11111111\n");
+             ///entramos a la lista de practicas
+            paciente->ingresos->practicas= Alta_de_pxi(paciente->ingresos->practicas,paciente->ingresos->ingreso.nroIngreso);
             agregarNuevoIngresoArchivo("ingresos.bin",nuevoIng);
             printf("Ingreso dado de alta correctamente.\n");
         }
@@ -329,6 +332,7 @@ nodoPaciente* cargarArbolDesdeArchivo(char archivo[],nodoPaciente* arbol){
 void agregarNuevoIngresoArchivo(char archivo[],stIngresos nuevo){
     FILE* archi=fopen(archivo,"ab");
     if(archi){
+        fseek(archi,0,SEEK_END);
         fwrite(&nuevo,sizeof(stIngresos),1,archi);
     }else{
         printf("Se produjo un error Nuevo Ingresos.\n");

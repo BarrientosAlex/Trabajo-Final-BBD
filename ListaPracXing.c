@@ -45,15 +45,25 @@ nodoPracticasXingreso * buscarNroPractica(nodoPracticasXingreso * lista, int nro
     return NULL;
 }
 nodoPracticasXingreso * Alta_de_pxi(nodoPracticasXingreso * lista,int num){///Ya tenes el nro.Ingreso
-    stPracXingreso pxi = cargarPXI(num);
-    nodoPracticasXingreso * buscar = buscarNroPractica(lista,pxi.nroIngreso);
-    if(buscar == NULL){
-        nodoPracticasXingreso * nuevoPxi = crearNodoPxI(pxi);
-        lista = agregarPpioPXI(lista,nuevoPxi);
-        agregarPxialArchivo("pxi.bin",pxi);
-    }else{
-        printf("Error. El nro de practica ya existe.");
+    char elec='s';
+
+    while(elec=='s'||elec=='S'){
+        stPracXingreso pxi = cargarPXI(num);
+        nodoPracticasXingreso * buscar = buscarNroPractica(lista,num);
+
+        if(buscar == NULL){
+            nodoPracticasXingreso * nuevoPxi = crearNodoPxI(pxi);
+            lista = agregarPpioPXI(lista,nuevoPxi);
+            agregarPxialArchivo("pxi.bin",pxi);
+            printf("asdikjhgaskjhdgsakdh\n");
+        }else{
+            printf("Error. El nro de practica ya existe.");
+        }
+        printf("Desea cargar mas practicas para el paciente?  Presione 's' para continuar\n");
+        fflush(stdin);
+        scanf("%c",&elec);
     }
+
     return lista;
 }
 nodoPracticasXingreso * modificacion_de_pxi(nodoPracticasXingreso * lista){  //Busco por nro de ingreso para modificar
@@ -147,10 +157,13 @@ nodoPaciente* pasarPracticasAlArbolArchivo(char archivo[],nodoPaciente* arbol){
     if(!archi){
         archi=fopen(archivo,"ab");
     }else{
-        fseek(archi, 0, SEEK_SET);
-        while(fread(&aux,sizeof(stPracXingreso),1,archi)>0){
-            ing=buscarPorNroIngreso(arbol,aux.nroIngreso);
-            ing=agregarPpioPXI(ing,crearNodoPxI(aux));
+        if(fread(&aux,sizeof(stPracXingreso),1,archi)>0){
+            fseek(archi, 0, SEEK_SET);
+            while(fread(&aux,sizeof(stPracXingreso),1,archi)>0){
+
+                ing=buscarPorNroIngreso(arbol,aux.nroIngreso);
+                ing=agregarPpioPXI(ing,crearNodoPxI(aux));
+            }
         }
     }
     fclose(archi);
@@ -158,7 +171,6 @@ nodoPaciente* pasarPracticasAlArbolArchivo(char archivo[],nodoPaciente* arbol){
 }
 void agregarPxialArchivo(char archivo[], stPracXingreso dato){ ///Por parametro pasar lista PXI->dato
     FILE * archi = fopen(archivo,"ab");
-    stPracXingreso aux;
     if(archi){
         //aux = dato;
         fwrite(&dato,sizeof(stPracXingreso),1,archi);

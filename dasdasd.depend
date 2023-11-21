@@ -94,7 +94,7 @@
 	<time.h>
 	"Estructuras.h"
 
-1700445685 source:c:\users\caste\desktop\final utn\trabajo-final-bbd\auxmenu.c
+1700540269 source:c:\users\caste\desktop\final utn\trabajo-final-bbd\auxmenu.c
 	<stdio.h>
 	<stdlib.h>
 	<time.h>
@@ -102,28 +102,30 @@
 	<ctype.h>
 	"auxMenu.h"
 
-1700437678 c:\users\caste\desktop\final utn\trabajo-final-bbd\auxmenu.h
+1700540269 c:\users\caste\desktop\final utn\trabajo-final-bbd\auxmenu.h
 
-1700437810 source:c:\users\caste\desktop\final utn\trabajo-final-bbd\main.c
+1700540269 source:c:\users\caste\desktop\final utn\trabajo-final-bbd\main.c
 	<stdio.h>
 	<stdlib.h>
 	"menu.h"
 
-1700437678 c:\users\caste\desktop\final utn\trabajo-final-bbd\menu.h
+1700540270 c:\users\caste\desktop\final utn\trabajo-final-bbd\menu.h
 
-1700493259 source:c:\users\caste\desktop\final utn\trabajo-final-bbd\menu.c
+1700558523 source:c:\users\caste\desktop\final utn\trabajo-final-bbd\menu.c
 	<stdio.h>
 	<stdlib.h>
 	"menu.h"
 	"auxMenu.h"
 	"user.h"
 	"Estructuras.h"
+	"windows.h"
 
-1700445685 c:\users\caste\desktop\final utn\trabajo-final-bbd\user.h
+1700540270 c:\users\caste\desktop\final utn\trabajo-final-bbd\user.h
 
-1700503776 c:\users\caste\desktop\final utn\trabajo-final-bbd\estructuras.h
+1700540269 c:\users\caste\desktop\final utn\trabajo-final-bbd\estructuras.h
+	<time.h>
 
-1700445685 source:c:\users\caste\desktop\final utn\trabajo-final-bbd\user.c
+1700540270 source:c:\users\caste\desktop\final utn\trabajo-final-bbd\user.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
@@ -131,7 +133,7 @@
 	<ctype.h>
 	"user.h"
 
-1700503794 source:c:\users\caste\desktop\final utn\trabajo-final-bbd\arbolpaciente.c
+1700541563 source:c:\users\caste\desktop\final utn\trabajo-final-bbd\arbolpaciente.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
@@ -139,14 +141,14 @@
 	<ctype.h>
 	"Estructuras.h"
 
-1700493343 source:c:\users\caste\desktop\final utn\trabajo-final-bbd\listaingreso.c
+1700557860 source:c:\users\caste\desktop\final utn\trabajo-final-bbd\listaingreso.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
 	<time.h>
 	"Estructuras.h"
 
-1700503470 source:c:\users\caste\desktop\final utn\trabajo-final-bbd\listapracxing.c
+1700558543 source:c:\users\caste\desktop\final utn\trabajo-final-bbd\listapracxing.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
