@@ -152,3 +152,63 @@
 	<time.h>
 	"Estructuras.h"
 
+1700525914 source:c:\users\luciano\documents\github\trabajo-final-bbd\arbolpaciente.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<time.h>
+	<ctype.h>
+	"Estructuras.h"
+
+1700525914 c:\users\luciano\documents\github\trabajo-final-bbd\estructuras.h
+
+1700525914 source:c:\users\luciano\documents\github\trabajo-final-bbd\listaingreso.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<time.h>
+	"Estructuras.h"
+
+1700525914 source:c:\users\luciano\documents\github\trabajo-final-bbd\listapracxing.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<time.h>
+	"Estructuras.h"
+
+1700525870 source:c:\users\luciano\documents\github\trabajo-final-bbd\main.c
+	<stdio.h>
+	<stdlib.h>
+	"menu.h"
+
+1700525914 c:\users\luciano\documents\github\trabajo-final-bbd\menu.h
+
+1700525870 source:c:\users\luciano\documents\github\trabajo-final-bbd\user.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<conio.h>
+	<ctype.h>
+	"user.h"
+
+1700525870 c:\users\luciano\documents\github\trabajo-final-bbd\user.h
+
+1700526255 source:c:\users\luciano\documents\github\trabajo-final-bbd\auxmenu.c
+	<stdio.h>
+	<stdlib.h>
+	<time.h>
+	<string.h>
+	<ctype.h>
+	"auxMenu.h"
+
+1700526260 c:\users\luciano\documents\github\trabajo-final-bbd\auxmenu.h
+
+1700526432 source:c:\users\luciano\documents\github\trabajo-final-bbd\menu.c
+	<stdio.h>
+	<stdlib.h>
+	"menu.h"
+	"auxMenu.h"
+	"user.h"
+	"Estructuras.h"
+	"windows.h"
+

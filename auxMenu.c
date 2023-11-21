@@ -115,6 +115,7 @@ void mostrarOp11(){///Muestra opcion final
     mostrarHorizontalAUX();
     printf("\n");
 }
+
 int validarOp(){
     char op[30];
     int num;
@@ -128,8 +129,8 @@ int validarOp(){
         }
     } while (strlen(op) > 3 || !isdigit(op[0]) || (strlen(op) == 3 && !isdigit(op[1])) || (num < 0 || num > 10));
 
-    return num; // Devuelvo directamente el valor numérico ingresado
-
+    return num; // Devuelvo directamente el valor numérico ingresado
+}
     ///char op[30];
     /*int num;
     do{
@@ -152,7 +153,7 @@ int validarOp(){
     /*}while();///Verifico todas las condiciones juntas
     //strlen(op)>2||!isdigit(op[0])||(strlen(op)>1 && !isdigit(op[1]))||(num<0||num>10)
     return strdup(op);*/
-}
+
 int mostrarMenu(){///Invoca todas las funciones de mostrar y retorna la opcion
     mostrarInicio();
     mostrarfecha();

@@ -2,57 +2,39 @@
 <CodeBlocks_layout_file>
 	<FileVersion major="1" minor="0" />
 	<ActiveTarget name="Debug" />
-	<File name="ArbolPaciente.c" open="1" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="7449" topLine="249" />
-		</Cursor>
-	</File>
-	<File name="ListaIngreso.c" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="10984" topLine="282" />
-		</Cursor>
-	</File>
-	<File name="menu.c" open="1" top="1" tabpos="5" split="0" active="1" splitpos="0" zoom_1="2" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="9449" topLine="39" />
-		</Cursor>
-		<Folding>
-			<Collapse line="53" />
-			<Collapse line="58" />
-			<Collapse line="91" />
-			<Collapse line="112" />
-			<Collapse line="133" />
-			<Collapse line="154" />
-			<Collapse line="182" />
-			<Collapse line="210" />
-			<Collapse line="237" />
-			<Collapse line="243" />
-		</Folding>
-	</File>
 	<File name="Estructuras.h" open="1" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="3201" topLine="12" />
-		</Cursor>
-	</File>
-	<File name="ListaPracXing.c" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="5130" topLine="175" />
+			<Cursor1 position="3201" topLine="49" />
 		</Cursor>
 	</File>
 	<File name="auxMenu.h" open="1" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="357" topLine="0" />
+			<Cursor1 position="414" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="ListaPracXing.c" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="3948" topLine="61" />
 		</Cursor>
 	</File>
 	<File name="auxMenu.c" open="1" top="0" tabpos="7" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="975" topLine="62" />
+			<Cursor1 position="3799" topLine="89" />
 		</Cursor>
-		<Folding>
-			<Collapse line="7" />
-			<Collapse line="12" />
-			<Collapse line="17" />
-			<Collapse line="26" />
-		</Folding>
+	</File>
+	<File name="ArbolPaciente.c" open="1" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1215" topLine="19" />
+		</Cursor>
+	</File>
+	<File name="menu.c" open="1" top="1" tabpos="5" split="0" active="1" splitpos="0" zoom_1="-1" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="9000" topLine="194" />
+		</Cursor>
+	</File>
+	<File name="ListaIngreso.c" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="8663" topLine="197" />
+		</Cursor>
 	</File>
 </CodeBlocks_layout_file>

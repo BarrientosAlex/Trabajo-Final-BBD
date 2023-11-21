@@ -38,6 +38,7 @@ void menu(){
     system("pause");
     system("cls");
     int op=mostrarMenu();
+    printf("NUMERO: %d", op);
     int flag=1;
     while(flag==1){
         flag=validarPermisos(tipoUser,op,flag);
@@ -50,19 +51,19 @@ void menu(){
     char archivoIngresos[]=("ingresos.bin");
     char archivoPxI[]=("pxi.bin");
     nodoPaciente* arbolMother=NULL;
-    arbolMother=cargarArbolDesdeArchivo(archivoPacientes,arbolMother);
-    arbolMother=cargarIngresosDesdeArchivo(archivoIngresos,arbolMother);
-    arbolMother=pasarPracticasAlArbolArchivo(archivoPxI,arbolMother);
+    printf("f");
+    arbolMother=cargarArbolDesdeArchivo("pacientes.bin",arbolMother);
+    arbolMother=cargarIngresosDesdeArchivo("ingresos.bin",arbolMother);
+    arbolMother=pasarPracticasAlArbolArchivo("pxi.bin",arbolMother);
     system("cls");
-    Sleep(50);
     printf("Leido correctamente");
-    /*
-    switch(*op){
-        case '0':{///Generar ingreso
+    printf("a");
+    switch(op){
+        case 0:{///Generar ingreso
             arbolMother=alta_de_ingreso(arbolMother);
             break;
         }
-        case '1':{///Mod ingreso
+        case 1:{///Mod ingreso
             printf("H");
             nodoPaciente* encontrado;
             int dni=validarDNIyEncontrar(arbolMother,&encontrado);
@@ -84,7 +85,7 @@ void menu(){
             modificarArchivoIngresos(archivoIngresos,aux->ingreso);
             break;
         }
-        case '2':{///Generar practica
+        case 2:{///Generar practica
             nodoPaciente* encontrado=NULL;
             int dni=validarDNIyEncontrar(arbolMother,&encontrado);
             nodoIngresos* aux=NULL;
@@ -93,7 +94,7 @@ void menu(){
             agregarPxialArchivo(archivoPxI,aux->practicas->pXi);
             break;
         }
-        case '3':{///Mod practica
+        case 3:{///Mod practica
             nodoPaciente* encontrado=NULL;
             int dni=validarDNIyEncontrar(arbolMother,&encontrado);
             nodoIngresos* aux=NULL;
@@ -102,7 +103,7 @@ void menu(){
             modificarArchivoPXI(archivoPxI,aux->practicas->pXi);
             break;
         }
-        case '4':{///Eliminar practica
+        case 4:{///Eliminar practica
             nodoPaciente* encontrado=NULL;
             int dni=validarDNIyEncontrar(arbolMother,&encontrado);
             nodoIngresos* aux=NULL;
@@ -111,7 +112,7 @@ void menu(){
             modificarArchivoPXI(archivoPxI,aux->practicas->pXi);
             break;
         }
-        case '5':{///Cargar resultado
+        case 5:{///Cargar resultado
             nodoPaciente* encontrado=NULL;
             int dni=validarDNIyEncontrar(arbolMother,&encontrado);
             nodoIngresos* aux=NULL;
@@ -127,7 +128,7 @@ void menu(){
             modificarArchivoPXI(archivoPxI,auxPractica->pXi);
             break;
         }
-        case '6':{///Mod resultado
+        case 6:{///Mod resultado
             nodoPaciente* encontrado=NULL;
             int dni=validarDNIyEncontrar(arbolMother,&encontrado);
             nodoIngresos* aux=NULL;
@@ -143,7 +144,7 @@ void menu(){
             modificarArchivoPXI(archivoPxI,auxPractica->pXi);
             break;
         }
-        case '7':{///Eliminar resultado
+        case 7:{///Eliminar resultado
             nodoPaciente* encontrado=NULL;
             int dni=validarDNIyEncontrar(arbolMother,&encontrado);
             nodoIngresos* aux=NULL;
@@ -158,21 +159,21 @@ void menu(){
             modificarArchivoPXI(archivoPxI,auxPractica->pXi);
             break;
         }
-        case '8':{///Eliminar paciente
+        case 8:{///Eliminar paciente
             nodoPaciente* auxArbol=NULL;
             auxArbol=baja_de_paciente(arbolMother);
             modificarArchivoPaciente(archivoPacientes,auxArbol->paciente);
             break;
         }
-        case '9':{///Mod paciente
+        case 9:{///Mod paciente
             nodoPaciente* auxArbol=modificacion_de_paciente(arbolMother);
             modificarArchivoPaciente(archivoPacientes,auxArbol->paciente);
             break;
         }
-        case '10':{///Mostrar arbol
+        case 10:{///Mostrar arbol
             inOrder(arbolMother);
             break;
         }
-    }*/
+    }
 
 }
