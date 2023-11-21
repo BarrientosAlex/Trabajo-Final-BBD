@@ -169,7 +169,7 @@ int mostrarMenu(){///Invoca todas las funciones de mostrar y retorna la opcion
     mostrarOp10();
     mostrarOp11();
     int op=validarOp();
-    printf("\nOpcion: %i",op);
+    ///printf("\nOpcion: %i",op);
     return op;
 }
 

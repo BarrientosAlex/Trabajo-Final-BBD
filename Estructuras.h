@@ -1,6 +1,6 @@
 #ifndef ESTRUCTURAS_H_INCLUDED
 #define ESTRUCTURAS_H_INCLUDED
-
+#include <time.h>
 typedef struct stPacientes{
     char apelyNom[40];
     int edad;
@@ -13,7 +13,7 @@ typedef struct stPacientes{
 
 typedef struct stIngresos{
     int nroIngreso;
-    char fechaIngreso[10];
+    char fechaIngreso[11];
     char fechaRetiro[10];
     int dni;
     int matricula;
@@ -71,6 +71,8 @@ nodoPaciente * baja_de_paciente(nodoPaciente * arbolPaciente);
 void inOrder(nodoPaciente *arbolPaciente);
 nodoPaciente* cargarArbolDesdeArchivo(char archivo[],nodoPaciente* arbol);
 ///FUNCIOES INGRESOS
+void mostrarAux(stIngresos dato);
+void mostrarIngreso(nodoIngresos* lista);
 int validarDNIyEncontrar(nodoPaciente* arbol,nodoPaciente** encontrado);
 nodoPaciente * alta_de_ingreso(nodoPaciente * arbolPaciente);
 int contarIngresosenArchivo( char archivo[]);
@@ -78,7 +80,6 @@ void modificarArchivoIngresos(char archivo[],stIngresos datonuevo); ///por param
 nodoIngresos* buscarPorNroIngreso(nodoPaciente* arbol, int nroIngreso); /// busca nro de ingreso de determinado paciente No filtrado
 nodoIngresos* buscarListaPractica(nodoPaciente * arbol,int nroIngreso);
 nodoPaciente* cargarIngresosDesdeArchivo(char archivo[],nodoPaciente* arbol);
-void mostrarIngreso(stIngresos dato);
 nodoIngresos * filtrarPorNroIngreso(nodoPaciente* arbol);
 nodoIngresos* filtrarPorFechaIngreso(nodoPaciente* arbol);
 nodoIngresos * crearNodoIng (stIngresos a);

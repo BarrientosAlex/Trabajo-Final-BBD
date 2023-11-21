@@ -224,7 +224,6 @@ nodoPaciente * alta_de_paciente(nodoPaciente * arbolPaciente){
     stPacientes nuevoPaciente = cargarPaciente();
     nodoPaciente * buscar = buscarPacienteDNI(arbolPaciente,nuevoPaciente.dni);
     if(buscar == NULL){
-        printf("Hola");
         arbolPaciente = insertarPaciente(arbolPaciente, nuevoPaciente);
         arbolPacienteToArchivo("pacientes.bin",nuevoPaciente);
         printf("Paciente dado de alta correctamente.\n");
@@ -355,13 +354,11 @@ nodoPaciente* cargarIngresosDesdeArchivo(char archivo[],nodoPaciente* arbol){
     if(archi==NULL){
         archi=fopen(archivo,"ab");
     }else{
-        if(fread(&aux,sizeof(stIngresos),1,archi)>0){
-            fseek(archi, 0, SEEK_SET);
-            while (fread(&aux, sizeof(stIngresos), 1, archi) > 0) {
-                rama=buscarPacienteDNI(arbol,aux.dni);
-                if(rama){
-                   rama->ingresos=agregarOrdenFecha(rama,crearNodoIng(aux));
-                }
+        fseek(archi, 0, SEEK_SET);
+        while (fread(&aux, sizeof(stIngresos), 1, archi) > 0) {
+            rama=buscarPacienteDNI(arbol,aux.dni);
+            if(rama!=NULL){
+                rama->ingresos=agregarOrdenFecha(rama->ingresos,crearNodoIng(aux));
             }
         }
     }

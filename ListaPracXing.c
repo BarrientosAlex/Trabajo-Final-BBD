@@ -50,6 +50,7 @@ nodoPracticasXingreso * Alta_de_pxi(nodoPracticasXingreso * lista,int num){///Ya
     if(buscar == NULL){
         nodoPracticasXingreso * nuevoPxi = crearNodoPxI(pxi);
         lista = agregarPpioPXI(lista,nuevoPxi);
+        agregarPxialArchivo("pxi.bin",pxi);
     }else{
         printf("Error. El nro de practica ya existe.");
     }
@@ -146,13 +147,10 @@ nodoPaciente* pasarPracticasAlArbolArchivo(char archivo[],nodoPaciente* arbol){
     if(!archi){
         archi=fopen(archivo,"ab");
     }else{
-        if(fread(&aux,sizeof(stPracXingreso),1,archi)>0){
-            fseek(archi, 0, SEEK_SET);
-            while(fread(&aux,sizeof(stPracXingreso),1,archi)>0){
-
-                ing=buscarPorNroIngreso(arbol,aux.nroIngreso);
-                ing=agregarPpioPXI(ing,crearNodoPxI(aux));
-            }
+        fseek(archi, 0, SEEK_SET);
+        while(fread(&aux,sizeof(stPracXingreso),1,archi)>0){
+            ing=buscarPorNroIngreso(arbol,aux.nroIngreso);
+            ing=agregarPpioPXI(ing,crearNodoPxI(aux));
         }
     }
     fclose(archi);
@@ -162,8 +160,8 @@ void agregarPxialArchivo(char archivo[], stPracXingreso dato){ ///Por parametro 
     FILE * archi = fopen(archivo,"ab");
     stPracXingreso aux;
     if(archi){
-         aux = dato;
-        fwrite(&aux,sizeof(stPracXingreso),1,archi);
+        //aux = dato;
+        fwrite(&dato,sizeof(stPracXingreso),1,archi);
         fclose(archi);
     }else{
         printf("Error al cargar archivoPXI.");

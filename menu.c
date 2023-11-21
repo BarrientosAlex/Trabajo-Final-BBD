@@ -38,7 +38,6 @@ void menu(){
     system("pause");
     system("cls");
     int op=mostrarMenu();
-    printf("NUMERO: %d", op);
     int flag=1;
     while(flag==1){
         flag=validarPermisos(tipoUser,op,flag);
@@ -51,28 +50,24 @@ void menu(){
     char archivoIngresos[]=("ingresos.bin");
     char archivoPxI[]=("pxi.bin");
     nodoPaciente* arbolMother=NULL;
-    printf("f");
     arbolMother=cargarArbolDesdeArchivo("pacientes.bin",arbolMother);
     arbolMother=cargarIngresosDesdeArchivo("ingresos.bin",arbolMother);
     arbolMother=pasarPracticasAlArbolArchivo("pxi.bin",arbolMother);
     system("cls");
-    printf("Leido correctamente");
-    printf("a");
+    Sleep(30);
     switch(op){
         case 0:{///Generar ingreso
             arbolMother=alta_de_ingreso(arbolMother);
             break;
         }
         case 1:{///Mod ingreso
-            printf("H");
             nodoPaciente* encontrado;
             int dni=validarDNIyEncontrar(arbolMother,&encontrado);
             nodoIngresos* aux=NULL;
             if(encontrado){
+                system("cls");
+                filtrarPorDNI(arbolMother);
                 aux=filtrarIngreso(arbolMother);
-                printf("\nIngrese nueva fecha de ingreso: ");
-                fflush(stdin);
-                gets(aux->ingreso.fechaIngreso);
                 printf("\nIngrese nueva fecha de retiro: ");
                 fflush(stdin);
                 gets(aux->ingreso.fechaRetiro);
@@ -82,7 +77,7 @@ void menu(){
             }else{
                 printf("\nNo se encontro el dni %i",dni);
             }
-            modificarArchivoIngresos(archivoIngresos,aux->ingreso);
+            modificarArchivoIngresos("ingresos.bin",aux->ingreso);
             break;
         }
         case 2:{///Generar practica
@@ -90,8 +85,10 @@ void menu(){
             int dni=validarDNIyEncontrar(arbolMother,&encontrado);
             nodoIngresos* aux=NULL;
             aux=filtrarIngreso(arbolMother);
-            aux->practicas=Alta_de_pxi(aux,aux->ingreso.nroIngreso);
-            agregarPxialArchivo(archivoPxI,aux->practicas->pXi);
+            if(aux){
+                aux->practicas=Alta_de_pxi(aux,aux->ingreso.nroIngreso);
+                agregarPxialArchivo("pxi.bin",aux->practicas->pXi);
+            }
             break;
         }
         case 3:{///Mod practica
@@ -99,8 +96,10 @@ void menu(){
             int dni=validarDNIyEncontrar(arbolMother,&encontrado);
             nodoIngresos* aux=NULL;
             aux=filtrarIngreso(arbolMother);
-            aux->practicas=modificacion_de_pxi(aux->practicas);
-            modificarArchivoPXI(archivoPxI,aux->practicas->pXi);
+            if(aux){
+                aux->practicas=modificacion_de_pxi(aux->practicas);
+                modificarArchivoPXI("pxi.bin",aux->practicas->pXi);
+            }
             break;
         }
         case 4:{///Eliminar practica
