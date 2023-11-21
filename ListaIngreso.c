@@ -11,7 +11,6 @@ nodoIngresos * crearNodoIng (stIngresos a){
     aux->sig = NULL;
     aux->ant = NULL;
     return aux;
-
 }
 nodoIngresos * agregarPpioIngresos(nodoIngresos * lista, nodoIngresos * nuevo){ ///funcion auxiliar para agregar en orden la fecha
     if(lista == NULL){
@@ -63,7 +62,6 @@ void mostrarPorFechas(nodoIngresos * listaIngresos,nodoPaciente * arbolPaciente)
         if(strcmp(seg->ingreso.fechaIngreso,fechaDesde)>= 0 && strcmp(seg->ingreso.fechaIngreso,fechaHasta) <=0){//Si la fecha del ingreso por el usuario es igual o mayor a una fecha que se encuentre en la lista de ingreso y la fecha hasta la que fue ingresada es menor o igual a una que se encuentre en la lista,
             //Ingresar funcion de mostrar la lista de ingreso.
         }
-
     nodoPaciente * paciente = buscarPacienteDNI(arbolPaciente,seg->ingreso.dni);   // Hacemos esto para mostrar tambien los pacientes;
     if(paciente != NULL){
         //Ingresar funcion mostrar Paciente;
@@ -74,7 +72,7 @@ void mostrarPorFechas(nodoIngresos * listaIngresos,nodoPaciente * arbolPaciente)
 ///Funcion para para que el usuario pueda seleccionar por que forma filtrar la busqueda y si se encuentra lo que busco dentro de la lista, que retorne ese nodo.
 void mostrarAux(stIngresos dato){
     if(dato.eliminado==0){
-        printf("\n-----------------------\n");
+        printf("\n*********************\n");
         printf("Numero de ingreso :%i\n",dato.nroIngreso);
         printf("Fecha de ingreso :%s\n",dato.fechaIngreso);
         printf("Fecha de retiro:%s\n",dato.fechaRetiro);
@@ -85,6 +83,9 @@ void mostrarAux(stIngresos dato){
 void mostrarIngreso(nodoIngresos* lista){
     if(lista){
         mostrarAux(lista->ingreso);
+        printf("\n\tPRACTICAS \n");
+        fflush(stdout);
+        mostrarPxi(lista->practicas);
         mostrarIngreso(lista->sig);
     }
 }
@@ -99,7 +100,7 @@ nodoIngresos* buscarPorNroIngreso(nodoPaciente* arbol, int nroIngreso){
             seg=seg->sig;
         }
     }
-     return aux;
+    return aux;
 }
 nodoIngresos* buscarListaPractica(nodoPaciente * arbol,int nroIngreso){
     nodoIngresos* aux=NULL;
@@ -129,7 +130,7 @@ nodoIngresos * filtrarPorNroIngreso(nodoPaciente* arbol){ ///anteriormente pedir
             seg=seg->sig;
         }
     }
-     return aux;  ///retorna NULL si no lo encontro, o el puntero a todos los datos del ingreso
+    return aux;  ///retorna NULL si no lo encontro, o el puntero a todos los datos del ingreso
 }
 nodoIngresos* filtrarPorFechaIngreso(nodoPaciente* arbol){ ///anteriormente tenemos que haber buscado el paciente del que quermos el ingreso
     nodoIngresos* aux=NULL;
@@ -163,31 +164,14 @@ void filtrarPorDNI(nodoPaciente * arbol) { ///Mostrara todos los ingresos de la 
 nodoIngresos * filtrarIngreso(nodoPaciente* arbol){ /// anteriormente tenemos que llamar a buscar por dni para saber si existe o no
     nodoIngresos* aux=NULL;
     if(arbol){
-        int opcion; ///validar para que no pongan cualquier cosa ATTENTAMENTE LUCHOIDE
-        printf("\nPresione 1 para filtrar por nro de Ingreso. \n\n");
-        fflush(stdin);
-        scanf("%d", &opcion);
-            switch(opcion){
-                case 1:
-                    aux = filtrarPorNroIngreso(arbol);
-                    break;
-                /*case 2:
-                    aux= filtrarPorFechaIngreso(arbol);
-                    break;*/
-                default:
-                    printf("Error. Ingrese una opcion valida.");
-                    break;
-            }
+        aux = filtrarPorNroIngreso(arbol);
     } else{
         printf("Paciente no existente.\n");
     }
-
     return aux;
-
 }
 stIngresos cargarIngresos(){
     stIngresos aux;
-    char numString[10];
     char matriString[10];
     int fechaValida = 0;
     int matriculaValida = 0;
@@ -196,7 +180,6 @@ stIngresos cargarIngresos(){
     time(&t);
     tm_info = localtime(&t);
     aux.nroIngreso = contarIngresosenArchivo("ingresos.bin")+1;
-    ///sprintf(aux.fechaIngreso,"%i/%i/%i",21,11,23);
     sprintf(aux.fechaIngreso, "%02d/%02d/%04d", tm_info->tm_mday, tm_info->tm_mon + 1, tm_info->tm_year + 1900);
     char fechaRetiroBuffer[10];
     do{
@@ -208,7 +191,7 @@ stIngresos cargarIngresos(){
             printf("Error.Ingrese una fecha de retiro valido. \n");
         }
     }while(fechaValida != 0);
-    // Copiar la fecha de retiro al buffer de la estructura
+    //Copiar la fecha de retiro al buffer de la estructura
     strcpy(aux.fechaRetiro, fechaRetiroBuffer);
     do{
         printf("Ingrese los 6 numeros de la matricula del Profesional: \n");
@@ -232,7 +215,7 @@ int validarFecha(char *fechaRetiro){
 
     if(cantNum ==8){
         for(int i = 0;i<cantNum;i++){
-            if(!isdigit(fechaRetiro[i])&& fechaRetiro[i] != '/'){   /// Para que se permita el uso de la barra entre el medio de dia, mes y año
+            if(!isdigit((unsigned char)fechaRetiro[i])&& fechaRetiro[i] != '/'){   /// Para que se permita el uso de la barra entre el medio de dia, mes y año
                 flag =1;
             }
         }
@@ -292,10 +275,8 @@ nodoPaciente * alta_de_ingreso(nodoPaciente * arbolPaciente){
             ///Hasta aca cargamos un ingreso con sus datos correspondientes
             nuevoIng.dni=dni; ///le ponemos el mismo dni que la persona para poder enlazarlo despues
             nodoIngresos * nuevoNodo = crearNodoIng(nuevoIng); ///Creamos el nodo de tipo ingreso
-            printf("11111111\n");
             paciente->ingresos=agregarOrdenFecha(paciente->ingresos,nuevoNodo); ///lo agregamos en orden en la lista de ingresos
-             printf("11111111\n");
-             ///entramos a la lista de practicas
+            ///entramos a la lista de practicas
             paciente->ingresos->practicas= Alta_de_pxi(paciente->ingresos->practicas,paciente->ingresos->ingreso.nroIngreso);
             agregarNuevoIngresoArchivo("ingresos.bin",nuevoIng);
             printf("Ingreso dado de alta correctamente.\n");
@@ -358,7 +339,6 @@ void modificarArchivoIngresos(char archivo[],stIngresos datonuevo){ ///por param
 }
 int contarIngresosenArchivo( char archivo[]){
     FILE * archi = fopen(archivo,"rb");
-    stIngresos aux;
     int cant = 0;
     if(archi){
         fseek(archi,0,SEEK_END);

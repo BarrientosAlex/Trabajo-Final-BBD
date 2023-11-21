@@ -88,7 +88,6 @@ void menu(){
             aux=filtrarIngreso(arbolMother);
             if(aux){
                 aux->practicas=Alta_de_pxi(aux->practicas,aux->practicas->pXi.nroIngreso);
-               /// agregarPxialArchivo("pxi.bin",aux->practicas->pXi);
             }
             break;
         }
@@ -96,8 +95,10 @@ void menu(){
             nodoPaciente* encontrado=NULL;
             int dni=validarDNIyEncontrar(arbolMother,&encontrado);
             nodoIngresos* aux=NULL;
+            filtrarPorDNI(encontrado);
             aux=filtrarIngreso(arbolMother);
             if(aux){
+                mostrarPxi(aux->practicas);
                 aux->practicas=modificacion_de_pxi(aux->practicas);
                 modificarArchivoPXI("pxi.bin",aux->practicas->pXi);
             }
@@ -107,7 +108,9 @@ void menu(){
             nodoPaciente* encontrado=NULL;
             int dni=validarDNIyEncontrar(arbolMother,&encontrado);
             nodoIngresos* aux=NULL;
+            filtrarPorDNI(encontrado);
             aux=filtrarIngreso(arbolMother);
+            mostrarPxi(aux->practicas);
             aux->practicas=Baja_de_pxi(aux->practicas);
             modificarArchivoPXI(archivoPxI,aux->practicas->pXi);
             break;
@@ -116,58 +119,95 @@ void menu(){
             nodoPaciente* encontrado=NULL;
             int dni=validarDNIyEncontrar(arbolMother,&encontrado);
             nodoIngresos* aux=NULL;
+            filtrarPorDNI(encontrado);
             aux=filtrarIngreso(arbolMother);///Mostrar practicas
-
-            int numPractica;
-            printf("\nIngrese nro.Practica a modificar");///Validarlo
-            scanf("%i",&numPractica);
-            nodoPracticasXingreso* auxPractica=NULL;
-            auxPractica=buscarPractica(aux->practicas,numPractica);
-            printf("\nIngrese resultado de la practica");
-            gets(auxPractica->pXi.resultado);
-            modificarArchivoPXI(archivoPxI,auxPractica->pXi);
-            break;
+            if(aux){
+                mostrarPxi(aux->practicas);
+                char numPractica[30];
+                int valido=0;
+                do{
+                    printf("\nIngrese nro.Practica a modificar: ");///Validarlo
+                    fflush(stdin);
+                    gets(numPractica);
+                    valido=validarNumero(numPractica);
+                    if(valido==1){
+                        printf("\nError: Ingrese un num.Practica valido. \n");
+                    }
+                }while(valido!=0);
+                nodoPracticasXingreso* auxPractica=NULL;
+                int nPractica=atoi(numPractica);
+                auxPractica=buscarPractica(aux->practicas,nPractica);
+                printf("\nIngrese resultado de la practica: ");
+                fflush(stdin);
+                gets(auxPractica->pXi.resultado);
+                modificarArchivoPXI("pxi.bin",auxPractica->pXi);
+                break;
+            }
         }
         case 6:{///Mod resultado
             nodoPaciente* encontrado=NULL;
             int dni=validarDNIyEncontrar(arbolMother,&encontrado);
             nodoIngresos* aux=NULL;
+            filtrarPorDNI(encontrado);
             aux=filtrarIngreso(arbolMother);///Mostrar practicas
-
-            int numPractica;
-            printf("\nIngrese nro.Practica a modificar");///Validarlo
-            scanf("%i",&numPractica);
-            nodoPracticasXingreso* auxPractica=NULL;
-            auxPractica=buscarPractica(aux->practicas,numPractica);
-            printf("\nIngrese nuevo resultado de la practica");
-            gets(auxPractica->pXi.resultado);
-            modificarArchivoPXI(archivoPxI,auxPractica->pXi);
-            break;
+            if(aux){
+                mostrarPxi(aux->practicas);
+                char numPractica[30];
+                int valido=0;
+                do{
+                    printf("\nIngrese nro.Practica a modificar: ");///Validarlo
+                    fflush(stdin);
+                    gets(numPractica);
+                    valido=validarNumero(numPractica);
+                    if(valido==1){
+                        printf("\nError: Ingrese un num.Practica valido. \n");
+                    }
+                }while(valido!=0);
+                nodoPracticasXingreso* auxPractica=NULL;
+                int nPractica=atoi(numPractica);
+                auxPractica=buscarPractica(aux->practicas,nPractica);
+                printf("\nIngrese nuevo resultado de la practica: ");
+                fflush(stdin);
+                gets(auxPractica->pXi.resultado);
+                modificarArchivoPXI("pxi.bin",auxPractica->pXi);
+                break;
+            }
         }
         case 7:{///Eliminar resultado
             nodoPaciente* encontrado=NULL;
             int dni=validarDNIyEncontrar(arbolMother,&encontrado);
             nodoIngresos* aux=NULL;
+            filtrarPorDNI(encontrado);
             aux=filtrarIngreso(arbolMother);///Mostrar practicas
-
-            int numPractica;
-            printf("\nIngrese nro.Practica a buscar");///Validarlo
-            scanf("%i",&numPractica);
-            nodoPracticasXingreso* auxPractica=NULL;
-            auxPractica=buscarPractica(aux->practicas,numPractica);
-            strcpy(auxPractica->pXi.resultado,"\0");
-            modificarArchivoPXI(archivoPxI,auxPractica->pXi);
-            break;
+            if(aux){
+                mostrarPxi(aux->practicas);
+                char numPractica[30];
+                int valido=0;
+                do{
+                    printf("\nIngrese nro.Practica a modificar: ");///Validarlo
+                    fflush(stdin);
+                    gets(numPractica);
+                    valido=validarNumero(numPractica);
+                    if(valido==1){
+                        printf("\nError: Ingrese un num.Practica valido. \n");
+                    }
+                }while(valido!=0);
+                nodoPracticasXingreso* auxPractica=NULL;
+                int nPractica=atoi(numPractica);
+                auxPractica=buscarPractica(aux->practicas,nPractica);
+                printf("\nEl resultado a sido eliminado correctamente. \n");
+                strcpy(auxPractica->pXi.resultado,"\0");///resultado eliminado asignandole null
+                modificarArchivoPXI("pxi.bin",auxPractica->pXi);
+                break;
+            }
         }
         case 8:{///Eliminar paciente
             nodoPaciente* auxArbol=NULL;
-            auxArbol=baja_de_paciente(arbolMother);
-            modificarArchivoPaciente(archivoPacientes,auxArbol->paciente);
+            arbolMother=baja_de_paciente(arbolMother);
             break;
         }
         case 9:{///Mod paciente
-            nodoPaciente* auxArbol=modificacion_de_paciente(arbolMother);
-            modificarArchivoPaciente(archivoPacientes,auxArbol->paciente);
+            arbolMother=modificacion_de_paciente(arbolMother);
             break;
         }
         case 10:{///Mostrar arbol
@@ -175,5 +215,4 @@ void menu(){
             break;
         }
     }
-
 }

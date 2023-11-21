@@ -1,0 +1,62 @@
+# depslib dependency file v1.0
+1700345346 source:d:\datos pc\escritorio\prueba\main.c
+	<stdio.h>
+	<stdlib.h>
+	"menu.h"
+
+1700578300 source:d:\datos pc\escritorio\prueba\arbolpaciente.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<time.h>
+	<ctype.h>
+	"Estructuras.h"
+
+1700577466 d:\datos pc\escritorio\prueba\estructuras.h
+	<time.h>
+
+1700577238 source:d:\datos pc\escritorio\prueba\auxmenu.c
+	<stdio.h>
+	<stdlib.h>
+	<time.h>
+	<string.h>
+	<ctype.h>
+	"auxMenu.h"
+
+1700525473 d:\datos pc\escritorio\prueba\auxmenu.h
+
+1700578935 source:d:\datos pc\escritorio\prueba\listaingreso.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<time.h>
+	"Estructuras.h"
+
+1700577401 source:d:\datos pc\escritorio\prueba\listapracxing.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<time.h>
+	"Estructuras.h"
+
+1700522071 d:\datos pc\escritorio\prueba\menu.h
+
+1700578092 source:d:\datos pc\escritorio\prueba\menu.c
+	<stdio.h>
+	<stdlib.h>
+	"menu.h"
+	"auxMenu.h"
+	"user.h"
+	"Estructuras.h"
+	"windows.h"
+
+1700493866 d:\datos pc\escritorio\prueba\user.h
+
+1700577132 source:d:\datos pc\escritorio\prueba\user.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<conio.h>
+	<ctype.h>
+	"user.h"
+
