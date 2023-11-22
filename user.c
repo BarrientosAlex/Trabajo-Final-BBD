@@ -246,43 +246,42 @@ int inicioSesion(char archivo[]){
     int tipoUser=0;
     int op=0;
     stUserAux user;
-        user=cargarUser();
-        tipoUser=validarUsuarioCompleto(archivo,user.contrasena,user.nombreUsuario);
+    user=cargarUser();
+    tipoUser=validarUsuarioCompleto(archivo,user.contrasena,user.nombreUsuario);
 
-        if(tipoUser==0){
-            printf("\n----------------\n");
-            printf("Los datos que ingreso son incorrectos, presione cualquier tecla para volver a intentarlo. \n");
-            printf("Presione 1 (uno), para registrarse.\n");
-            printf("\n----------------\n");
-            scanf("%d",&op);
-            system("cls");
-
-            if(op==1){
-                tipoUser=cargarNuevoUsuario(archivo);
-            }
-        } else {
-            while (tipoUser==0 && i>3)
-            {
-                user=cargarUser();
-                tipoUser=validarUsuarioCompleto(archivo,user.contrasena,user.nombreUsuario);
-
-                if(tipoUser==0){
-                        printf("Los datos que ingreso son incorrectos, presione cualquier tecla para volver a intentarlo.\n");
-                        system("pause");
-                        system("cls");
-                        i++;
-                        if(i==3){
-                            printf("\nAlcanzo el limite de intentos, intentelo mas tarde.\n");
-                            exit(0);
-                        }
-
-                    } else if (tipoUser!=0){
-                        system("pause");
-                        system("cls");
-                        printf("Usuario encontrado con exito.");
-                    }
-            }
+    if(tipoUser==0){
+        printf("\n----------------\n");
+        printf("Los datos que ingreso son incorrectos, presione cualquier tecla para volver a intentarlo. \n");
+        printf("Presione 1 (uno), para registrarse.\n");
+        printf("\n----------------\n");
+        scanf("%d",&op);
+        system("cls");
+        if(op==1){
+            tipoUser=cargarNuevoUsuario(archivo);
         }
+    }else{
+        while (tipoUser==0 && i>3)
+        {
+            user=cargarUser();
+            tipoUser=validarUsuarioCompleto(archivo,user.contrasena,user.nombreUsuario);
+
+            if(tipoUser==0){
+                    printf("Los datos que ingreso son incorrectos, presione cualquier tecla para volver a intentarlo.\n");
+                    system("pause");
+                    system("cls");
+                    i++;
+                    if(i==3){
+                        printf("\nAlcanzo el limite de intentos, intentelo mas tarde.\n");
+                        exit(0);
+                    }
+
+                } else if (tipoUser!=0){
+                    system("pause");
+                    system("cls");
+                    printf("Usuario encontrado con exito.");
+                }
+        }
+    }
     return tipoUser;
 }
 char validarOpcionUser(){
@@ -312,16 +311,15 @@ int login(char archivo[]){
     fclose(archi);
     char eleccion;
     int tipoUser;
-
     printf("INICIO DE SESION:\n");
     printf("1. PARA INICIAR SESION:\n");
     printf("2. PARA REGISTRARSE:\n");ff
     eleccion=validarOpcionUser();
     system("cls");
     if (eleccion == '1') {
-    tipoUser = inicioSesion(archivo);
-        } else if (eleccion == '2') {
-    tipoUser = cargarNuevoUsuario(archivo);
+        tipoUser = inicioSesion(archivo);
+    } else if (eleccion == '2') {
+        tipoUser = cargarNuevoUsuario(archivo);
     }
     return tipoUser;
 }

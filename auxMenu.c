@@ -36,7 +36,6 @@ void mostrarfecha(){///Muestra la fecha
     printf("|\n");
     mostrarHorizontalAUX();
 }
-void mostrarOpCrear(){}
 void mostrarOp1(){///Muestra opcion 1
     printf("\n|");
     printf("Ingrese 0(cero) para generar ingreso de paciente");
@@ -115,7 +114,6 @@ void mostrarOp11(){///Muestra opcion final
     mostrarHorizontalAUX();
     printf("\n");
 }
-
 int validarOp(){
     char op[30];
     int num;
@@ -131,29 +129,6 @@ int validarOp(){
 
     return num; // Devuelvo directamente el valor numérico ingresado
 }
-    ///char op[30];
-    /*int num;
-    do{
-        printf("Ingrese un numero del 0 al 10: ");
-        if(scanf("%i",&num)!=1){
-            printf("Error: Ingresa un num valido del 0 al 10.\n");
-            fflush(stdin);
-        }else if(num<0||num>10){
-            printf("Error: El numero debe estar entre 0 y 10.\n");
-        }else{
-            break;
-        }
-        /*fflush(stdin);
-        gets(op);
-        op[strcspn(op,"\n")]='\0';///elimina el salto de lina final
-        num=atoi(op);///paso el arreglo a un int
-        if(strlen(op)>2||!isdigit(op[0])||(strlen(op)>1 && !isdigit(op[1]))||(num<0||num>10)){///si son mas de dos char o si la pos 0 no es digito
-            printf("Opcion no valida. Ingrese un numero entre 0 y 10: ");                     ///o si son dos char que la segunda sea un digito y por ultimo que sea entre 0 y 10
-        }*/
-    /*}while();///Verifico todas las condiciones juntas
-    //strlen(op)>2||!isdigit(op[0])||(strlen(op)>1 && !isdigit(op[1]))||(num<0||num>10)
-    return strdup(op);*/
-
 int mostrarMenu(){///Invoca todas las funciones de mostrar y retorna la opcion
     mostrarInicio();
     mostrarfecha();
