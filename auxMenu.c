@@ -117,16 +117,15 @@ void mostrarOp11(){///Muestra opcion final
 int validarOp(){
     char op[30];
     int num;
-    do {
-        fgets(op, 30, stdin);
-        op[strcspn(op, "\n")] = '\0'; // elimina el salto de línea final
-        num = atoi(op);
-
-        if (strlen(op) > 3 || !isdigit(op[0]) || (strlen(op) == 3 && !isdigit(op[1])) || (num < 0 || num > 10)) {
-            printf("Opcion no valida. Ingrese un numero entre 0 y 10: ");
+    char *endptr;
+    do{
+        fgets(op,sizeof(op),stdin);
+        op[strcspn(op,"\n")]='\0';///Elimina el salto de linea
+        num=strtol(op,&endptr,10);///Convierte la cadena a un numero, almaceno en endptr el primer caracter no numerico
+        if(*endptr!='\0'||num<0||num>10){///verifica si no hay caracteres no numericos al final
+            printf("\nOpcion invalida. Ingrese un numero del 0 al 10: ");
         }
-    } while (strlen(op) > 3 || !isdigit(op[0]) || (strlen(op) == 3 && !isdigit(op[1])) || (num < 0 || num > 10));
-
+    }while(*endptr!='\0'||num<0||num>10);
     return num; // Devuelvo directamente el valor numérico ingresado
 }
 int mostrarMenu(){///Invoca todas las funciones de mostrar y retorna la opcion
@@ -144,7 +143,6 @@ int mostrarMenu(){///Invoca todas las funciones de mostrar y retorna la opcion
     mostrarOp10();
     mostrarOp11();
     int op=validarOp();
-    ///printf("\nOpcion: %i",op);
     return op;
 }
 

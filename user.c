@@ -4,6 +4,7 @@
 #include <conio.h>
 #include <ctype.h>
 #include "user.h"
+#include "Estructuras.h"
 #define ff fflush(stdin);
 void crearArchivouser(FILE* archivo){
     if(archivo){
@@ -34,7 +35,7 @@ int validarNombreUser(char archivo[], char usuario[]){//funcion para saber si ex
     FILE*archi=fopen(archivo,"rb");
     stUsuario aux;
     if(archi){
-        while (fread(&aux,sizeof(stUsuario),1,archi)>0 && flag==0){
+        while(fread(&aux,sizeof(stUsuario),1,archi)>0 && flag==0){
             if(strcmp(aux.nombreUsuario,usuario)==0){
                 flag=1;
             }
@@ -88,7 +89,7 @@ void cargarUsuarioArchivo(char archivo[],stUsuario aux){
     }
     fclose(archi);
 }
-int validarNombreYapellido(char * nombre){
+int validarNombreYapellido(char * nombre){///a borrar si funciona
     int cantNum = strlen(nombre);
     int flag = 0;
     if(cantNum < 25 ){
@@ -99,6 +100,13 @@ int validarNombreYapellido(char * nombre){
         }
     }else{
        flag=1; ///Mas de 25 caracteres el nombre
+    }
+    return flag;
+}
+int validarCargoUser(char* cargo){
+    int flag=0;
+    if(strcmpi(cargo,"administrativo")==0||strcmpi(cargo,"bioquimico")==0||strcmpi(cargo,"tecnico")==0){
+        flag=1;
     }
     return flag;
 }
@@ -113,79 +121,94 @@ int cargarNuevoUsuario(char archivo[]){
     int flag=1;
     int tipoUser;
     int nombreApellido=0;
-        printf("--------------------------\n");ff
-        while (vald==1){
-            do{
-                printf("Ingrese DNI: ");
-                if(scanf("%d",&aux.dni)!=1){///verifica si la entrada es invalida
-            // Limpiar el búfer del teclado en caso de una entrada no válida
-                ff printf("Ingrese solo numeros.\n");
-                continue;
-                }else if(aux.dni<1000000 || aux.dni>99999999){
-                ff printf("Ingrese un dni valido, maximo 8 numeros.\n");
-                }
-            }while(aux.dni<1000000 || aux.dni>99999999);
-            vald=validarDNIUser(archivo,aux.dni);
-            if(vald==1){
+    int cargo=0;
+    printf("--------------------------\n");ff
+    while (vald==1){///Valida dni
+        do{
+            printf("Ingrese DNI: ");
+            if(scanf("%d",&aux.dni)!=1){///verifica si la entrada es invalida
+        // Limpiar el búfer del teclado en caso de una entrada no válida
+            ff printf("Ingrese solo numeros.\n");
+            continue;
+            }else if(aux.dni<1000000 || aux.dni>99999999){
+            ff printf("Ingrese un dni valido, maximo 8 numeros.\n");
+            }
+        }while(aux.dni<1000000 || aux.dni>99999999);
+        vald=validarDNIUser(archivo,aux.dni);
+        if(vald==1){
             printf("Numero de DNI ya registrado.\n");
         }
-        }
-        do{
-        printf("Nombre y apellido: \n ");
+    }
+    system("cls");
+    printf("--------------------------\n");
+    printf("DNI: %d\n",aux.dni);
+    do{///valida nyApellido
+        printf("Nombre y apellido (dejar un espacio entre nombre y apellido): \n");
         fflush(stdin);
         gets(aux.nombreYapellido);
-        nombreApellido = validarNombreYapellido(aux.nombreYapellido);
-        if(nombreApellido == 1){
+        nombreApellido=validarNombre(aux.nombreYapellido);
+        if(nombreApellido==1){
             printf("Error. Nombre invalido. \n");
         }
-    }while (nombreApellido != 0);
-
-
-
-        while (flag==1){
-           do{
-            printf("Ingrese Nombre de usuario :\n");ff
-            gets(aux.nombreUsuario);
-            if(strlen(aux.nombreUsuario)>cantmax){
-                printf("\nEl nombre de usuario supera la cantidad de caracteres permitidos. Intentelo de nuevo.\n");
-                system("pause");
-                system("cls");
-            } else {
-                flag=validarNombreUser(archivo,aux.nombreUsuario);
-                if(flag==1){
-                    printf("\nEl nombre de usuario no esta disponible, vuelva a intentarlo.\n");
-                system("pause");
-                system("cls");
-                }
+    }while(nombreApellido!=0);
+    system("cls");
+    printf("--------------------------\n");
+    printf("DNI: %d\n",aux.dni);
+    printf("Nombre y Apellido: %s\n",aux.nombreYapellido);
+    do{///valida nombre de usuario
+        printf("Ingrese Nombre de usuario :\n");ff
+        gets(aux.nombreUsuario);
+        if(strlen(aux.nombreUsuario)>cantmax){
+            printf("\nEl nombre de usuario supera la cantidad de caracteres permitidos. Intentelo de nuevo.\n");
+        }else{
+            flag=validarNombreUser(archivo,aux.nombreUsuario);
+            if(flag==1){
+                printf("\nEl nombre de usuario no esta disponible, vuelva a intentarlo.\n");
             }
-        }while(cantmax<strlen(aux.nombreUsuario)&& flag==1);
         }
-        printf("Ingrese cargo correspondiente (administrativo, biquiquimico o tecnico.\n)");ff
+    }while(cantmax<strlen(aux.nombreUsuario)&&flag==1);
+    system("cls");
+    printf("--------------------------\n");
+    printf("DNI: %d\n",aux.dni);
+    printf("Nombre y Apellido: %s\n",aux.nombreYapellido);
+    printf("Nombre de usuario: %s\n",aux.nombreUsuario);
+    do{///valida cargo correspondiente
+        printf("Ingrese cargo correspondiente (administrativo, bioquimico o tecnico).\n");ff
         gets(aux.perfil);
-
-        printf("\nIngrese contrase%ca:\n",164);ff
-        while(1){
+        cargo=validarCargoUser(aux.perfil);
+        if(cargo==0){
+            printf("\nError. Ingrese un cargo valido.\n");
+        }
+    }while(cargo!=1);
+    system("cls");
+    printf("--------------------------\n");
+    printf("DNI: %d\n",aux.dni);
+    printf("Nombre y Apellido: %s\n",aux.nombreYapellido);
+    printf("Nombre de usuario: %s\n",aux.nombreUsuario);
+    printf("Cargo: %s\n",aux.perfil);
+    printf("\nIngrese contrase%ca:\n",164);ff
+    while(1){
         char ch = getch();
-        if (ch == '\r') { // Si se presiona Enter
+        if(ch == '\r'){ // Si se presiona Enter
             break;
-        } else if (ch == '\b') { // Si se presiona Retroceso
-            if (i > 0) {
+        }else if(ch == '\b'){ // Si se presiona Retroceso
+            if(i > 0){
                 i--;
                 printf("\b \b"); // Borrar el último asterisco mostrado
             }
-        } else if (i < 8) {
+        }else if(i < 8) {
             aux.contrasena[i] = ch;
             printf("*");
             i++;
         }
     }
-        aux.contrasena[i] = '\0'; // Agregar el carácter nulo al final de la cadena
-        printf("\n");
-        while (valc == 0){
+    aux.contrasena[i] = '\0'; // Agregar el carácter nulo al final de la cadena
+    printf("\n");
+    while (valc == 0){
         j = 0; // Reiniciar el índice j a 0
         printf("\nIngrese nuevamente la contrase%ca:\n",164);
         fflush(stdout);
-        while (1) {
+        while(1){
             char vp = getch();
             if (vp == '\r') { // Si se presiona Enter
                 break;
@@ -246,42 +269,29 @@ int inicioSesion(char archivo[]){
     int tipoUser=0;
     int op=0;
     stUserAux user;
-    user=cargarUser();
-    tipoUser=validarUsuarioCompleto(archivo,user.contrasena,user.nombreUsuario);
-
-    if(tipoUser==0){
-        printf("\n----------------\n");
-        printf("Los datos que ingreso son incorrectos, presione cualquier tecla para volver a intentarlo. \n");
-        printf("Presione 1 (uno), para registrarse.\n");
-        printf("\n----------------\n");
-        scanf("%d",&op);
-        system("cls");
-        if(op==1){
-            tipoUser=cargarNuevoUsuario(archivo);
+    do{
+        user = cargarUser();
+        tipoUser = validarUsuarioCompleto(archivo, user.contrasena, user.nombreUsuario);///valida que el usuario exista
+        if (tipoUser == 0){///si no existe le pide registrarse o reintentar
+            printf("\n----------------\n");
+            printf("Los datos que ingreso son incorrectos. Presione cualquier tecla para volver a intentarlo.\n");
+            printf("Presione 1 para registrarse.\n");
+            printf("\n----------------\n");
+            scanf("%d", &op);
+            system("cls");
+            if(op == 1){
+                tipoUser = cargarNuevoUsuario(archivo);///se registra
+            }
+        }else{
+            printf("Usuario encontrado con exito.\n");
+            break; // Salir del bucle si se encuentra un usuario válido
         }
-    }else{
-        while (tipoUser==0 && i>3)
-        {
-            user=cargarUser();
-            tipoUser=validarUsuarioCompleto(archivo,user.contrasena,user.nombreUsuario);
-
-            if(tipoUser==0){
-                    printf("Los datos que ingreso son incorrectos, presione cualquier tecla para volver a intentarlo.\n");
-                    system("pause");
-                    system("cls");
-                    i++;
-                    if(i==3){
-                        printf("\nAlcanzo el limite de intentos, intentelo mas tarde.\n");
-                        exit(0);
-                    }
-
-                } else if (tipoUser!=0){
-                    system("pause");
-                    system("cls");
-                    printf("Usuario encontrado con exito.");
-                }
+        i++;
+        if(i == 3){///si alcanzo 3 intentos se le cierra el programa entero
+            printf("\nAlcanzo el limite de intentos. Intentelo mas tarde.\n");
+            exit(0);
         }
-    }
+    }while(tipoUser==0);///mientras user sea 0, no existe el usuario
     return tipoUser;
 }
 char validarOpcionUser(){
@@ -347,21 +357,23 @@ nodoUser* agregarNodoOrdenado(nodoUser* lista, nodoUser* nuevo){ //Los voy a ord
     return lista;
 }
 void mostrarListaUsuarios(nodoUser* lista,int tipoUser){
-    printf("Numero de DNI: %i\n",lista->dato.dni);
-    printf("Nombre y apellido: %s\n",lista->dato.nombreYapellido);
-    printf("Usuario: %s\n",lista->dato.nombreUsuario);
-    if(tipoUser==1){
-        printf("Contrase%ca: %s\n",164,lista->dato.contrasena);
-    }else{
-        printf("Contrase%ca: ", 164);
-    for (int i = 0; i < strlen(lista->dato.contrasena); i++) {
-        printf("*");
+    if(lista){
+        printf("Numero de DNI: %i\n",lista->dato.dni);
+        printf("Nombre y apellido: %s\n",lista->dato.nombreYapellido);
+        printf("Usuario: %s\n",lista->dato.nombreUsuario);
+        if(tipoUser==1){
+            printf("Contrase%ca: %s\n",164,lista->dato.contrasena);
+        }else{
+            printf("Contrase%ca: ", 164);
+        for (int i = 0; i < strlen(lista->dato.contrasena); i++) {
+            printf("*");
+        }
+        printf("\n");
+        }
+        printf("Tipo de perfil: %s\n",lista->dato.perfil);
+        printf("----------------------\n");
+        mostrarListaUsuarios(lista->sig,tipoUser);
     }
-    printf("\n");
-    }
-    printf("Tipo de perfil: %s\n",lista->dato.perfil);
-    printf("----------------------\n");
-    mostrarListaUsuarios(lista->sig,tipoUser);
 }
 void mostrarArchivoOrdenado(char archivo[], int tipoUser){
     nodoUser* aux=inicLista();
@@ -385,19 +397,17 @@ void liberarLista(nodoUser* lista) {
         free(nodoAEliminar);  // Libera la memoria del nodo actual
     }
 }
-int consultaEmpleado(char archivo[], int dni){
-    int enc=0;
+void consultaEmpleado(char archivo[], int dni,int tipoUser){///busca el dni y lo muestra
     stUsuario aux;
     FILE*archi=fopen(archivo,"rb");
     if(archi){
-        while (fread(&aux,sizeof(stUsuario),1,archi)>0 && enc ==0)
-        {
+        while(fread(&aux,sizeof(stUsuario),1,archi)>0){
             if(aux.dni==dni){
-                enc=1;
+                nodoUser* nuevo=crearNodo(aux);
+                mostrarListaUsuarios(nuevo,tipoUser);
+                break;
             }
         }
-
     }
     fclose(archi);
-    return enc;
 }

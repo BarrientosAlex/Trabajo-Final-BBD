@@ -22,11 +22,13 @@ int validarNombreUser(char archivo[], char usuario[]);
 int tipoDeEmpleado(char perfil[]);
 int validarUsuarioCompleto(char archivo[],char contrasena[], char usuario[]);
 int validarDNIUser(char archivo[], int dni);
+int validarCargoUser(char* cargo);
 int cargarNuevoUsuario(char archivo[]);
 void cargarUsuarioArchivo(char archivo[],stUsuario aux);
 stUserAux cargarUser();
 int inicioSesion(char archivo[]);
 int login(char archivo[]);
+void consultaEmpleado(char archivo[], int dni, int tipoUser);///busca por dni y muestra
 ///funciones nodos
 nodoUser* inicLista();
 nodoUser* crearNodo(stUsuario aux);

@@ -89,6 +89,7 @@ void mostrarPorFechas(nodoIngresos * listaIngresos,nodoPaciente * arbolPaciente)
 nodoPaciente* cargarArbolDesdeArchivo(char archivo[],nodoPaciente* arbol);
 void filtrarPorDNI(nodoPaciente * arbol);
 nodoIngresos * filtrarIngreso(nodoPaciente* arbol);
+nodoIngresos* filtrarIngresoParaMostrar(nodoPaciente* arbol);
 stIngresos cargarIngresos();
 void agregarNuevoIngresoArchivo(char archivo[],stIngresos nuevo);
 void modificarArchivoIngresos(char archivo[],stIngresos datonuevo);
@@ -97,6 +98,9 @@ int validarDNIyEncontrar(nodoPaciente* arbol,nodoPaciente** encontrado);
 ///FUNCIONES PARA PRACTICASXINGRESO
 void mostrarPxiAUX(stPracXingreso dato);
 void mostrarPxi(nodoPracticasXingreso* lista);
+void buscarPrefijoPractica(nodoPracticasXingreso* lista,char prefijo[]);
+void buscarPrefijoIngreso(nodoIngresos* lista,char prefijo[]);
+void buscarPrefijoPaciente(nodoPaciente* arbol,char prefijo[]);
 nodoPracticasXingreso* buscarPractica(nodoPracticasXingreso* lista,int numPractica);
 nodoPaciente* pasarPracticasAlArbolArchivo(char archivo[],nodoPaciente* arbol);
 nodoPracticasXingreso * crearNodoPxI(stPracXingreso pxi);

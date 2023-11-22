@@ -45,7 +45,7 @@ nodoIngresos * agregarOrdenFecha(nodoIngresos * lista, nodoIngresos * nuevo){ //
     }
     return lista;
 }
-void mostrarPorFechas(nodoIngresos * listaIngresos,nodoPaciente * arbolPaciente){ ///FUNCION A CHEKEAR CON LEITO 3 CABEZAS PIENSAN MEJOR QUE DOS //La funcion va a mostrar los ingresos desde la fecha ingresada hasta la fecha ingresada por el usuario.
+void mostrarPorFechas(nodoIngresos * listaIngresos,nodoPaciente * arbolPaciente){///FUNCION A CHEKEAR CON LEITO 3 CABEZAS PIENSAN MEJOR QUE DOS //La funcion va a mostrar los ingresos desde la fecha ingresada hasta la fecha ingresada por el usuario.
     char fechaDesde[10];
     char fechaHasta[10];
     printf("Ingrese la fecha desde (formato DD/MM/YYYY):");
@@ -80,12 +80,14 @@ void mostrarAux(stIngresos dato){
         printf("Matricula : %i",dato.matricula);
     }
 }
-void mostrarIngreso(nodoIngresos* lista){
+void mostrarIngreso(nodoIngresos* lista){///Muestra los no eliminados
     if(lista){
-        mostrarAux(lista->ingreso);
-        printf("\n\tPRACTICAS \n");
-        fflush(stdout);
-        mostrarPxi(lista->practicas);
+        if(lista->ingreso.eliminado==0){
+            mostrarAux(lista->ingreso);
+            printf("\n\tPRACTICAS \n");
+            fflush(stdout);
+            mostrarPxi(lista->practicas);
+        }
         mostrarIngreso(lista->sig);
     }
 }
@@ -129,6 +131,9 @@ nodoIngresos * filtrarPorNroIngreso(nodoPaciente* arbol){ ///anteriormente pedir
             }
             seg=seg->sig;
         }
+        if(!aux){
+            printf("\nError. No se encontro el numero de ingreso.\n");
+        }
     }
     return aux;  ///retorna NULL si no lo encontro, o el puntero a todos los datos del ingreso
 }
@@ -147,6 +152,9 @@ nodoIngresos* filtrarPorFechaIngreso(nodoPaciente* arbol){ ///anteriormente tene
             }
             seg=seg->sig;
         }
+        if(!aux){
+            printf("\nError. Fecha de ingreso inexistente.\n");
+        }
     }
     return aux;  ///retorna 1 si se cumple la condicion o 0 si no encuentra el nroIngresado en la lista;
 }
@@ -155,7 +163,7 @@ void filtrarPorDNI(nodoPaciente * arbol) { ///Mostrara todos los ingresos de la 
         printf("\n---------------\n");
         printf("DNI: %i",arbol->paciente.dni);
         if(arbol->ingresos==NULL){
-            printf("\nError: no hay ingresos cargados.");
+            printf("\nError: no hay ingresos cargados.\n");
         }else{
             mostrarIngreso(arbol->ingresos);
         }
@@ -165,8 +173,35 @@ nodoIngresos * filtrarIngreso(nodoPaciente* arbol){ /// anteriormente tenemos qu
     nodoIngresos* aux=NULL;
     if(arbol){
         aux = filtrarPorNroIngreso(arbol);
-    } else{
+    }else{
         printf("Paciente no existente.\n");
+    }
+    return aux;
+}
+nodoIngresos* filtrarIngresoParaMostrar(nodoPaciente* arbol){
+    nodoIngresos *aux=NULL;
+    char eleccion;
+    int flag=1;
+    if(arbol){
+        do{
+            printf("Ingrese: \n.1-Filtrar nro.Ingreso.\n.2-Filtrar por fecha ingreso.\n");
+            fflush(stdin);
+            scanf("%c",&eleccion);
+            switch(eleccion){
+                case '1':{
+                    aux=filtrarPorNroIngreso(arbol);
+                    break;
+                }
+                case '2':{
+                    aux=filtrarPorFechaIngreso(arbol);
+                    break;
+                }
+                default:{
+                    flag=0;
+                    break;
+                }
+            }
+        }while(flag!=1);
     }
     return aux;
 }
@@ -182,6 +217,10 @@ stIngresos cargarIngresos(){
     aux.nroIngreso = contarIngresosenArchivo("ingresos.bin")+1;
     sprintf(aux.fechaIngreso, "%02d/%02d/%04d", tm_info->tm_mday, tm_info->tm_mon + 1, tm_info->tm_year + 1900);
     char fechaRetiroBuffer[10];
+    system("cls");
+    printf("---------------------\n");
+    printf("Ingreso numero: %i\n",aux.nroIngreso);
+    printf("Fecha ingreso: %s\n",aux.fechaIngreso);
     do{
         printf("Ingrese la fecha del retiro(formato dd/mm/yy): \n");
         fflush(stdin);
@@ -191,8 +230,13 @@ stIngresos cargarIngresos(){
             printf("Error.Ingrese una fecha de retiro valido. \n");
         }
     }while(fechaValida != 0);
-    //Copiar la fecha de retiro al buffer de la estructura
+    system("cls");
+    printf("---------------------\n");
+    printf("Ingreso numero: %i\n",aux.nroIngreso);
+    printf("Fecha de ingreso: %s\n",aux.fechaIngreso);
     strcpy(aux.fechaRetiro, fechaRetiroBuffer);
+    printf("Fecha de retiro: %s\n",aux.fechaRetiro);
+    //Copiar la fecha de retiro al buffer de la estructura
     do{
         printf("Ingrese los 6 numeros de la matricula del Profesional: \n");
         fflush(stdin);
@@ -203,6 +247,12 @@ stIngresos cargarIngresos(){
             printf("Error.Ingrese una matricula valida.\n");
         }
     }while(matriculaValida != 0);
+    system("cls");
+    printf("---------------------\n");
+    printf("Ingreso numero: %i\n",aux.nroIngreso);
+    printf("Fecha de ingreso: %s\n",aux.fechaIngreso);
+    printf("Fecha de retiro: %s\n",aux.fechaRetiro);
+    printf("Matricula: %d\n",aux.matricula);
     aux.eliminado = 0;
     return aux;
 }
@@ -219,26 +269,21 @@ int validarFecha(char *fechaRetiro){
                 flag =1;
             }
         }
-
         if(flag == 0){
             if(dia < 1 || dia>31 || mes<01 || mes>12 || anio<23 ||anio>33){
                 flag = 1;
 
             }
-          }
-
+        }
         if(anio ==23){
             if(mes<11 || mes >12){
                 flag = 1;
             }
         }
-
     }else{
         flag = 1;
     }
-
     return flag;
-
 }
 int validarMatricula(char * matricula){
     int cantNum = strlen(matricula);
