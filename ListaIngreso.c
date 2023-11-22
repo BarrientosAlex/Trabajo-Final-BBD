@@ -45,7 +45,7 @@ nodoIngresos * agregarOrdenFecha(nodoIngresos * lista, nodoIngresos * nuevo){ //
     }
     return lista;
 }
-void mostrarPorFechas(nodoIngresos * listaIngresos,nodoPaciente * arbolPaciente){ ///FUNCION A CHEKEAR CON LEITO 3 CABEZAS PIENSAN MEJOR QUE DOS //La funcion va a mostrar los ingresos desde la fecha ingresada hasta la fecha ingresada por el usuario.
+void mostrarPorFechas(nodoIngresos * listaIngresos,nodoPaciente * arbolPaciente){///FUNCION A CHEKEAR CON LEITO 3 CABEZAS PIENSAN MEJOR QUE DOS //La funcion va a mostrar los ingresos desde la fecha ingresada hasta la fecha ingresada por el usuario.
     char fechaDesde[10];
     char fechaHasta[10];
     printf("Ingrese la fecha desde (formato DD/MM/YYYY):");
@@ -182,6 +182,10 @@ stIngresos cargarIngresos(){
     aux.nroIngreso = contarIngresosenArchivo("ingresos.bin")+1;
     sprintf(aux.fechaIngreso, "%02d/%02d/%04d", tm_info->tm_mday, tm_info->tm_mon + 1, tm_info->tm_year + 1900);
     char fechaRetiroBuffer[10];
+    system("cls");
+    printf("---------------------\n");
+    printf("Ingreso numero: %i\n",aux.nroIngreso);
+    printf("Fecha ingreso: %s\n",aux.fechaIngreso);
     do{
         printf("Ingrese la fecha del retiro(formato dd/mm/yy): \n");
         fflush(stdin);
@@ -191,8 +195,13 @@ stIngresos cargarIngresos(){
             printf("Error.Ingrese una fecha de retiro valido. \n");
         }
     }while(fechaValida != 0);
-    //Copiar la fecha de retiro al buffer de la estructura
+    system("cls");
+    printf("---------------------\n");
+    printf("Ingreso numero: %i\n",aux.nroIngreso);
+    printf("Fecha de ingreso: %s\n",aux.fechaIngreso);
     strcpy(aux.fechaRetiro, fechaRetiroBuffer);
+    printf("Fecha de retiro: %s\n",aux.fechaRetiro);
+    //Copiar la fecha de retiro al buffer de la estructura
     do{
         printf("Ingrese los 6 numeros de la matricula del Profesional: \n");
         fflush(stdin);
@@ -203,6 +212,12 @@ stIngresos cargarIngresos(){
             printf("Error.Ingrese una matricula valida.\n");
         }
     }while(matriculaValida != 0);
+    system("cls");
+    printf("---------------------\n");
+    printf("Ingreso numero: %i\n",aux.nroIngreso);
+    printf("Fecha de ingreso: %s\n",aux.fechaIngreso);
+    printf("Fecha de retiro: %s\n",aux.fechaRetiro);
+    printf("Matricula: %d\n",aux.matricula);
     aux.eliminado = 0;
     return aux;
 }
@@ -219,26 +234,21 @@ int validarFecha(char *fechaRetiro){
                 flag =1;
             }
         }
-
         if(flag == 0){
             if(dia < 1 || dia>31 || mes<01 || mes>12 || anio<23 ||anio>33){
                 flag = 1;
 
             }
-          }
-
+        }
         if(anio ==23){
             if(mes<11 || mes >12){
                 flag = 1;
             }
         }
-
     }else{
         flag = 1;
     }
-
     return flag;
-
 }
 int validarMatricula(char * matricula){
     int cantNum = strlen(matricula);
