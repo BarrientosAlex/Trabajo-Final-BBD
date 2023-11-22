@@ -80,12 +80,14 @@ void mostrarAux(stIngresos dato){
         printf("Matricula : %i",dato.matricula);
     }
 }
-void mostrarIngreso(nodoIngresos* lista){
+void mostrarIngreso(nodoIngresos* lista){///Muestra los no eliminados
     if(lista){
-        mostrarAux(lista->ingreso);
-        printf("\n\tPRACTICAS \n");
-        fflush(stdout);
-        mostrarPxi(lista->practicas);
+        if(lista->ingreso.eliminado==0){
+            mostrarAux(lista->ingreso);
+            printf("\n\tPRACTICAS \n");
+            fflush(stdout);
+            mostrarPxi(lista->practicas);
+        }
         mostrarIngreso(lista->sig);
     }
 }
@@ -129,6 +131,9 @@ nodoIngresos * filtrarPorNroIngreso(nodoPaciente* arbol){ ///anteriormente pedir
             }
             seg=seg->sig;
         }
+        if(!aux){
+            printf("\nError. No se encontro el numero de ingreso.\n");
+        }
     }
     return aux;  ///retorna NULL si no lo encontro, o el puntero a todos los datos del ingreso
 }
@@ -147,6 +152,9 @@ nodoIngresos* filtrarPorFechaIngreso(nodoPaciente* arbol){ ///anteriormente tene
             }
             seg=seg->sig;
         }
+        if(!aux){
+            printf("\nError. Fecha de ingreso inexistente.\n");
+        }
     }
     return aux;  ///retorna 1 si se cumple la condicion o 0 si no encuentra el nroIngresado en la lista;
 }
@@ -155,7 +163,7 @@ void filtrarPorDNI(nodoPaciente * arbol) { ///Mostrara todos los ingresos de la 
         printf("\n---------------\n");
         printf("DNI: %i",arbol->paciente.dni);
         if(arbol->ingresos==NULL){
-            printf("\nError: no hay ingresos cargados.");
+            printf("\nError: no hay ingresos cargados.\n");
         }else{
             mostrarIngreso(arbol->ingresos);
         }
@@ -165,8 +173,35 @@ nodoIngresos * filtrarIngreso(nodoPaciente* arbol){ /// anteriormente tenemos qu
     nodoIngresos* aux=NULL;
     if(arbol){
         aux = filtrarPorNroIngreso(arbol);
-    } else{
+    }else{
         printf("Paciente no existente.\n");
+    }
+    return aux;
+}
+nodoIngresos* filtrarIngresoParaMostrar(nodoPaciente* arbol){
+    nodoIngresos *aux=NULL;
+    char eleccion;
+    int flag=1;
+    if(arbol){
+        do{
+            printf("Ingrese: \n.1-Filtrar nro.Ingreso.\n.2-Filtrar por fecha ingreso.\n");
+            fflush(stdin);
+            scanf("%c",&eleccion);
+            switch(eleccion){
+                case '1':{
+                    aux=filtrarPorNroIngreso(arbol);
+                    break;
+                }
+                case '2':{
+                    aux=filtrarPorFechaIngreso(arbol);
+                    break;
+                }
+                default:{
+                    flag=0;
+                    break;
+                }
+            }
+        }while(flag!=1);
     }
     return aux;
 }

@@ -6,6 +6,21 @@
 #include "Estructuras.h"
 
 /// Funciones Practicas
+void inOrder(nodoPaciente *arbolPaciente){
+    if(arbolPaciente){
+        inOrder(arbolPaciente->izq);
+        printf("\n------- %s --------\n", arbolPaciente->paciente.apelyNom);
+        printf("DNI:%d \n", arbolPaciente->paciente.dni);
+        printf("Direccion: %s \n", arbolPaciente->paciente.direccion);
+        printf("Edad: %d \n", arbolPaciente->paciente.edad);
+        printf("Telefono: %s\n", arbolPaciente->paciente.telefono);
+        printf("Eliminado: %d\n", arbolPaciente->paciente.eliminado);
+        printf("---------------------------\n");
+        mostrarIngreso(arbolPaciente->ingresos);
+        printf("\n********************\n");
+        inOrder(arbolPaciente->der);
+    }
+}
 practicas cargarPracticas(){
     practicas aux;
     printf("Ingrese el Nro de practicas: \n");
@@ -347,21 +362,6 @@ void arbolPacienteToArchivo(char archivo[],stPacientes dato){
         fclose(archi);
     }else{
         printf("\nError al abrir el archivo de pacientes\n");
-    }
-}
-void inOrder(nodoPaciente *arbolPaciente){
-    if(arbolPaciente){
-        inOrder(arbolPaciente->izq);
-        printf("\n------- %s --------\n", arbolPaciente->paciente.apelyNom);
-        printf("DNI:%d \n", arbolPaciente->paciente.dni);
-        printf("Direccion: %s \n", arbolPaciente->paciente.direccion);
-        printf("Edad: %d \n", arbolPaciente->paciente.edad);
-        printf("Telefono: %s\n", arbolPaciente->paciente.telefono);
-        printf("Eliminado: %d\n", arbolPaciente->paciente.eliminado);
-        printf("---------------------------\n");
-        mostrarIngreso(arbolPaciente->ingresos);
-        printf("\n********************\n");
-        inOrder(arbolPaciente->der);
     }
 }
 nodoPaciente* cargarIngresosDesdeArchivo(char archivo[],nodoPaciente* arbol){

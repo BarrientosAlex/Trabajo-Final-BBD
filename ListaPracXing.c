@@ -19,6 +19,29 @@ void mostrarPxi(nodoPracticasXingreso* lista){
        lista=lista->sig;
     }
 }
+void buscarPrefijoPractica(nodoPracticasXingreso* lista,char prefijo[]){///Recorre la lista de practicas
+    nodoPracticasXingreso* seg=lista;
+    while(seg){
+        if(strstr(seg->pXi.nombrePractica,prefijo)){///Si es distinto de null encontro el prefijo dentro de la cadena
+            mostrarPxiAUX(seg->pXi);
+        }
+        seg=seg->sig;
+    }
+}
+void buscarPrefijoIngreso(nodoIngresos* lista,char prefijo[]){///Recorre la lista de ingresos
+    nodoIngresos* seg=lista;
+    while(seg){
+        buscarPrefijoPractica(lista->practicas,prefijo);
+        seg=seg->sig;
+    }
+}
+void buscarPrefijoPaciente(nodoPaciente* arbol,char prefijo[]){///Recorre el arbol
+    if(arbol){
+        buscarPrefijoPaciente(arbol->izq,prefijo);
+        buscarPrefijoIngreso(arbol->ingresos,prefijo);
+        buscarPrefijoPaciente(arbol->der,prefijo);
+    }
+}
 nodoPracticasXingreso* crearNodoPxI(stPracXingreso pxi){
     nodoPracticasXingreso * aux =(nodoPracticasXingreso*)malloc(sizeof(nodoPracticasXingreso));
     aux->pXi = pxi;
@@ -75,7 +98,7 @@ nodoPracticasXingreso * Alta_de_pxi(nodoPracticasXingreso * lista,int num){///Ya
         }else{
             printf("\nError: nro.Practica existente.\n");
         }
-        printf("\nDesea cargar mas practicas para el paciente? (s) para continuar");
+        printf("\nDesea cargar mas practicas para el paciente? (s) para continuar: ");
         fflush(stdin);
         scanf("%c",&elec);
     }

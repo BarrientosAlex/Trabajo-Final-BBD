@@ -4,7 +4,7 @@
 	<stdlib.h>
 	"menu.h"
 
-1700666498 source:d:\datos pc\escritorio\prueba\arbolpaciente.c
+1700687270 source:d:\datos pc\escritorio\prueba\arbolpaciente.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
@@ -12,7 +12,7 @@
 	<ctype.h>
 	"Estructuras.h"
 
-1700577466 d:\datos pc\escritorio\prueba\estructuras.h
+1700688055 d:\datos pc\escritorio\prueba\estructuras.h
 	<time.h>
 
 1700658066 source:d:\datos pc\escritorio\prueba\auxmenu.c
@@ -25,23 +25,23 @@
 
 1700525473 d:\datos pc\escritorio\prueba\auxmenu.h
 
-1700667760 source:d:\datos pc\escritorio\prueba\listaingreso.c
+1700686378 source:d:\datos pc\escritorio\prueba\listaingreso.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
 	<time.h>
 	"Estructuras.h"
 
-1700577401 source:d:\datos pc\escritorio\prueba\listapracxing.c
+1700688021 source:d:\datos pc\escritorio\prueba\listapracxing.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
 	<time.h>
 	"Estructuras.h"
 
-1700522071 d:\datos pc\escritorio\prueba\menu.h
+1700685022 d:\datos pc\escritorio\prueba\menu.h
 
-1700578092 source:d:\datos pc\escritorio\prueba\menu.c
+1700687966 source:d:\datos pc\escritorio\prueba\menu.c
 	<stdio.h>
 	<stdlib.h>
 	"menu.h"
@@ -50,9 +50,9 @@
 	"Estructuras.h"
 	"windows.h"
 
-1700663652 d:\datos pc\escritorio\prueba\user.h
+1700682902 d:\datos pc\escritorio\prueba\user.h
 
-1700664672 source:d:\datos pc\escritorio\prueba\user.c
+1700682942 source:d:\datos pc\escritorio\prueba\user.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>

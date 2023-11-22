@@ -357,21 +357,23 @@ nodoUser* agregarNodoOrdenado(nodoUser* lista, nodoUser* nuevo){ //Los voy a ord
     return lista;
 }
 void mostrarListaUsuarios(nodoUser* lista,int tipoUser){
-    printf("Numero de DNI: %i\n",lista->dato.dni);
-    printf("Nombre y apellido: %s\n",lista->dato.nombreYapellido);
-    printf("Usuario: %s\n",lista->dato.nombreUsuario);
-    if(tipoUser==1){
-        printf("Contrase%ca: %s\n",164,lista->dato.contrasena);
-    }else{
-        printf("Contrase%ca: ", 164);
-    for (int i = 0; i < strlen(lista->dato.contrasena); i++) {
-        printf("*");
+    if(lista){
+        printf("Numero de DNI: %i\n",lista->dato.dni);
+        printf("Nombre y apellido: %s\n",lista->dato.nombreYapellido);
+        printf("Usuario: %s\n",lista->dato.nombreUsuario);
+        if(tipoUser==1){
+            printf("Contrase%ca: %s\n",164,lista->dato.contrasena);
+        }else{
+            printf("Contrase%ca: ", 164);
+        for (int i = 0; i < strlen(lista->dato.contrasena); i++) {
+            printf("*");
+        }
+        printf("\n");
+        }
+        printf("Tipo de perfil: %s\n",lista->dato.perfil);
+        printf("----------------------\n");
+        mostrarListaUsuarios(lista->sig,tipoUser);
     }
-    printf("\n");
-    }
-    printf("Tipo de perfil: %s\n",lista->dato.perfil);
-    printf("----------------------\n");
-    mostrarListaUsuarios(lista->sig,tipoUser);
 }
 void mostrarArchivoOrdenado(char archivo[], int tipoUser){
     nodoUser* aux=inicLista();
@@ -395,19 +397,17 @@ void liberarLista(nodoUser* lista) {
         free(nodoAEliminar);  // Libera la memoria del nodo actual
     }
 }
-int consultaEmpleado(char archivo[], int dni){
-    int enc=0;
+void consultaEmpleado(char archivo[], int dni,int tipoUser){///busca el dni y lo muestra
     stUsuario aux;
     FILE*archi=fopen(archivo,"rb");
     if(archi){
-        while (fread(&aux,sizeof(stUsuario),1,archi)>0 && enc ==0)
-        {
+        while(fread(&aux,sizeof(stUsuario),1,archi)>0){
             if(aux.dni==dni){
-                enc=1;
+                nodoUser* nuevo=crearNodo(aux);
+                mostrarListaUsuarios(nuevo,tipoUser);
+                break;
             }
         }
-
     }
     fclose(archi);
-    return enc;
 }

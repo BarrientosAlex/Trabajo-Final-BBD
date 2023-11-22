@@ -33,12 +33,34 @@ int validarPermisos(int tipoUser,char op,int flag){
     }
     return flag;
 }
+void mostrarSubMenu(){
+    printf("----------------------------------------------------");
+    printf("\nIngrese una opcion");
+    printf("\n1.Lista general de empleados(Ordenados por AyN)");
+    printf("\n2.Lista general de pacientes");
+    printf("\n3.Lista general de las practicas por ingresos");
+    printf("\n4.Lista general de los ingresos de los pacientes");
+    printf("\n5.Mostrar un ingreso");
+    printf("\n6.Mostrar un empleado por dni");
+    printf("\n7.Mostrar un paciente");
+    printf("\n8.Mostrar una practica por ingreso");
+    printf("\n9.Mostrar solo admin");
+}
 void menu(){
     int tipoUser=login("usuarios.bin");
     system("pause");
     system("cls");
-    int op=mostrarMenu();
-    int flag=1;
+    //char eleccion;
+    int op;
+    int flag;
+    nodoPaciente* arbolMother=NULL;
+    arbolMother=cargarArbolDesdeArchivo("pacientes.bin",arbolMother);
+    arbolMother=cargarIngresosDesdeArchivo("ingresos.bin",arbolMother);
+    arbolMother=pasarPracticasAlArbolArchivo("pxi.bin",arbolMother);
+    //int volverMenu=1;
+    //while(volverMenu==1){
+    op=mostrarMenu();
+    flag=1;
     while(flag==1){
         flag=validarPermisos(tipoUser,op,flag);
         if(flag==1){
@@ -46,18 +68,20 @@ void menu(){
             op=mostrarMenu();
         }
     }
-    char archivoPacientes[]=("pacientes.bin");
-    char archivoIngresos[]=("ingresos.bin");
-    char archivoPxI[]=("pxi.bin");
-    nodoPaciente* arbolMother=NULL;
-    arbolMother=cargarArbolDesdeArchivo("pacientes.bin",arbolMother);
-    arbolMother=cargarIngresosDesdeArchivo("ingresos.bin",arbolMother);
-    arbolMother=pasarPracticasAlArbolArchivo("pxi.bin",arbolMother);
     system("cls");
     Sleep(30);
     switch(op){
         case 0:{///Generar ingreso
+            //printf("\nDesea volver al menu? Presione (s): ");
+            //fflush(stdin);
+            //scanf("%c",&eleccion);
+            //if(eleccion=='s'||eleccion=='S'){
+                //volverMenu=1;
+                //system("pause");
+            //}else{
+            //volverMenu=0;
             arbolMother=alta_de_ingreso(arbolMother);
+            //}
             break;
         }
         case 1:{///Mod ingreso
@@ -98,6 +122,7 @@ void menu(){
             filtrarPorDNI(encontrado);
             aux=filtrarIngreso(arbolMother);
             if(aux){
+                system("cls");
                 mostrarPxi(aux->practicas);
                 aux->practicas=modificacion_de_pxi(aux->practicas);
                 modificarArchivoPXI("pxi.bin",aux->practicas->pXi);
@@ -110,9 +135,10 @@ void menu(){
             nodoIngresos* aux=NULL;
             filtrarPorDNI(encontrado);
             aux=filtrarIngreso(arbolMother);
+            system("cls");
             mostrarPxi(aux->practicas);
             aux->practicas=Baja_de_pxi(aux->practicas);
-            modificarArchivoPXI(archivoPxI,aux->practicas->pXi);
+            modificarArchivoPXI("pxi.bin",aux->practicas->pXi);
             break;
         }
         case 5:{///Cargar resultado
@@ -122,6 +148,7 @@ void menu(){
             filtrarPorDNI(encontrado);
             aux=filtrarIngreso(arbolMother);///Mostrar practicas
             if(aux){
+                system("cls");
                 mostrarPxi(aux->practicas);
                 char numPractica[30];
                 int valido=0;
@@ -151,6 +178,7 @@ void menu(){
             filtrarPorDNI(encontrado);
             aux=filtrarIngreso(arbolMother);///Mostrar practicas
             if(aux){
+                system("cls");
                 mostrarPxi(aux->practicas);
                 char numPractica[30];
                 int valido=0;
@@ -180,11 +208,12 @@ void menu(){
             filtrarPorDNI(encontrado);
             aux=filtrarIngreso(arbolMother);///Mostrar practicas
             if(aux){
+                system("cls");
                 mostrarPxi(aux->practicas);
                 char numPractica[30];
                 int valido=0;
                 do{
-                    printf("\nIngrese nro.Practica a modificar: ");///Validarlo
+                    printf("\nIngrese nro.Practica del resultado a eliminar: ");///Validarlo
                     fflush(stdin);
                     gets(numPractica);
                     valido=validarNumero(numPractica);
@@ -202,7 +231,6 @@ void menu(){
             }
         }
         case 8:{///Eliminar paciente
-            nodoPaciente* auxArbol=NULL;
             arbolMother=baja_de_paciente(arbolMother);
             break;
         }
@@ -211,8 +239,63 @@ void menu(){
             break;
         }
         case 10:{///Mostrar arbol
+            char opcion;
+            int flag=1;
+            nodoIngresos* aux=NULL;
+            nodoPaciente* paux=NULL;
+            do{
+                mostrarSubMenu();
+                fflush(stdin);
+                scanf("%c",&opcion);
+                switch(opcion){
+                    case '1':{///lista emp
+                        break;
+                    }
+                    case '2':{///lista pacientes
+                        break;
+                    }
+                    case '3':{///lista pxi
+                        break;
+                    }
+                    case '4':{///lista ingresos
+                        break;
+                    }
+                    case '5':{///ingreso
+                        aux=filtrarIngresoParaMostrar(arbolMother);
+                        if(aux){
+                            mostrarIngreso(aux);
+                        }
+                        break;
+                    }
+                    case '6':{///empleado
+                        break;
+                    }
+                    case '7':{///paciente por dni
+                        int dni=validarDNIyEncontrar(arbolMother,&paux);
+                        inOrder(paux);///muestra eliminados tmb, chequear
+                        break;
+                    }
+                    case '8':{///pxi
+                        char prefijo[15];
+                        printf("\nIngrese prefijo de las practicas a mostrar: \n");
+                        fgets(prefijo,15,stdin);
+                        buscarPrefijoPaciente(arbolMother,prefijo);
+                        break;
+                    }
+                    case '9':{///admin
+                        inOrder(arbolMother);
+                        break;
+                    }
+                    default:{
+                        printf("\nError. Ingrese una opcion valida. ");
+                        flag=0;
+                        system("cls");
+                    }
+                }
+            }while(flag!=1);
             inOrder(arbolMother);
             break;
         }
     }
+    ///}
 }
