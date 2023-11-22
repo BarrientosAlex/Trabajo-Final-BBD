@@ -33,7 +33,6 @@ practicas cargarPracticas(){
     return aux;
 }
 ///Funciones Paciente
-
 nodoPaciente * crearNodoPaciente(stPacientes pac){
     nodoPaciente * aux = (nodoPaciente*)malloc(sizeof(nodoPaciente));
     aux->paciente= pac;

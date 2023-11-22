@@ -1,6 +1,7 @@
 #ifndef ESTRUCTURAS_H_INCLUDED
 #define ESTRUCTURAS_H_INCLUDED
 #include <time.h>
+
 typedef struct stPacientes{
     char apelyNom[40];
     int edad;
@@ -9,8 +10,6 @@ typedef struct stPacientes{
     char telefono[15];
     int eliminado;
 } stPacientes;
-
-
 typedef struct stIngresos{
     int nroIngreso;
     char fechaIngreso[11];
@@ -19,7 +18,6 @@ typedef struct stIngresos{
     int matricula;
     int eliminado;
 }stIngresos;
-
 typedef struct stPracXingreso{
     int nroIngreso;
     int nroPractica;
@@ -27,37 +25,28 @@ typedef struct stPracXingreso{
     char resultado[40];
     int eliminado;
 }stPracXingreso;
-
 typedef struct practicas{
     int nroPractica;
     char nombrePractica[30];
     int eliminado;
 }practicas;
-
-
 typedef struct nodoPracticasXingreso{
     stPracXingreso pXi;
     struct nodoPracticasXingreso * sig;
 }nodoPracticasXingreso;
-
 typedef struct nodoIngresos{
     stIngresos ingreso;
     struct nodoPracticasXingreso * practicas;
     struct nodoIngresos * sig;
     struct nodoIngresos * ant;
 }nodoIngresos;
-
 typedef struct nodoPaciente{
     stPacientes paciente;
     struct nodoIngresos * ingresos;
-    struct nodoA * izq;
-    struct nodoA * der;
+    struct nodoPaciente * izq;
+    struct nodoPaciente * der;
 }nodoPaciente;
-
-
-
 practicas cargarPracticas();
-//void  filtrarPorPrefijo (nodoPracticas * lista);
 ///FUNCIONES PACIENTES
 void modificarArchivoPaciente(char archivo[],stPacientes datonuevo);
 void arbolPacienteToArchivo(char archivo[],stPacientes dato);
@@ -71,6 +60,7 @@ nodoPaciente * baja_de_paciente(nodoPaciente * arbolPaciente);
 void inOrder(nodoPaciente *arbolPaciente);
 nodoPaciente* cargarArbolDesdeArchivo(char archivo[],nodoPaciente* arbol);
 ///FUNCIOES INGRESOS
+void agregarNuevoIngresoArchivo(char archivo[],stIngresos nuevo);
 void mostrarAux(stIngresos dato);
 void mostrarIngreso(nodoIngresos* lista);
 int validarDNIyEncontrar(nodoPaciente* arbol,nodoPaciente** encontrado);
@@ -91,11 +81,9 @@ void filtrarPorDNI(nodoPaciente * arbol);
 nodoIngresos * filtrarIngreso(nodoPaciente* arbol);
 nodoIngresos* filtrarIngresoParaMostrar(nodoPaciente* arbol);
 stIngresos cargarIngresos();
-void agregarNuevoIngresoArchivo(char archivo[],stIngresos nuevo);
-void modificarArchivoIngresos(char archivo[],stIngresos datonuevo);
-int contarIngresosenArchivo( char archivo[]);
-int validarDNIyEncontrar(nodoPaciente* arbol,nodoPaciente** encontrado);
 ///FUNCIONES PARA PRACTICASXINGRESO
+int contarPxienArchivo(char archivo[]);
+int buscarPxiArchivo(char archivo[],int nrPractica);
 void mostrarPxiAUX(stPracXingreso dato);
 void mostrarPxi(nodoPracticasXingreso* lista);
 void buscarPrefijoPractica(nodoPracticasXingreso* lista,char prefijo[]);
@@ -110,12 +98,11 @@ nodoPracticasXingreso * buscarNroPractica(nodoPracticasXingreso * lista, int nro
 nodoPracticasXingreso * Alta_de_pxi(nodoPracticasXingreso * lista,int num);
 nodoPracticasXingreso * modificacion_de_pxi(nodoPracticasXingreso * lista);
 nodoPracticasXingreso * Baja_de_pxi(nodoPracticasXingreso * lista);
-void agregarPxialArchivo(char archivo[], stPracXingreso dato);
-void mostrarArchivoPXI(char archivo[]);
-int contarPxienArchivo( char archivo[]);
 void modificarArchivoPXI(char archivo[], stPracXingreso dato);
-
+void agregarPxialArchivo(char archivo[], stPracXingreso dato);
 ///VALIDACIONES
+int validarFecha(char *fechaRetiro);
+int validarMatricula(char * matricula);
 int validarNombre(char * nombre);
 int validarEdad (char * edad);
 int validarDNI(char * dni);
