@@ -2,10 +2,23 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
+#include <ctype.h>
 #include "Estructuras.h"
 
 
 ///Funciones nodoPracticasXingreso
+practicas cargarPracticas(){///esta no se usa
+    practicas aux;
+    printf("Ingrese el Nro de practicas: \n");
+    fflush(stdin);
+    scanf("%d", &aux.nroPractica);
+    printf("Ingrese el nombre de la Practica: \n");
+    fflush(stdin);
+    gets(aux.nombrePractica);
+    aux.eliminado=0;
+    return aux;
+}
+///Funciones mostrar
 void mostrarPxiAUX(stPracXingreso dato){
     if(dato.eliminado==0){
         printf("\nNro. practica: %i",dato.nroPractica);
@@ -18,6 +31,37 @@ void mostrarPxi(nodoPracticasXingreso* lista){
        mostrarPxiAUX(lista->pXi);
        lista=lista->sig;
     }
+}
+void recorrerIngresosParamostrarPracticas(nodoIngresos* lista){
+    nodoIngresos* seg=lista;
+    while(seg){
+        printf("\n-------------------\n");
+        mostrarPxi(seg->practicas);
+        printf("\n-------------------\n");
+        seg=seg->sig;
+    }
+}
+void recorrerArbolParaMostrarPracticas(nodoPaciente* arbol){
+    if(arbol){
+        recorrerArbolParaMostrarPracticas(arbol->izq);
+        recorrerIngresosParamostrarPracticas(arbol->ingresos);
+        recorrerArbolParaMostrarPracticas(arbol->der);
+    }
+}
+///Funciones buscar por prefijo
+int validarPrefijo(char * prefijo){
+    int flag = 0;
+    int cantNum = strlen(prefijo);
+    if(cantNum < 14){
+        for(int i = 0;i<cantNum;i++){
+            if(isdigit(prefijo[i])){///saque || !isalpha(prefijo[i])
+                flag = 1;
+            }
+        }
+    }else{
+        flag=1;
+    }
+    return flag;
 }
 void buscarPrefijoPractica(nodoPracticasXingreso* lista,char prefijo[]){///Recorre la lista de practicas
     nodoPracticasXingreso* seg=lista;
@@ -42,6 +86,7 @@ void buscarPrefijoPaciente(nodoPaciente* arbol,char prefijo[]){///Recorre el arb
         buscarPrefijoPaciente(arbol->der,prefijo);
     }
 }
+///Funciones crearNodo y agregar
 nodoPracticasXingreso* crearNodoPxI(stPracXingreso pxi){
     nodoPracticasXingreso * aux =(nodoPracticasXingreso*)malloc(sizeof(nodoPracticasXingreso));
     aux->pXi = pxi;
@@ -71,7 +116,8 @@ stPracXingreso cargarPXI(int numIngreso){///Por parametro pasa lista.Ingresos.Nr
     /*printf("\nIngrese resultado: " );
     fflush(stdin);
     gets(aux.resultado);*/
-    strcpy(aux.resultado,"\0");///le asigno null al resultado, ya que lo asigna el profesional
+    aux.resultado[0]='\0';///le asigno null al resultado, ya que lo asigna el profesional
+    //strcpy(aux.resultado,"\0");
     aux.eliminado=0;
     return aux;
 }
@@ -204,6 +250,8 @@ nodoPaciente* pasarPracticasAlArbolArchivo(char archivo[],nodoPaciente* arbol){
                 ing=buscarPorNroIngreso(arbol,aux.nroIngreso);
                 ing->practicas=agregarPpioPXI(ing->practicas,crearNodoPxI(aux));
             }
+        }else{
+            printf("\nError. No se pudo leer el archivo.\n");
         }
     }
     fclose(archi);

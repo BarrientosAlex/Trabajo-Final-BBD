@@ -4,7 +4,7 @@
 	<stdlib.h>
 	"menu.h"
 
-1700687270 source:d:\datos pc\escritorio\prueba\arbolpaciente.c
+1700752110 source:d:\datos pc\escritorio\prueba\arbolpaciente.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
@@ -12,7 +12,7 @@
 	<ctype.h>
 	"Estructuras.h"
 
-1700688055 d:\datos pc\escritorio\prueba\estructuras.h
+1700760179 d:\datos pc\escritorio\prueba\estructuras.h
 	<time.h>
 
 1700658066 source:d:\datos pc\escritorio\prueba\auxmenu.c
@@ -25,30 +25,33 @@
 
 1700525473 d:\datos pc\escritorio\prueba\auxmenu.h
 
-1700686378 source:d:\datos pc\escritorio\prueba\listaingreso.c
+1700761427 source:d:\datos pc\escritorio\prueba\listaingreso.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
 	<time.h>
+	<ctype.h>
 	"Estructuras.h"
 
-1700688021 source:d:\datos pc\escritorio\prueba\listapracxing.c
+1700761427 source:d:\datos pc\escritorio\prueba\listapracxing.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
 	<time.h>
+	<ctype.h>
 	"Estructuras.h"
 
 1700685022 d:\datos pc\escritorio\prueba\menu.h
 
-1700687966 source:d:\datos pc\escritorio\prueba\menu.c
+1700761318 source:d:\datos pc\escritorio\prueba\menu.c
 	<stdio.h>
 	<stdlib.h>
+	<ctype.h>
+	<windows.h>
 	"menu.h"
 	"auxMenu.h"
 	"user.h"
 	"Estructuras.h"
-	"windows.h"
 
 1700682902 d:\datos pc\escritorio\prueba\user.h
 

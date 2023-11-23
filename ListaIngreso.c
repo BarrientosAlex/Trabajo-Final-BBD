@@ -2,8 +2,10 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
+#include <ctype.h>
 #include "Estructuras.h"
 
+///Funciones crear y agregar
 nodoIngresos * crearNodoIng (stIngresos a){
     nodoIngresos * aux =(nodoIngresos*)malloc(sizeof(nodoIngresos));
     aux->ingreso = a;
@@ -26,12 +28,14 @@ nodoIngresos * agregarOrdenFecha(nodoIngresos * lista, nodoIngresos * nuevo){ //
     if(lista == NULL){
         lista = nuevo;
     }else{
-        if(strcmpi(nuevo->ingreso.fechaIngreso,lista->ingreso.fechaIngreso)>0){
+        // Comparar las fechas
+        int comparacionFecha=strcmpi(nuevo->ingreso.fechaIngreso, lista->ingreso.fechaIngreso);
+        if(comparacionFecha>0||(comparacionFecha==0&&nuevo->ingreso.nroIngreso>lista->ingreso.nroIngreso)){
             lista=agregarPpioIngresos(lista,nuevo);
         }else{
             nodoIngresos * ante = lista;
             nodoIngresos * seg = lista->sig;
-            while(seg != NULL && strcmpi(nuevo->ingreso.fechaIngreso,seg->ingreso.fechaIngreso)<0){
+            while(seg != NULL &&(comparacionFecha<0||(comparacionFecha==0&&nuevo->ingreso.nroIngreso>lista->ingreso.nroIngreso))){
                 ante = seg;
                 seg = seg->sig;
             }
@@ -45,40 +49,16 @@ nodoIngresos * agregarOrdenFecha(nodoIngresos * lista, nodoIngresos * nuevo){ //
     }
     return lista;
 }
-void mostrarPorFechas(nodoIngresos * listaIngresos,nodoPaciente * arbolPaciente){///FUNCION A CHEKEAR CON LEITO 3 CABEZAS PIENSAN MEJOR QUE DOS //La funcion va a mostrar los ingresos desde la fecha ingresada hasta la fecha ingresada por el usuario.
-    char fechaDesde[10];
-    char fechaHasta[10];
-    printf("Ingrese la fecha desde (formato DD/MM/YYYY):");
-    fflush(stdin);
-    gets(fechaDesde);
-    printf("Ingrese la fecha hasta (formato DD/MM/YYY)");
-    fflush(stdin);
-    gets(fechaHasta);
-
-    printf("\n Listado general de ingresos:\n");
-    nodoIngresos * seg = listaIngresos;
-
-    while(seg != NULL){
-        if(strcmp(seg->ingreso.fechaIngreso,fechaDesde)>= 0 && strcmp(seg->ingreso.fechaIngreso,fechaHasta) <=0){//Si la fecha del ingreso por el usuario es igual o mayor a una fecha que se encuentre en la lista de ingreso y la fecha hasta la que fue ingresada es menor o igual a una que se encuentre en la lista,
-            //Ingresar funcion de mostrar la lista de ingreso.
-        }
-    nodoPaciente * paciente = buscarPacienteDNI(arbolPaciente,seg->ingreso.dni);   // Hacemos esto para mostrar tambien los pacientes;
-    if(paciente != NULL){
-        //Ingresar funcion mostrar Paciente;
-    }
-    seg = seg->sig;
-    }
-}
-///Funcion para para que el usuario pueda seleccionar por que forma filtrar la busqueda y si se encuentra lo que busco dentro de la lista, que retorne ese nodo.
+///Funciones mostrar
 void mostrarAux(stIngresos dato){
-    if(dato.eliminado==0){
+    ///if(dato.eliminado==0){
         printf("\n*********************\n");
         printf("Numero de ingreso :%i\n",dato.nroIngreso);
         printf("Fecha de ingreso :%s\n",dato.fechaIngreso);
         printf("Fecha de retiro:%s\n",dato.fechaRetiro);
         //Dni lo muestro una sola vez antes
         printf("Matricula : %i",dato.matricula);
-    }
+    ///}
 }
 void mostrarIngreso(nodoIngresos* lista){///Muestra los no eliminados
     if(lista){
@@ -91,15 +71,46 @@ void mostrarIngreso(nodoIngresos* lista){///Muestra los no eliminados
         mostrarIngreso(lista->sig);
     }
 }
+void recorrerArbol(nodoPaciente* arbolPaciente,char fechaDesde[],char fechaHasta[]){///recorro y muestro por fechas
+    if(arbolPaciente){
+        recorrerArbol(arbolPaciente->izq,fechaDesde,fechaHasta);
+        printf("\n------- %s --------\n", arbolPaciente->paciente.apelyNom);
+        printf("DNI:%d \n", arbolPaciente->paciente.dni);
+        printf("Direccion: %s \n", arbolPaciente->paciente.direccion);
+        printf("Edad: %d \n", arbolPaciente->paciente.edad);
+        printf("Telefono: %s\n", arbolPaciente->paciente.telefono);
+        printf("Eliminado: %d\n", arbolPaciente->paciente.eliminado);
+        printf("---------------------------\n");
+        mostrarIngreso(arbolPaciente->ingresos);
+        printf("\n********************\n");
+        nodoIngresos * seg=arbolPaciente->ingresos;
+        while(seg){
+            if(strcmp(seg->ingreso.fechaIngreso,fechaDesde)>=0 && strcmp(seg->ingreso.fechaRetiro,fechaHasta)<=0){
+                mostrarAux(seg->ingreso);
+            }
+            seg=seg->sig;
+        }
+        recorrerArbol(arbolPaciente->der,fechaDesde,fechaHasta);
+    }
+}
+///Funcion para para que el usuario pueda seleccionar por que forma filtrar la busqueda y si se encuentra lo que busco dentro de la lista, que retorne ese nodo.
 nodoIngresos* buscarPorNroIngreso(nodoPaciente* arbol, int nroIngreso){
     nodoIngresos* aux=NULL;
     if(arbol){
-        nodoIngresos* seg=arbol->ingresos;
-        while(seg!=NULL && aux==NULL){
-            if(seg->ingreso.nroIngreso==nroIngreso){
-                aux=seg;
+        aux=buscarPorNroIngreso(arbol->der,nroIngreso);
+        if(aux==NULL){
+            if(arbol->ingresos){
+                nodoIngresos* seg=arbol->ingresos;
+                while(seg!=NULL && aux==NULL){
+                    if(seg->ingreso.nroIngreso==nroIngreso){
+                        aux=seg;
+                    }
+                    seg=seg->sig;
+                }
             }
-            seg=seg->sig;
+            if(aux==NULL){
+                aux=buscarPorNroIngreso(arbol->izq,nroIngreso);
+            }
         }
     }
     return aux;
@@ -139,12 +150,18 @@ nodoIngresos * filtrarPorNroIngreso(nodoPaciente* arbol){ ///anteriormente pedir
 }
 nodoIngresos* filtrarPorFechaIngreso(nodoPaciente* arbol){ ///anteriormente tenemos que haber buscado el paciente del que quermos el ingreso
     nodoIngresos* aux=NULL;
+    int fechaValida=0;
     if(arbol){
         char fechaIngreso[10];
-        printf("Ingrese la fecha de ingreso a buscar: \n");
-        fflush(stdin);
-        gets(fechaIngreso);
-        ///aca tiene que haber una funcion para validar la fecha que el usuario pone /// att lucho
+        do{
+            printf("Ingrese la fecha de ingreso a buscar(formato dd/mm/yyyy): \n");
+            fflush(stdin);
+            gets(fechaIngreso);
+            fechaValida=validarFechaIngreso(fechaIngreso);
+            if(fechaValida==0){
+                printf("\nError. Ingrese una fecha valida.\n");
+            }
+        }while(fechaValida!=1);
         nodoIngresos* seg= arbol->ingresos;
         while(seg!=NULL && aux==NULL){
             if(strcmpi(seg->ingreso.fechaIngreso, fechaIngreso) == 0){
@@ -156,9 +173,9 @@ nodoIngresos* filtrarPorFechaIngreso(nodoPaciente* arbol){ ///anteriormente tene
             printf("\nError. Fecha de ingreso inexistente.\n");
         }
     }
-    return aux;  ///retorna 1 si se cumple la condicion o 0 si no encuentra el nroIngresado en la lista;
+    return aux;
 }
-void filtrarPorDNI(nodoPaciente * arbol) { ///Mostrara todos los ingresos de la persona que desee la cual anteriormente debemos corroborar que exista o no
+void filtrarPorDNI(nodoPaciente * arbol) {///Mostrara todos los ingresos de la persona que desee la cual anteriormente debemos corroborar que exista o no
    if(arbol){
         printf("\n---------------\n");
         printf("DNI: %i",arbol->paciente.dni);
@@ -222,14 +239,14 @@ stIngresos cargarIngresos(){
     printf("Ingreso numero: %i\n",aux.nroIngreso);
     printf("Fecha ingreso: %s\n",aux.fechaIngreso);
     do{
-        printf("Ingrese la fecha del retiro(formato dd/mm/yy): \n");
+        printf("Ingrese la fecha del retiro(formato dd/mm/yyyy): \n");
         fflush(stdin);
         gets(fechaRetiroBuffer);
-        fechaValida =validarFecha(fechaRetiroBuffer);
-        if(fechaValida == 1){
+        fechaValida=validarFecha(fechaRetiroBuffer);
+        if(fechaValida==1){
             printf("Error.Ingrese una fecha de retiro valido. \n");
         }
-    }while(fechaValida != 0);
+    }while(fechaValida!=0);
     system("cls");
     printf("---------------------\n");
     printf("Ingreso numero: %i\n",aux.nroIngreso);
@@ -256,28 +273,49 @@ stIngresos cargarIngresos(){
     aux.eliminado = 0;
     return aux;
 }
+int validarFechaIngreso(char* fechaIngreso){
+    int cantNum=strlen(fechaIngreso);
+    int flag=1;
+    int dia=(fechaIngreso[0]-'0')*10+fechaIngreso[1]-'0';
+    int mes=(fechaIngreso[3]-'0')*10+fechaIngreso[4]-'0';
+    int anio=(fechaIngreso[6]-'0')*1000+(fechaIngreso[7]-'0')*100+(fechaIngreso[8]-'0')*10+(fechaIngreso[9]-'0');
+    if(cantNum==10){
+        for(int i=0;i<cantNum;i++){
+            if(!isdigit((unsigned char)fechaIngreso[i])&&fechaIngreso[i]!='/'){
+                flag=0;
+                break;
+            }
+        }
+    }else{
+        flag=0;
+    }
+    return flag;
+}
 int validarFecha(char *fechaRetiro){
     int cantNum =strlen(fechaRetiro);
     int flag = 0;
     int dia = (fechaRetiro[0]-'0')* 10 + fechaRetiro[1]-'0'; /// Paso el los dos primeras posiciones del string a un tipo int (Le resto el caracter - '0' que en la tabla ascii en el numero a 48 para convertirlo en tipo int
     int mes = (fechaRetiro[3]-'0') *10 +fechaRetiro[4]- '0'; /// Por lo tanto si en la posicion del string seleccionado es '1' le restas '0' y se busca su numero en la tabla ascii (49) - (48) y da 1 y se convierte en tipo int
-    int anio = (fechaRetiro[6]-'0') * 10 + fechaRetiro[7]-'0';
-
-    if(cantNum ==8){
+    int anio = (fechaRetiro[6]-'0') * 1000 + (fechaRetiro[7]-'0')*100 + (fechaRetiro[8]-'0')*10+ (fechaRetiro[9]-'0');
+    if(cantNum ==10){
         for(int i = 0;i<cantNum;i++){
             if(!isdigit((unsigned char)fechaRetiro[i])&& fechaRetiro[i] != '/'){   /// Para que se permita el uso de la barra entre el medio de dia, mes y año
                 flag =1;
             }
         }
         if(flag == 0){
-            if(dia < 1 || dia>31 || mes<01 || mes>12 || anio<23 ||anio>33){
+            if(dia < 1 || dia>31 || mes<01 || mes>12 || anio<2023 ||anio>2033){
                 flag = 1;
-
             }
         }
-        if(anio ==23){
+        if(anio == 2023){
             if(mes<11 || mes >12){
                 flag = 1;
+            }
+            else if(mes == 11){
+                if(dia<22 || dia> 30){
+                    flag = 1;
+                }
             }
         }
     }else{
@@ -332,36 +370,30 @@ nodoPaciente * alta_de_ingreso(nodoPaciente * arbolPaciente){
     }
     return arbolPaciente;
 }
-nodoPaciente* cargarArbolDesdeArchivo(char archivo[],nodoPaciente* arbol){
-    FILE*archi=fopen(archivo,"rb");
-    if(!archi){
-        archi=fopen(archivo,"ab");
-    }
-    stPacientes aux;
-    if(archi){
-        if (fread(&aux, sizeof(stPacientes), 1, archi) > 0){
-            // Si se lee al menos un registro, el archivo no está vacío
-            fseek(archi, 0, SEEK_SET);  // Volver al inicio del archivo
-            while (fread(&aux, sizeof(stPacientes), 1, archi) > 0) {
-                arbol = insertarPaciente(arbol, aux);
-            }
-        } else {
-            // Si no se lee ningún registro, el archivo está vacío
-            arbol = NULL;
+int validarDNIyEncontrar(nodoPaciente* arbol,nodoPaciente** encontrado){
+    int dni,dniValido=0;
+    char dniString[10];
+    do{
+        printf("Ingrese el dni del paciente: \n");
+        fflush(stdin);
+        scanf("%d", &dni);
+        sprintf(dniString,"%d",dni);
+        dniValido = validarDNI(dniString);
+        if(dniValido == 1){
+            printf("Error.Ingrese DNI valido. \n");
         }
-    } else{
-        printf("Se produjo un error a la hora de cargar el archivo.\n");
-    }
-    fclose(archi);
-    return arbol;
+    }while(dniValido !=0);
+    *encontrado=buscarPacienteDNI(arbol,dni);
+    return dni;
 }
+///Funciones arhivo
 void agregarNuevoIngresoArchivo(char archivo[],stIngresos nuevo){
     FILE* archi=fopen(archivo,"ab");
     if(archi){
-        fseek(archi,0,SEEK_END);
+        ///fseek(archi,0,SEEK_END); no hace falta, el ab lo pone al final
         fwrite(&nuevo,sizeof(stIngresos),1,archi);
     }else{
-        printf("Se produjo un error Nuevo Ingresos.\n");
+        printf("\nSe produjo un error al abrir el archivo de Ingresos.\n");
     }
     fclose(archi);
 }
@@ -393,21 +425,26 @@ int contarIngresosenArchivo( char archivo[]){
     fclose(archi);
     return cant;
 }
-int validarDNIyEncontrar(nodoPaciente* arbol,nodoPaciente** encontrado){
-    int dni,dniValido=0;
-    char dniString[10];
-    do{
-        printf("Ingrese el dni del paciente: \n");
-        fflush(stdin);
-        scanf("%d", &dni);
-        sprintf(dniString,"%d",dni);
-        dniValido = validarDNI(dniString);
-        if(dniValido == 1){
-            printf("Error.Ingrese DNI valido. \n");
+nodoPaciente* cargarIngresosDesdeArchivo(char archivo[],nodoPaciente* arbol){
+    stIngresos aux;
+    nodoPaciente* rama=inicArbol();
+    FILE*archi=fopen(archivo,"rb");
+    if(archi==NULL){
+        archi=fopen(archivo,"ab");
+    }else{
+        if(fread(&aux,sizeof(stIngresos),1,archi)>0){
+            fseek(archi, 0, SEEK_SET);
+            while(fread(&aux, sizeof(stIngresos), 1, archi) > 0){
+                rama=buscarPacienteDNI(arbol,aux.dni);
+                if(rama!=NULL){
+                    rama->ingresos=agregarOrdenFecha(rama->ingresos,crearNodoIng(aux));
+                }
+            }
         }
-    }while(dniValido !=0);
-    *encontrado=buscarPacienteDNI(arbol,dni);
-    return dni;
+    }
+    fclose(archi);
+    return arbol;
 }
+
 
 

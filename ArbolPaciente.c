@@ -21,18 +21,59 @@ void inOrder(nodoPaciente *arbolPaciente){
         inOrder(arbolPaciente->der);
     }
 }
-practicas cargarPracticas(){
-    practicas aux;
-    printf("Ingrese el Nro de practicas: \n");
-    fflush(stdin);
-    scanf("%d", &aux.nroPractica);
-    printf("Ingrese el nombre de la Practica: \n");
-    fflush(stdin);
-    gets(aux.nombrePractica);
-    aux.eliminado=0;
-    return aux;
+int calcularCantidadNodos(nodoPaciente * arbolPaciente){///Cada nodo del arbol es un paciente
+    if (arbolPaciente == NULL){
+        return 0;
+    }
+    else{
+        int nodosIzquierda = calcularCantidadNodos(arbolPaciente->izq);
+        int nodosDerecha = calcularCantidadNodos(arbolPaciente->der);
+        return nodosIzquierda + nodosDerecha + 1;
+    }
+}
+void recorrerEnOrden(nodoPaciente * arbolPaciente, stPacientes * array, int * validos ){ ///Recorre el arbol y va insertando en el arreglo los pacientes de forma ordenada por nombre y apellido
+    if(arbolPaciente != NULL){
+        recorrerEnOrden(arbolPaciente->izq,array,validos);
+        int i = *validos;  //Posicion inicial donde empezara el arreglo
+        while(i> 0 && strcmpi(array[i-1].apelyNom,arbolPaciente->paciente.apelyNom)>0){
+            array[i] = array[i-1];
+            i--;    //Como i empieza en el subindice de validos, hay que cada vuelta del bucle se reste para que en algun momento se rompa el ciclo while
+        }
+        strcpy(array[i].apelyNom,arbolPaciente->paciente.apelyNom);
+        array[i].dni = arbolPaciente->paciente.dni;
+        array[i].edad = arbolPaciente->paciente.edad;
+        strcpy(array[i].direccion, arbolPaciente->paciente.direccion);
+        strcpy(array[i].telefono,arbolPaciente->paciente.telefono);
+        array[i].eliminado = arbolPaciente->paciente.eliminado;
+        (*validos)++;
+        recorrerEnOrden(arbolPaciente->der,array,validos);
+    }
+}
+stPacientes * PacientesOrdenados(nodoPaciente * arbolPaciente, int * validos){///Crea el arreglo dinamico con los nodos
+    int cantidad = calcularCantidadNodos(arbolPaciente);
+    stPacientes * array =(stPacientes*)malloc(cantidad*sizeof(stPacientes));     ///creo un arreglo dinamico
+    int i = 0;
+    recorrerEnOrden(arbolPaciente,array,&i);
+    *validos =i;
+    return array;
+}
+void mostrarPacientesOrdenados(stPacientes * array, int validos){
+       printf("\n--------------Lista General de Pacientes ------------------\n");
+        for(int i = 0; i< validos; i++){
+            if(array[i].eliminado == 0){
+                printf("Nombre y apellido: %s \n", array[i].apelyNom);
+                printf("DNI: %d\n",array[i].dni);
+                printf("edad: %d\n", array[i].edad);
+                printf("Direccion: %s\n", array[i].direccion);
+                printf("Telefono: %s\n", array[i].telefono);
+                printf("----------------------------------------------\n");
+            }
+        }
 }
 ///Funciones Paciente
+nodoPaciente* inicArbol(){
+    return NULL;
+}
 nodoPaciente * crearNodoPaciente(stPacientes pac){
     nodoPaciente * aux = (nodoPaciente*)malloc(sizeof(nodoPaciente));
     aux->paciente= pac;
@@ -228,18 +269,18 @@ nodoPaciente * insertarPaciente(nodoPaciente * a, stPacientes pac){
     }
     if(pac.dni< a->paciente.dni){
         a->izq = insertarPaciente(a->izq,pac);
-    }else{
+    }else if(pac.dni > a->paciente.dni){
         a->der = insertarPaciente(a->der,pac);
     }
     return a;
 }
-nodoPaciente * buscarPacienteDNI (nodoPaciente * a,int dni){  ///busca DNI en el arbol
-   if(a == NULL){
+nodoPaciente * buscarPacienteDNI (nodoPaciente * a,int dni){///busca DNI en el arbol
+    if(a == NULL){
         return NULL;
-   }
-   if(a->paciente.dni == dni){
-    return a;
-   }
+    }
+    if(a->paciente.dni == dni){
+        return a;
+    }
     if(dni < a->paciente.dni){
         return buscarPacienteDNI(a->izq,dni);
     }else{
@@ -364,26 +405,6 @@ void arbolPacienteToArchivo(char archivo[],stPacientes dato){
         printf("\nError al abrir el archivo de pacientes\n");
     }
 }
-nodoPaciente* cargarIngresosDesdeArchivo(char archivo[],nodoPaciente* arbol){
-    stIngresos aux;
-    nodoPaciente* rama=NULL;
-    FILE*archi=fopen(archivo,"rb");
-    if(archi==NULL){
-        archi=fopen(archivo,"ab");
-    }else{
-        if(fread(&aux,sizeof(stIngresos),1,archi)>0){
-           fseek(archi, 0, SEEK_SET);
-        while (fread(&aux, sizeof(stIngresos), 1, archi) > 0) {
-            rama=buscarPacienteDNI(arbol,aux.dni);
-            if(rama!=NULL){
-                rama->ingresos=agregarOrdenFecha(rama->ingresos,crearNodoIng(aux));
-            }
-        }
-        }
-    }
-    fclose(archi);
-    return arbol;
-}
 void modificarArchivoPaciente(char archivo[],stPacientes datonuevo){
     FILE*archi=fopen(archivo,"r+b");
     int enc=0;
@@ -401,4 +422,27 @@ void modificarArchivoPaciente(char archivo[],stPacientes datonuevo){
     }else{
         printf("Se produjo un error con el arrchivo modificar ingresos.\n");
     }
+}
+nodoPaciente* cargarArbolDesdeArchivo(char archivo[],nodoPaciente* arbol){
+    FILE*archi=fopen(archivo,"rb");
+    if(!archi){
+        archi=fopen(archivo,"ab");
+    }
+    stPacientes aux;
+    if(archi){
+        if (fread(&aux, sizeof(stPacientes), 1, archi) > 0){
+            // Si se lee al menos un registro, el archivo no está vacío
+            fseek(archi, 0, SEEK_SET);  // Volver al inicio del archivo
+            while(fread(&aux, sizeof(stPacientes), 1, archi) > 0){
+                arbol = insertarPaciente(arbol, aux);
+            }
+        } else {
+            // Si no se lee ningún registro, el archivo está vacío
+            arbol = NULL;
+        }
+    } else{
+        printf("Se produjo un error a la hora de cargar el archivo.\n");
+    }
+    fclose(archi);
+    return arbol;
 }
