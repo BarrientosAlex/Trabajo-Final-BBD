@@ -70,6 +70,7 @@ void modificarArchivoPaciente(char archivo[],stPacientes datonuevo);
 nodoPaciente* cargarArbolDesdeArchivo(char archivo[],nodoPaciente* arbol);
 //funcion mostrar
 void inOrder(nodoPaciente *arbolPaciente);
+void inOrderADMIN(nodoPaciente *arbolPaciente);
 void mostrarPaciente(stPacientes dato);
 int calcularCantidadNodos(nodoPaciente * arbolPaciente);
 void recorrerEnOrden(nodoPaciente * arbolPaciente, stPacientes * array, int * validos );
@@ -83,6 +84,7 @@ nodoIngresos * agregarOrdenFecha(nodoIngresos * lista, nodoIngresos * nuevo);
 //funciones mostrar
 void mostrarAux(stIngresos dato);
 void mostrarIngreso(nodoIngresos* lista);
+void mostrarIngresoADMIN(nodoIngresos* lista);
 void recorrerArbol(nodoPaciente* arbol,char fechaDesde[],char fechaHasta[]);
 //funciones para seleccionar por el usuario
 nodoIngresos* buscarPorNroIngreso(nodoPaciente* arbol, int nroIngreso); /// busca nro de ingreso de determinado paciente No filtrado
@@ -91,7 +93,7 @@ nodoIngresos * filtrarPorNroIngreso(nodoPaciente* arbol);
 nodoIngresos* filtrarPorFechaIngreso(nodoPaciente* arbol);
 void filtrarPorDNI(nodoPaciente * arbol);
 nodoIngresos * filtrarIngreso(nodoPaciente* arbol);
-nodoIngresos* filtrarIngresoParaMostrar(nodoPaciente* arbol);
+void filtrarIngresoParaMostrar(nodoPaciente* arbol,int nroIngreso);
 stIngresos cargarIngresos();
 nodoPaciente * alta_de_ingreso(nodoPaciente * arbolPaciente);
 //funciones validar
@@ -131,6 +133,7 @@ void agregarPxialArchivo(char archivo[], stPracXingreso dato);
 //funciones mostrar
 void mostrarPxiAUX(stPracXingreso dato);
 void mostrarPxi(nodoPracticasXingreso* lista);
+void mostrarPxiADMIN(nodoPracticasXingreso* lista);
 void recorrerIngresosParamostrarPracticas(nodoIngresos* lista);
 void recorrerArbolParaMostrarPracticas(nodoPaciente* arbol);
 #endif // ARBOLPACIENTE_H_INCLUDED

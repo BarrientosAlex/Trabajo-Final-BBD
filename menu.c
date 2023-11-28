@@ -48,10 +48,6 @@ void mostrarSubMenu(){
     printf("\n9.Mostrar solo admin\n");
 }
 void menu(){
-    nodoPaciente* arbolMother=inicArbol();
-    arbolMother=cargarArbolDesdeArchivo("pacientes.bin",arbolMother);
-    arbolMother=cargarIngresosDesdeArchivo("ingresos.bin",arbolMother);
-    arbolMother=pasarPracticasAlArbolArchivo("pxi.bin",arbolMother);
     int tipoUser=login("usuarios.bin");
     system("pause");
     system("cls");
@@ -67,6 +63,10 @@ void menu(){
             op=mostrarMenu();
         }
     }
+    nodoPaciente* arbolMother=inicArbol();
+    arbolMother=cargarArbolDesdeArchivo("pacientes.bin",arbolMother);
+    arbolMother=cargarIngresosDesdeArchivo("ingresos.bin",arbolMother);
+    arbolMother=pasarPracticasAlArbolArchivo("pxi.bin",arbolMother);
     //int volverMenu=1;
     //while(volverMenu==1){
     system("cls");
@@ -95,7 +95,7 @@ void menu(){
             if(encontrado){
                 system("cls");
                 filtrarPorDNI(arbolMother);
-                aux=filtrarIngreso(arbolMother);
+                aux=filtrarIngreso(encontrado);
                 if(aux){
                     do{
                         printf("\nIngrese nueva fecha de retiro(formato dd/mm/yyyy): ");
@@ -109,9 +109,11 @@ void menu(){
                     do{
                         printf("\nIngrese nueva matricula: ");
                         fflush(stdin);
-                        scanf("%i",&aux->ingreso.matricula);
-                        sprintf(matriculaString,"%d",aux->ingreso.matricula);
+                        gets(matriculaString);
+                        //scanf("%i",&aux->ingreso.matricula);
+                        //sprintf(matriculaString,"%i",aux->ingreso.matricula);
                         matriculaValida = validarMatricula(matriculaString);
+                        aux->ingreso.matricula=atoi(matriculaString);
                         if(matriculaValida == 1){
                             printf("Error.Ingrese matricula Valida.");
                         }
@@ -128,7 +130,7 @@ void menu(){
             int dni=validarDNIyEncontrar(arbolMother,&encontrado);
             nodoIngresos* aux=NULL;
             filtrarPorDNI(encontrado);
-            aux=filtrarIngreso(arbolMother);
+            aux=filtrarIngreso(encontrado);
             if(aux){
                 aux->practicas=Alta_de_pxi(aux->practicas,aux->practicas->pXi.nroIngreso);
             }
@@ -139,7 +141,7 @@ void menu(){
             int dni=validarDNIyEncontrar(arbolMother,&encontrado);
             nodoIngresos* aux=NULL;
             filtrarPorDNI(encontrado);
-            aux=filtrarIngreso(arbolMother);
+            aux=filtrarIngreso(encontrado);
             if(aux){
                 system("cls");
                 mostrarPxi(aux->practicas);
@@ -153,7 +155,7 @@ void menu(){
             int dni=validarDNIyEncontrar(arbolMother,&encontrado);
             nodoIngresos* aux=NULL;
             filtrarPorDNI(encontrado);
-            aux=filtrarIngreso(arbolMother);
+            aux=filtrarIngreso(encontrado);
             system("cls");
             mostrarPxi(aux->practicas);
             aux->practicas=Baja_de_pxi(aux->practicas);
@@ -165,7 +167,7 @@ void menu(){
             int dni=validarDNIyEncontrar(arbolMother,&encontrado);
             nodoIngresos* aux=NULL;
             filtrarPorDNI(encontrado);
-            aux=filtrarIngreso(arbolMother);///Mostrar practicas
+            aux=filtrarIngreso(encontrado);///Mostrar practicas
             if(aux){
                 system("cls");
                 mostrarPxi(aux->practicas);
@@ -195,7 +197,7 @@ void menu(){
             int dni=validarDNIyEncontrar(arbolMother,&encontrado);
             nodoIngresos* aux=NULL;
             filtrarPorDNI(encontrado);
-            aux=filtrarIngreso(arbolMother);///Mostrar practicas
+            aux=filtrarIngreso(encontrado);///Mostrar practicas
             if(aux){
                 system("cls");
                 mostrarPxi(aux->practicas);
@@ -225,7 +227,7 @@ void menu(){
             int dni=validarDNIyEncontrar(arbolMother,&encontrado);
             nodoIngresos* aux=NULL;
             filtrarPorDNI(encontrado);
-            aux=filtrarIngreso(arbolMother);///Mostrar practicas
+            aux=filtrarIngreso(encontrado);///Mostrar practicas
             if(aux){
                 system("cls");
                 mostrarPxi(aux->practicas);
@@ -311,11 +313,20 @@ void menu(){
                         break;
                     }
                     case '5':{///ingreso
-                        aux=filtrarIngresoParaMostrar(arbolMother);
                         system("cls");
-                        if(aux){
-                            mostrarIngreso(aux);
-                        }
+                        char nroIngreso[20];
+                        int flag=0;
+                        do{
+                            printf("\nNumero de ingreso a buscar: ");
+                            fflush(stdin);
+                            gets(nroIngreso);
+                            flag=validarNumero(nroIngreso);
+                            if(flag==1){
+                                printf("\nError. Numero de ingreso invalido.");
+                            }
+                        }while(flag!=0);
+                        int ingreso=atoi(nroIngreso);
+                        filtrarIngresoParaMostrar(arbolMother,ingreso);
                         break;
                     }
                     case '6':{///empleado
@@ -360,7 +371,7 @@ void menu(){
                     case '9':{///admin
                         system("cls");
                         if(tipoUser==1){
-                            inOrder(arbolMother);
+                            inOrderADMIN(arbolMother);
                         }else{
                             printf("\nError. Necesitas permisos del messias.\n");
                         }

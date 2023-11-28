@@ -9,6 +9,23 @@
 void inOrder(nodoPaciente *arbolPaciente){
     if(arbolPaciente){
         inOrder(arbolPaciente->izq);
+        if(arbolPaciente->paciente.eliminado==0){
+            printf("\n------- %s --------\n", arbolPaciente->paciente.apelyNom);
+            printf("DNI:%d \n", arbolPaciente->paciente.dni);
+            printf("Direccion: %s \n", arbolPaciente->paciente.direccion);
+            printf("Edad: %d \n", arbolPaciente->paciente.edad);
+            printf("Telefono: %s\n", arbolPaciente->paciente.telefono);
+            printf("Eliminado: %d\n", arbolPaciente->paciente.eliminado);
+            printf("---------------------------\n");
+            mostrarIngreso(arbolPaciente->ingresos);
+            printf("\n********************\n");
+        }
+        inOrder(arbolPaciente->der);
+    }
+}
+void inOrderADMIN(nodoPaciente *arbolPaciente){
+    if(arbolPaciente){
+        inOrder(arbolPaciente->izq);
         printf("\n------- %s --------\n", arbolPaciente->paciente.apelyNom);
         printf("DNI:%d \n", arbolPaciente->paciente.dni);
         printf("Direccion: %s \n", arbolPaciente->paciente.direccion);

@@ -64,3 +64,133 @@
 	"user.h"
 	"Estructuras.h"
 
+1700752110 source:d:\datos pc\escritorio\basantabarrientosdominellatpfinal\arbolpaciente.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<time.h>
+	<ctype.h>
+	"Estructuras.h"
+
+1700760179 d:\datos pc\escritorio\basantabarrientosdominellatpfinal\estructuras.h
+	<time.h>
+
+1700658066 source:d:\datos pc\escritorio\basantabarrientosdominellatpfinal\auxmenu.c
+	<stdio.h>
+	<stdlib.h>
+	<time.h>
+	<string.h>
+	<ctype.h>
+	"auxMenu.h"
+
+1700525473 d:\datos pc\escritorio\basantabarrientosdominellatpfinal\auxmenu.h
+
+1700761427 source:d:\datos pc\escritorio\basantabarrientosdominellatpfinal\listaingreso.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<time.h>
+	<ctype.h>
+	"Estructuras.h"
+
+1700761427 source:d:\datos pc\escritorio\basantabarrientosdominellatpfinal\listapracxing.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<time.h>
+	<ctype.h>
+	"Estructuras.h"
+
+1700345346 source:d:\datos pc\escritorio\basantabarrientosdominellatpfinal\main.c
+	<stdio.h>
+	<stdlib.h>
+	"menu.h"
+
+1700685022 d:\datos pc\escritorio\basantabarrientosdominellatpfinal\menu.h
+
+1700682942 source:d:\datos pc\escritorio\basantabarrientosdominellatpfinal\user.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<conio.h>
+	<ctype.h>
+	"user.h"
+	"Estructuras.h"
+
+1700682902 d:\datos pc\escritorio\basantabarrientosdominellatpfinal\user.h
+
+1700773842 source:d:\datos pc\escritorio\basantabarrientosdominellatpfinal\menu.c
+	<stdio.h>
+	<stdlib.h>
+	<ctype.h>
+	<windows.h>
+	"menu.h"
+	"auxMenu.h"
+	"user.h"
+	"Estructuras.h"
+
+1701204319 source:d:\datos pc\escritorio\basanta_barrientos_dominella_tpfinal\arbolpaciente.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<time.h>
+	<ctype.h>
+	"Estructuras.h"
+
+1701204668 d:\datos pc\escritorio\basanta_barrientos_dominella_tpfinal\estructuras.h
+	<time.h>
+
+1700658066 source:d:\datos pc\escritorio\basanta_barrientos_dominella_tpfinal\auxmenu.c
+	<stdio.h>
+	<stdlib.h>
+	<time.h>
+	<string.h>
+	<ctype.h>
+	"auxMenu.h"
+
+1700525473 d:\datos pc\escritorio\basanta_barrientos_dominella_tpfinal\auxmenu.h
+
+1701204607 source:d:\datos pc\escritorio\basanta_barrientos_dominella_tpfinal\listaingreso.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<time.h>
+	<ctype.h>
+	"Estructuras.h"
+
+1701205261 source:d:\datos pc\escritorio\basanta_barrientos_dominella_tpfinal\listapracxing.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<time.h>
+	<ctype.h>
+	"Estructuras.h"
+
+1700345346 source:d:\datos pc\escritorio\basanta_barrientos_dominella_tpfinal\main.c
+	<stdio.h>
+	<stdlib.h>
+	"menu.h"
+
+1700685022 d:\datos pc\escritorio\basanta_barrientos_dominella_tpfinal\menu.h
+
+1701205121 source:d:\datos pc\escritorio\basanta_barrientos_dominella_tpfinal\menu.c
+	<stdio.h>
+	<stdlib.h>
+	<ctype.h>
+	<windows.h>
+	"menu.h"
+	"auxMenu.h"
+	"user.h"
+	"Estructuras.h"
+
+1700682902 d:\datos pc\escritorio\basanta_barrientos_dominella_tpfinal\user.h
+
+1700682942 source:d:\datos pc\escritorio\basanta_barrientos_dominella_tpfinal\user.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<conio.h>
+	<ctype.h>
+	"user.h"
+	"Estructuras.h"
+

@@ -20,16 +20,22 @@ practicas cargarPracticas(){///esta no se usa
 }
 ///Funciones mostrar
 void mostrarPxiAUX(stPracXingreso dato){
-    if(dato.eliminado==0){
-        printf("\nNro. practica: %i",dato.nroPractica);
-        printf("\nNombre de practica: %s",dato.nombrePractica);
-        printf("\nResultado: %s\n",dato.resultado);
-    }
+    printf("\nNro. practica: %i",dato.nroPractica);
+    printf("\nNombre de practica: %s",dato.nombrePractica);
+    printf("\nResultado: %s\n",dato.resultado);
 }
 void mostrarPxi(nodoPracticasXingreso* lista){
     while(lista){
-       mostrarPxiAUX(lista->pXi);
+       if(lista->pXi.eliminado==0){
+            mostrarPxiAUX(lista->pXi);
+       }
        lista=lista->sig;
+    }
+}
+void mostrarPxiADMIN(nodoPracticasXingreso* lista){
+    while(lista){
+        mostrarPxiAUX(lista->pXi);
+        lista=lista->sig;
     }
 }
 void recorrerIngresosParamostrarPracticas(nodoIngresos* lista){
@@ -66,7 +72,7 @@ int validarPrefijo(char * prefijo){
 void buscarPrefijoPractica(nodoPracticasXingreso* lista,char prefijo[]){///Recorre la lista de practicas
     nodoPracticasXingreso* seg=lista;
     while(seg){
-        if(strstr(seg->pXi.nombrePractica,prefijo)){///Si es distinto de null encontro el prefijo dentro de la cadena
+        if(strstr(strlwr(seg->pXi.nombrePractica),strlwr(prefijo))){///Si es distinto de null encontro el prefijo dentro de la cadena
             mostrarPxiAUX(seg->pXi);
         }
         seg=seg->sig;
@@ -75,7 +81,7 @@ void buscarPrefijoPractica(nodoPracticasXingreso* lista,char prefijo[]){///Recor
 void buscarPrefijoIngreso(nodoIngresos* lista,char prefijo[]){///Recorre la lista de ingresos
     nodoIngresos* seg=lista;
     while(seg){
-        buscarPrefijoPractica(lista->practicas,prefijo);
+        buscarPrefijoPractica(seg->practicas,prefijo);
         seg=seg->sig;
     }
 }

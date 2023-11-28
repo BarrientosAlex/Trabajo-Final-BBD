@@ -51,14 +51,12 @@ nodoIngresos * agregarOrdenFecha(nodoIngresos * lista, nodoIngresos * nuevo){ //
 }
 ///Funciones mostrar
 void mostrarAux(stIngresos dato){
-    ///if(dato.eliminado==0){
-        printf("\n*********************\n");
-        printf("Numero de ingreso :%i\n",dato.nroIngreso);
-        printf("Fecha de ingreso :%s\n",dato.fechaIngreso);
-        printf("Fecha de retiro:%s\n",dato.fechaRetiro);
-        //Dni lo muestro una sola vez antes
-        printf("Matricula : %i",dato.matricula);
-    ///}
+    printf("\n*********************\n");
+    printf("Numero de ingreso :%i\n",dato.nroIngreso);
+    printf("Fecha de ingreso :%s\n",dato.fechaIngreso);
+    printf("Fecha de retiro:%s\n",dato.fechaRetiro);
+    //Dni lo muestro una sola vez antes
+    printf("Matricula : %i",dato.matricula);
 }
 void mostrarIngreso(nodoIngresos* lista){///Muestra los no eliminados
     if(lista){
@@ -71,24 +69,33 @@ void mostrarIngreso(nodoIngresos* lista){///Muestra los no eliminados
         mostrarIngreso(lista->sig);
     }
 }
+void mostrarIngresoADMIN(nodoIngresos* lista){
+    if(lista){
+        mostrarAux(lista->ingreso);
+        printf("\n\tPRACTICAS \n");
+        fflush(stdout);
+        mostrarPxiADMIN(lista->practicas);
+        mostrarIngresoADMIN(lista->sig);
+    }
+}
 void recorrerArbol(nodoPaciente* arbolPaciente,char fechaDesde[],char fechaHasta[]){///recorro y muestro por fechas
     if(arbolPaciente){
         recorrerArbol(arbolPaciente->izq,fechaDesde,fechaHasta);
-        printf("\n------- %s --------\n", arbolPaciente->paciente.apelyNom);
-        printf("DNI:%d \n", arbolPaciente->paciente.dni);
-        printf("Direccion: %s \n", arbolPaciente->paciente.direccion);
-        printf("Edad: %d \n", arbolPaciente->paciente.edad);
-        printf("Telefono: %s\n", arbolPaciente->paciente.telefono);
-        printf("Eliminado: %d\n", arbolPaciente->paciente.eliminado);
-        printf("---------------------------\n");
-        mostrarIngreso(arbolPaciente->ingresos);
-        printf("\n********************\n");
-        nodoIngresos * seg=arbolPaciente->ingresos;
-        while(seg){
-            if(strcmp(seg->ingreso.fechaIngreso,fechaDesde)>=0 && strcmp(seg->ingreso.fechaRetiro,fechaHasta)<=0){
-                mostrarAux(seg->ingreso);
+        if(arbolPaciente->paciente.eliminado==0){
+            printf("\n------- %s --------\n", arbolPaciente->paciente.apelyNom);
+            printf("DNI:%d \n", arbolPaciente->paciente.dni);
+            printf("Direccion: %s \n", arbolPaciente->paciente.direccion);
+            printf("Edad: %d \n", arbolPaciente->paciente.edad);
+            printf("Telefono: %s\n", arbolPaciente->paciente.telefono);
+            printf("---------------------------\n");
+            nodoIngresos * seg=arbolPaciente->ingresos;
+            while(seg){
+                if(strcmp(seg->ingreso.fechaIngreso,fechaDesde)>=0 && strcmp(seg->ingreso.fechaRetiro,fechaHasta)<=0){
+                    mostrarAux(seg->ingreso);
+                }
+                seg=seg->sig;
             }
-            seg=seg->sig;
+            printf("\n********************\n");
         }
         recorrerArbol(arbolPaciente->der,fechaDesde,fechaHasta);
     }
@@ -128,14 +135,14 @@ nodoIngresos* buscarListaPractica(nodoPaciente * arbol,int nroIngreso){
     }
     return aux;
 }
-nodoIngresos * filtrarPorNroIngreso(nodoPaciente* arbol){ ///anteriormente pedir el paciente por el cual queremos buscar el ingreso
+nodoIngresos * filtrarPorNroIngreso(nodoPaciente* paciente){ ///anteriormente pedir el paciente por el cual queremos buscar el ingreso
     nodoIngresos* aux=NULL;
-    if(arbol){
+    if(paciente){
         int nroIngreso;                                       /// por parametro hacer un a busqueda por dni y lo que retorne utilizarlo
         printf("Ingrese el nro de Ingreso a buscar: \n");
         fflush(stdin);
         scanf("%d", &nroIngreso);
-        nodoIngresos* seg=arbol->ingresos;
+        nodoIngresos* seg=paciente->ingresos;
         while(seg!=NULL && aux==NULL){
             if(seg->ingreso.nroIngreso==nroIngreso){
                 aux=seg;
@@ -177,6 +184,7 @@ nodoIngresos* filtrarPorFechaIngreso(nodoPaciente* arbol){ ///anteriormente tene
 }
 void filtrarPorDNI(nodoPaciente * arbol) {///Mostrara todos los ingresos de la persona que desee la cual anteriormente debemos corroborar que exista o no
    if(arbol){
+        filtrarPorDNI(arbol->izq);
         printf("\n---------------\n");
         printf("DNI: %i",arbol->paciente.dni);
         if(arbol->ingresos==NULL){
@@ -184,43 +192,33 @@ void filtrarPorDNI(nodoPaciente * arbol) {///Mostrara todos los ingresos de la p
         }else{
             mostrarIngreso(arbol->ingresos);
         }
+        filtrarPorDNI(arbol->der);
    }
 }
-nodoIngresos * filtrarIngreso(nodoPaciente* arbol){ /// anteriormente tenemos que llamar a buscar por dni para saber si existe o no
+nodoIngresos * filtrarIngreso(nodoPaciente* paciente){ /// anteriormente tenemos que llamar a buscar por dni para saber si existe o no
     nodoIngresos* aux=NULL;
-    if(arbol){
-        aux = filtrarPorNroIngreso(arbol);
+    if(paciente){
+        aux = filtrarPorNroIngreso(paciente);
     }else{
         printf("Paciente no existente.\n");
     }
     return aux;
 }
-nodoIngresos* filtrarIngresoParaMostrar(nodoPaciente* arbol){
-    nodoIngresos *aux=NULL;
-    char eleccion;
-    int flag=1;
+void filtrarIngresoParaMostrar(nodoPaciente* arbol,int nroIngreso){
     if(arbol){
-        do{
-            printf("Ingrese: \n.1-Filtrar nro.Ingreso.\n.2-Filtrar por fecha ingreso.\n");
-            fflush(stdin);
-            scanf("%c",&eleccion);
-            switch(eleccion){
-                case '1':{
-                    aux=filtrarPorNroIngreso(arbol);
-                    break;
-                }
-                case '2':{
-                    aux=filtrarPorFechaIngreso(arbol);
-                    break;
-                }
-                default:{
-                    flag=0;
-                    break;
-                }
+        filtrarIngresoParaMostrar(arbol->izq,nroIngreso);
+        nodoIngresos* seg=arbol->ingresos;
+        while(seg){
+            if(seg->ingreso.nroIngreso==nroIngreso){
+                mostrarAux(seg->ingreso);
+                printf("\n*********************\n");
+                mostrarPxi(seg->practicas);
+                printf("\n*********************\n");
             }
-        }while(flag!=1);
+            seg=seg->sig;
+        }
+        filtrarIngresoParaMostrar(arbol->der,nroIngreso);
     }
-    return aux;
 }
 stIngresos cargarIngresos(){
     stIngresos aux;
@@ -399,15 +397,15 @@ void agregarNuevoIngresoArchivo(char archivo[],stIngresos nuevo){
 }
 void modificarArchivoIngresos(char archivo[],stIngresos datonuevo){ ///por parametro ya debemos pasar el ingreso modificado
     FILE*archi=fopen(archivo,"r+b");
-    int enc=0;
     stIngresos aux;
     if(archi){
-        while((fread(&aux,sizeof(stIngresos),1,archi)>0 && enc ==0)){
-                if(datonuevo.nroIngreso==aux.nroIngreso){
+        while(fread(&aux,sizeof(stIngresos),1,archi)>0){
+            if(datonuevo.nroIngreso==aux.nroIngreso){
                 fseek(archi,(-1)*sizeof(stIngresos),SEEK_CUR);
                 aux=datonuevo;
                 fwrite(&aux,sizeof(stIngresos),1,archi);
-              }
+                break;
+            }
         }
     }else{
         printf("Se produjo un error con el arrchivo modificar ingresos.\n");
