@@ -60,10 +60,15 @@ int validarPrefijo(char * prefijo){
     int cantNum = strlen(prefijo);
     if(cantNum < 14){
         for(int i = 0;i<cantNum;i++){
-            if(isdigit(prefijo[i])){///saque || !isalpha(prefijo[i])
+            if(isdigit(prefijo[i])){/// En caso de que ingrese un numero va a tirar error
                 flag = 1;
             }
         }
+
+        if(prefijo[0] == '\0'){ /// EN caso de que ingrese un enter en el primer caracter del arreglo va a tirar error
+            flag = 1;
+        }
+
     }else{
         flag=1;
     }
@@ -111,13 +116,25 @@ nodoPracticasXingreso * agregarPpioPXI(nodoPracticasXingreso * lista, nodoPracti
 stPracXingreso cargarPXI(int numIngreso){///Por parametro pasa lista.Ingresos.NrIngresos
     stPracXingreso aux;
     aux.nroIngreso=numIngreso;
+    int practicaValida = 0;
     aux.nroPractica = contarPxienArchivo("pxi.bin")+1;
     printf("\n--------------------------");
     printf("\nNumero ingreso: %d",numIngreso);
     printf("\nNumero practica: %d",aux.nroPractica);
-    printf("\nIngrese nombre de la practica: ");
-    fflush(stdin);
-    gets(aux.nombrePractica);
+    do{
+        printf("\nIngrese nombre de la practica: ");
+        fflush(stdin);
+        gets(aux.nombrePractica);
+        practicaValida = validarPractica(aux.nombrePractica);
+        if(practicaValida == 1){
+            printf("\nERROR. No puede ingresar un nombre de la practica vacio.");
+        }
+    }while(practicaValida != 0);
+    system("cls");
+    printf("\n--------------------------");
+    printf("\nNumero ingreso: %d",numIngreso);
+    printf("\nNumero practica: %d",aux.nroPractica);
+    printf("\n Nombre de la Practica: %s", aux.nombrePractica);
     printf("\n--------------------------");
     /*printf("\nIngrese resultado: " );
     fflush(stdin);
@@ -126,6 +143,15 @@ stPracXingreso cargarPXI(int numIngreso){///Por parametro pasa lista.Ingresos.Nr
     //strcpy(aux.resultado,"\0");
     aux.eliminado=0;
     return aux;
+}
+int validarPractica(char * nombrePractica){
+    int flag = 0;
+     if(nombrePractica[0] == '\0'){   //Para que no pueda ingresar un espacio o un enter  en la primera posicion
+
+        flag = 1;
+        return flag;
+    }
+    return flag;
 }
 nodoPracticasXingreso * buscarNroPractica(nodoPracticasXingreso * lista, int nroPractica){///Ya tenes que estar
     nodoPracticasXingreso * actual = lista;                                               ///situado en el ingreso a buscar
@@ -161,6 +187,8 @@ nodoPracticasXingreso * modificacion_de_pxi(nodoPracticasXingreso * lista){  //B
     stPracXingreso aux;
     aux.nroIngreso=lista->pXi.nroIngreso;
     int numValido = 0;
+     int practicaValida = 0;
+     int resultadoValido = 0;
     char numString[10];
     do{
         printf("\nIngrese Nro.Practica: ");
@@ -173,12 +201,26 @@ nodoPracticasXingreso * modificacion_de_pxi(nodoPracticasXingreso * lista){  //B
     }while(numValido != 0);
     auxPractica=buscarNroPractica(lista,aux.nroPractica);///Envio la practica que quiero buscar
     if(auxPractica){ ///encontro el nodo que tiene el nro de practica
-        printf("\nIngrese nuevo nombre de la practica: \n");
-        fflush(stdin);
-        gets(auxPractica->pXi.nombrePractica);
-        printf("\nIngrese el nuevo resultado: \n");
-        fflush(stdin);
-        gets(auxPractica->pXi.resultado);
+        do{
+            printf("\nIngrese nuevo nombre de la practica: \n");
+            fflush(stdin);
+            gets(auxPractica->pXi.nombrePractica);
+            practicaValida = validarPractica(auxPractica->pXi.nombrePractica);
+        if(practicaValida == 1){
+            printf("\nERROR. No puede ingresar un nombre de la practica vacio.");
+        }
+    }while(practicaValida != 0);
+
+        do{
+            printf("\nIngrese el nuevo resultado: \n");
+            fflush(stdin);
+            gets(auxPractica->pXi.resultado);
+            resultadoValido = validarPractica(auxPractica->pXi.resultado);
+            if(resultadoValido == 1){
+                printf("\nERROR.No puede ingresar un resultado de la practica vacio");
+            }
+        }while(resultadoValido != 0);
+
         printf("\nDatos modificados correctamente.");
     }else{
         printf("\nNo se encontro la practica de ingreso a modificar."); // En caso de que no se encuentre el nodo que tiene el nro de ingreso
@@ -209,7 +251,6 @@ nodoPracticasXingreso * Baja_de_pxi(nodoPracticasXingreso * lista){
         actualPractica->pXi.eliminado=1;
         modificarArchivoPXI("pxi.bin",actualPractica->pXi);
         printf("\nLa practica de ingreso con numero %d ha sido eliminada correctamente.", nroPractica);
-        printf("\n%i",actualPractica->pXi.eliminado);
     }else{
         printf("\nLa practica de ingreso con el numero %d no se se encontro.", nroPractica);
     }
@@ -224,6 +265,12 @@ int validarNumero(char * nroPractica){ ///Valida que el usuario no ingrese letra
                 flag = 1;
             }
         }
+
+        if(nroPractica[0] == '\0'){
+            flag = 1;
+        }
+
+
     }else{
         flag = 1;
     }

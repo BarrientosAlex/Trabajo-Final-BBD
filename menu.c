@@ -101,7 +101,7 @@ void menu(){
                         printf("\nIngrese nueva fecha de retiro(formato dd/mm/yyyy): ");
                         fflush(stdin);
                         gets(aux->ingreso.fechaRetiro);
-                        fechaValida = validarFecha(aux->ingreso.fechaIngreso);
+                        fechaValida = validarFecha(aux->ingreso.fechaRetiro);
                         if(fechaValida == 1){
                             printf("Error. Ingrese una fecha de retiro valida.");
                         }

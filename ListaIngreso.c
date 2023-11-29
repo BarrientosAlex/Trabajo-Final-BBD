@@ -138,10 +138,19 @@ nodoIngresos* buscarListaPractica(nodoPaciente * arbol,int nroIngreso){
 nodoIngresos * filtrarPorNroIngreso(nodoPaciente* paciente){ ///anteriormente pedir el paciente por el cual queremos buscar el ingreso
     nodoIngresos* aux=NULL;
     if(paciente){
-        int nroIngreso;                                       /// por parametro hacer un a busqueda por dni y lo que retorne utilizarlo
-        printf("Ingrese el nro de Ingreso a buscar: \n");
-        fflush(stdin);
-        scanf("%d", &nroIngreso);
+        int nroIngreso;
+        char numString[20];
+        int nroValido =0;
+        do{ /// por parametro hacer un a busqueda por dni y lo que retorne utilizarlo
+            printf("Ingrese el nro de Ingreso a buscar: \n");
+            fflush(stdin);
+            scanf("%d", &nroIngreso);
+            sprintf(numString,"%d",nroIngreso);
+            nroValido = validarNumero(numString);
+            if(nroValido == 1){
+                printf("Error. Ingrese un numero valido.\n");
+            }
+        }while(nroValido != 0);
         nodoIngresos* seg=paciente->ingresos;
         while(seg!=NULL && aux==NULL){
             if(seg->ingreso.nroIngreso==nroIngreso){
@@ -297,7 +306,7 @@ int validarFecha(char *fechaRetiro){
     int anio = (fechaRetiro[6]-'0') * 1000 + (fechaRetiro[7]-'0')*100 + (fechaRetiro[8]-'0')*10+ (fechaRetiro[9]-'0');
     if(cantNum ==10){
         for(int i = 0;i<cantNum;i++){
-            if(!isdigit((unsigned char)fechaRetiro[i])&& fechaRetiro[i] != '/'){   /// Para que se permita el uso de la barra entre el medio de dia, mes y año
+            if(!isdigit((unsigned char)fechaRetiro[i])&& fechaRetiro[i] != '/' && !isspace((unsigned char)fechaRetiro[i])){   /// Para que se permita el uso de la barra entre el medio de dia, mes y año
                 flag =1;
             }
         }
@@ -316,6 +325,7 @@ int validarFecha(char *fechaRetiro){
                 }
             }
         }
+
     }else{
         flag = 1;
     }

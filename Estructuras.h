@@ -58,6 +58,7 @@ int validarEdad (char * edad);
 int validarDNI(char * dni);
 int validarTelefono(char * telefono);
 int validarDireccion(char * direccion);
+int validarPractica(char * nombrePractica);
 //funciones insertar y agregar
 nodoPaciente * insertarPaciente(nodoPaciente * a, stPacientes pac);
 nodoPaciente * buscarPacienteDNI (nodoPaciente * a,int dni);

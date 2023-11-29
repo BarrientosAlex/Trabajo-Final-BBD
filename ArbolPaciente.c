@@ -33,7 +33,7 @@ void inOrderADMIN(nodoPaciente *arbolPaciente){
         printf("Telefono: %s\n", arbolPaciente->paciente.telefono);
         printf("Eliminado: %d\n", arbolPaciente->paciente.eliminado);
         printf("---------------------------\n");
-        mostrarIngreso(arbolPaciente->ingresos);
+        mostrarIngresoADMIN(arbolPaciente->ingresos);
         printf("\n********************\n");
         inOrder(arbolPaciente->der);
     }
@@ -172,7 +172,7 @@ stPacientes cargarPaciente(){
         gets(aux.telefono);
         telefonoValido = validarTelefono(aux.telefono);
         if(telefonoValido == 1 ){
-            printf("Error.Telefono invalido");
+            printf("\nError.Telefono invalido.");
         }
     }while(telefonoValido != 0);
     system("cls");
@@ -211,6 +211,8 @@ int validarEdad (char * edad){
         for(int i = 0; i<cantNum; i++){
             if(!isdigit(edad[i])){ ///Si encuentra un caracter distinto a un digito en la cadena de caracteres edad, la flag es igual a 1
                 flag =1;
+                return flag;
+
             }
         }
     }else{
@@ -218,12 +220,16 @@ int validarEdad (char * edad){
     }
     if(flag == 0){  ///Si la flag sigue siendo 0
         int edadNum = atoi(edad); /// convierto el string edad en un tipo int con la funcion atoi
-
         if(edadNum<0 || edadNum>100){
             flag = 1;
         }else{
             flag = 0;
         }
+
+         if(edad[0] == '\0'){ ///Para que no pueda ingresar enter en el primer caracter.
+            flag = 1;
+        }
+
     }
     return flag;
 }
@@ -347,16 +353,30 @@ nodoPaciente * modificacion_de_paciente(nodoPaciente * arbolPaciente){
                 printf("\nError.Nombre invalido. ");
             }
         }while(nombreValido != 0);
+        system("cls");
+    printf("----------------------------------------\n");
+    printf("DNI: %d \n", paciente->paciente.dni);
+    printf("Nombre y apellido: %s\n",paciente->paciente.apelyNom);
+
         do{
             printf("\nIngrese la nueva edad del paciente: ");
             fflush(stdin);
-            scanf("%d", &paciente->paciente.edad);
-            sprintf(edadString,"%d",paciente->paciente.edad); ///convierte un tipo de dato int a una cadena de caracteres
+            gets(edadString);
+             ///convierte un tipo de dato int a una cadena de caracteres
             edadValido = validarEdad(edadString);
+            printf("%s\n", edadString);
+            printf("%d", edadValido);
             if(edadValido == 1){
                 printf("\nError. Ingrese una edad valida.");
             }
         }while(edadValido != 0);
+            paciente->paciente.edad = atoi(edadString);  ///Guardas la variable edad modificada en el campo edad del paciente
+            system("cls");
+            printf("----------------------------------------\n");
+            printf("DNI: %d \n", paciente->paciente.dni);
+            printf("Nombre y apellido: %s\n",paciente->paciente.apelyNom);
+            printf("Edad: %d \n", paciente->paciente.edad);
+
         do{
             printf("\nIngrese la nueva direccion del paciente: ");
             fflush(stdin);
@@ -366,6 +386,13 @@ nodoPaciente * modificacion_de_paciente(nodoPaciente * arbolPaciente){
                 printf("\nError.Ingrese direccion valida.");
             }
         }while(direccionValida != 0);
+        system("cls");
+        printf("----------------------------------------\n");
+        printf("DNI: %d \n", paciente->paciente.dni);
+        printf("Nombre y apellido: %s\n",paciente->paciente.apelyNom);
+        printf("Edad: %d \n", paciente->paciente.edad);
+        printf("Direccion: %s \n", paciente->paciente.direccion);
+
         do{
             printf("\nIngrese el nuevo telefono del paciente: ");
             fflush(stdin);
@@ -375,6 +402,13 @@ nodoPaciente * modificacion_de_paciente(nodoPaciente * arbolPaciente){
                 printf("\nError.Telefono invalido.");
             }
         }while(telefonoValido != 0);
+                system("cls");
+        printf("----------------------------------------\n");
+        printf("DNI: %d \n", paciente->paciente.dni);
+        printf("Nombre y apellido: %s\n",paciente->paciente.apelyNom);
+        printf("Edad: %d \n", paciente->paciente.edad);
+        printf("Direccion: %s \n", paciente->paciente.direccion);
+        printf("Telefono: %s \n", paciente->paciente.telefono);
 
         printf("\nModificacion del paciente con DNI %d realizada correctamente.\n", dni);
         modificarArchivoPaciente("pacientes.bin",paciente->paciente);

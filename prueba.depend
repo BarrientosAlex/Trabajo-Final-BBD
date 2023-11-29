@@ -194,3 +194,198 @@
 	"user.h"
 	"Estructuras.h"
 
+1701231538 source:c:\users\luciano\desktop\nueva carpeta\arbolpaciente.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<time.h>
+	<ctype.h>
+	"Estructuras.h"
+
+1701227709 c:\users\luciano\desktop\nueva carpeta\estructuras.h
+	<time.h>
+
+1700658066 source:c:\users\luciano\desktop\nueva carpeta\auxmenu.c
+	<stdio.h>
+	<stdlib.h>
+	<time.h>
+	<string.h>
+	<ctype.h>
+	"auxMenu.h"
+
+1700525473 c:\users\luciano\desktop\nueva carpeta\auxmenu.h
+
+1701230484 source:c:\users\luciano\desktop\nueva carpeta\listaingreso.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<time.h>
+	<ctype.h>
+	"Estructuras.h"
+
+1701229479 source:c:\users\luciano\desktop\nueva carpeta\listapracxing.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<time.h>
+	<ctype.h>
+	"Estructuras.h"
+
+1700345346 source:c:\users\luciano\desktop\nueva carpeta\main.c
+	<stdio.h>
+	<stdlib.h>
+	"menu.h"
+
+1700685022 c:\users\luciano\desktop\nueva carpeta\menu.h
+
+1701228450 source:c:\users\luciano\desktop\nueva carpeta\menu.c
+	<stdio.h>
+	<stdlib.h>
+	<ctype.h>
+	<windows.h>
+	"menu.h"
+	"auxMenu.h"
+	"user.h"
+	"Estructuras.h"
+
+1700682902 c:\users\luciano\desktop\nueva carpeta\user.h
+
+1701226800 source:c:\users\luciano\desktop\nueva carpeta\user.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<conio.h>
+	<ctype.h>
+	"user.h"
+	"Estructuras.h"
+
+1701259487 source:c:\users\luciano\desktop\tpfinal 2.0\arbolpaciente.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<time.h>
+	<ctype.h>
+	"Estructuras.h"
+
+1701227709 c:\users\luciano\desktop\tpfinal 2.0\estructuras.h
+	<time.h>
+
+1700658066 source:c:\users\luciano\desktop\tpfinal 2.0\auxmenu.c
+	<stdio.h>
+	<stdlib.h>
+	<time.h>
+	<string.h>
+	<ctype.h>
+	"auxMenu.h"
+
+1700525473 c:\users\luciano\desktop\tpfinal 2.0\auxmenu.h
+
+1701230484 source:c:\users\luciano\desktop\tpfinal 2.0\listaingreso.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<time.h>
+	<ctype.h>
+	"Estructuras.h"
+
+1701260227 source:c:\users\luciano\desktop\tpfinal 2.0\listapracxing.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<time.h>
+	<ctype.h>
+	"Estructuras.h"
+
+1700345346 source:c:\users\luciano\desktop\tpfinal 2.0\main.c
+	<stdio.h>
+	<stdlib.h>
+	"menu.h"
+
+1700685022 c:\users\luciano\desktop\tpfinal 2.0\menu.h
+
+1701228450 source:c:\users\luciano\desktop\tpfinal 2.0\menu.c
+	<stdio.h>
+	<stdlib.h>
+	<ctype.h>
+	<windows.h>
+	"menu.h"
+	"auxMenu.h"
+	"user.h"
+	"Estructuras.h"
+
+1700682902 c:\users\luciano\desktop\tpfinal 2.0\user.h
+
+1701226800 source:c:\users\luciano\desktop\tpfinal 2.0\user.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<conio.h>
+	<ctype.h>
+	"user.h"
+	"Estructuras.h"
+
+1701268955 source:d:\datos pc\escritorio\tpfinal 2.1\tpfinal 2.1\arbolpaciente.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<time.h>
+	<ctype.h>
+	"Estructuras.h"
+
+1701227709 d:\datos pc\escritorio\tpfinal 2.1\tpfinal 2.1\estructuras.h
+	<time.h>
+
+1700658066 source:d:\datos pc\escritorio\tpfinal 2.1\tpfinal 2.1\auxmenu.c
+	<stdio.h>
+	<stdlib.h>
+	<time.h>
+	<string.h>
+	<ctype.h>
+	"auxMenu.h"
+
+1700525473 d:\datos pc\escritorio\tpfinal 2.1\tpfinal 2.1\auxmenu.h
+
+1701230484 source:d:\datos pc\escritorio\tpfinal 2.1\tpfinal 2.1\listaingreso.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<time.h>
+	<ctype.h>
+	"Estructuras.h"
+
+1701270624 source:d:\datos pc\escritorio\tpfinal 2.1\tpfinal 2.1\listapracxing.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<time.h>
+	<ctype.h>
+	"Estructuras.h"
+
+1700345346 source:d:\datos pc\escritorio\tpfinal 2.1\tpfinal 2.1\main.c
+	<stdio.h>
+	<stdlib.h>
+	"menu.h"
+
+1700685022 d:\datos pc\escritorio\tpfinal 2.1\tpfinal 2.1\menu.h
+
+1701228450 source:d:\datos pc\escritorio\tpfinal 2.1\tpfinal 2.1\menu.c
+	<stdio.h>
+	<stdlib.h>
+	<ctype.h>
+	<windows.h>
+	"menu.h"
+	"auxMenu.h"
+	"user.h"
+	"Estructuras.h"
+
+1700682902 d:\datos pc\escritorio\tpfinal 2.1\tpfinal 2.1\user.h
+
+1701226800 source:d:\datos pc\escritorio\tpfinal 2.1\tpfinal 2.1\user.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<conio.h>
+	<ctype.h>
+	"user.h"
+	"Estructuras.h"
+

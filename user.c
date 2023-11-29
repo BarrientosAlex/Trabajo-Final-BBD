@@ -34,13 +34,31 @@ int validarNombreUser(char archivo[], char usuario[]){//funcion para saber si ex
     int flag=0;
     FILE*archi=fopen(archivo,"rb");
     stUsuario aux;
+
+    printf("%s", usuario);
+
     if(archi){
         while(fread(&aux,sizeof(stUsuario),1,archi)>0 && flag==0){
             if(strcmp(aux.nombreUsuario,usuario)==0){
                 flag=1;
+                return flag;
+            }
+        }
+
+    if(usuario[0] == '\0'){   //Para que no pueda ingresar un espacio en la primera posicion
+
+        flag = 1;
+        return flag;
+    }
+
+    for(int i =0; usuario[i] != '\0'; i++){
+            if(usuario[i] == ' '){  //Para que no pueda ingresar un espacio en el nombre de usuario
+                flag = 1;
+                return flag;
             }
         }
     }
+
     fclose(archi);
     return flag;
 }
@@ -98,6 +116,8 @@ int validarNombreYapellido(char * nombre){///a borrar si funciona
                 flag = 1; ///Si encuentra un digito en el nombre  error 1
             }
         }
+
+
     }else{
        flag=1; ///Mas de 25 caracteres el nombre
     }
@@ -118,10 +138,12 @@ int cargarNuevoUsuario(char archivo[]){
     stUsuario aux;
     int i=0;
     int j=0;
-    int flag=1;
+    int flag=0;
     int tipoUser;
     int nombreApellido=0;
     int cargo=0;
+    int espacioEncontrado = 0;
+
     printf("--------------------------\n");ff
     while (vald==1){///Valida dni
         do{
@@ -156,8 +178,9 @@ int cargarNuevoUsuario(char archivo[]){
     printf("DNI: %d\n",aux.dni);
     printf("Nombre y Apellido: %s\n",aux.nombreYapellido);
     do{///valida nombre de usuario
-        printf("Ingrese Nombre de usuario :\n");ff
+        printf("Ingrese Nombre de usuario(No puede contener espacios):\n");ff
         gets(aux.nombreUsuario);
+
         if(strlen(aux.nombreUsuario)>cantmax){
             printf("\nEl nombre de usuario supera la cantidad de caracteres permitidos. Intentelo de nuevo.\n");
         }else{
@@ -166,7 +189,7 @@ int cargarNuevoUsuario(char archivo[]){
                 printf("\nEl nombre de usuario no esta disponible, vuelva a intentarlo.\n");
             }
         }
-    }while(cantmax<strlen(aux.nombreUsuario)&&flag==1);
+    }while(cantmax<strlen(aux.nombreUsuario) || flag!=0);
     system("cls");
     printf("--------------------------\n");
     printf("DNI: %d\n",aux.dni);
@@ -186,24 +209,32 @@ int cargarNuevoUsuario(char archivo[]){
     printf("Nombre y Apellido: %s\n",aux.nombreYapellido);
     printf("Nombre de usuario: %s\n",aux.nombreUsuario);
     printf("Cargo: %s\n",aux.perfil);
-    printf("\nIngrese contrase%ca:\n",164);ff
-    while(1){
+    printf("Ingrese contrase%ca de 8 caracteres:\n",164);ff
+
+    while(i<8){
         char ch = getch();
         if(ch == '\r'){ // Si se presiona Enter
-            break;
-        }else if(ch == '\b'){ // Si se presiona Retroceso
-            if(i > 0){
-                i--;
-                printf("\b \b"); // Borrar el último asterisco mostrado
+            printf("\nERROR. La contrase%ca no puede contener un enter hasta llegar a los 8 caracteres.\n", 164);
+                i = 0;
+              continue;
+            }else if(ch == '\b'){ // Si se presiona Retroceso
+                if(i > 0){
+                    i--;
+                    printf("\b \b"); // Borrar el último asterisco mostrado
+                }
+            }else if(i < 8) {
+                aux.contrasena[i] = ch;
+                printf("*");
+                i++;
             }
-        }else if(i < 8) {
-            aux.contrasena[i] = ch;
-            printf("*");
-            i++;
         }
-    }
+
+
     aux.contrasena[i] = '\0'; // Agregar el carácter nulo al final de la cadena
     printf("\n");
+
+
+
     while (valc == 0){
         j = 0; // Reiniciar el índice j a 0
         printf("\nIngrese nuevamente la contrase%ca:\n",164);
